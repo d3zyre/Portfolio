@@ -1,0 +1,1026 @@
+/* ==========================================================================
+   Pixels of Akankshaa — landing page
+
+   The newspaper is laid out in the coordinate system of the original Figma
+   frame and scaled with container queries, so every number below is a
+   *design pixel* and can be read straight off the artboard.
+
+     desktop frame      1400 × 1000   (.stage)
+     desktop newspaper  1280 ×  835   (.paper)   1 design px = var(--u)
+     mobile  frame       375 × 1391   (.stage)
+     mobile  newspaper   326 × 1310   (.paper)
+
+   --u is redefined per breakpoint, so a rule written as calc(40 * var(--u))
+   means "40px at the artboard's scale" in both layouts.
+   ========================================================================== */
+
+/* ── Design tokens ─────────────────────────────────────────────────────── */
+:root {
+  --ink: #1a1a1a;
+  --paper: #f0e4d7;
+  --accent: #a26956;
+  --desk: #2a1f17;
+
+  --font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-body: "Roboto Serif", Georgia, "Times New Roman", serif;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: var(--desk);
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--ink);
+  text-rendering: optimizeLegibility;
+  /* Roboto Serif is optically sized; the artboard was set at the wide end of
+     the axis, so pin it instead of letting the browser pick per size. */
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" 100;
+}
+
+ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Viewport & stage ──────────────────────────────────────────────────── */
+.viewport {
+  position: relative;
+  /* not 100vw — that includes the scrollbar gutter and overflows the page */
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  container-type: inline-size;
+  container-name: viewport;
+  scroll-behavior: smooth;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1400 / 1000;
+  flex-shrink: 0;
+  z-index: 1;
+  container-type: inline-size;
+  container-name: stage;
+}
+
+/* ── Scenery (desk, background & foreground props) ─────────────────────── */
+/* Filled with inline <svg> by main.js — never an <img>, so the DOM stays
+   readable and the artwork inherits the page's colour management. */
+.scenery {
+  pointer-events: none;
+  user-select: none;
+}
+
+.scenery svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.scenery--table {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.scenery--bg,
+.scenery--fg {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.scenery--bg {
+  z-index: 1;
+}
+
+.scenery--fg {
+  z-index: 4;
+}
+
+/* ==========================================================================
+   The newspaper
+   ========================================================================== */
+.paper {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 5.8929cqw; /* (1000 − 835) / 2 ÷ 14 */
+  transform: translateX(-50%);
+  width: 91.4286cqw; /* 1280 ÷ 14 */
+  aspect-ratio: 1280 / 835;
+  container-type: inline-size;
+  container-name: paper;
+  /* 1 design px. An element cannot query itself, so cqw here is a slice of
+     the *stage* (1400 design px) — the same physical size as the rule below. */
+  --u: 0.0714286cqw;
+}
+
+/* 1 design px, relative to the newspaper's own width (1280 design px). */
+.paper > * {
+  --u: 0.078125cqw;
+}
+
+/* Torn-paper silhouette behind the type. The negative index keeps it under
+   the in-flow blocks of the stacked layout, which would otherwise paint
+   below a positioned sibling. */
+.paper__sheet {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Every content block is placed in artboard coordinates. */
+.masthead,
+.kicker,
+.col {
+  position: absolute;
+}
+
+/* ── Masthead ──────────────────────────────────────────────────────────── */
+.masthead {
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: calc(155 * var(--u));
+}
+
+.masthead__name {
+  position: absolute;
+  left: calc(341 * var(--u));
+  top: calc(48.68 * var(--u));
+  width: calc(644 * var(--u));
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: calc(89.6 * var(--u));
+  line-height: calc(89.6 * var(--u));
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Contact & socials cards */
+.contact-box,
+.socials-box {
+  position: absolute;
+  top: calc(42.377 * var(--u));
+  height: calc(101 * var(--u));
+  border: calc(1 * var(--u)) solid var(--ink);
+}
+
+.contact-box {
+  left: calc(116 * var(--u));
+  width: calc(225 * var(--u));
+}
+
+.socials-box {
+  left: calc(985.003 * var(--u));
+  width: calc(184 * var(--u));
+}
+
+.contact-box__label,
+.socials-box__label {
+  position: absolute;
+  left: calc(13 * var(--u));
+  font-size: calc(13.75 * var(--u));
+  font-weight: 700;
+  line-height: calc(13.75 * var(--u));
+  white-space: nowrap;
+}
+
+.contact-box__label {
+  top: calc(11.74 * var(--u));
+}
+
+.socials-box__label {
+  top: calc(16.41 * var(--u));
+}
+
+.contact-box__list {
+  position: absolute;
+  left: calc(13 * var(--u));
+  top: calc(32.82 * var(--u));
+  font-size: calc(13.6 * var(--u));
+  line-height: calc(18.67 * var(--u));
+  white-space: nowrap;
+}
+
+.contact-box__list > li:first-child {
+  font-size: calc(12.6 * var(--u));
+}
+
+.socials-box__list {
+  position: absolute;
+  left: calc(13 * var(--u));
+  top: calc(44.5 * var(--u));
+  display: flex;
+  gap: calc(18 * var(--u));
+}
+
+.social {
+  display: grid;
+  place-items: center;
+  width: calc(40 * var(--u));
+  height: calc(40 * var(--u));
+  border-radius: calc(4 * var(--u));
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.social svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ── Kicker rule ───────────────────────────────────────────────────────── */
+.kicker {
+  left: calc(118 * var(--u));
+  top: calc(155.377 * var(--u));
+  width: calc(1051 * var(--u));
+  height: calc(33 * var(--u));
+  padding-top: calc(5.15 * var(--u));
+  border-top: calc(1 * var(--u)) solid var(--ink);
+  border-bottom: calc(1 * var(--u)) solid var(--ink);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  line-height: calc(20 * var(--u));
+  white-space: nowrap;
+}
+
+.kicker__date,
+.kicker__issue {
+  font-style: italic;
+  font-size: calc(14.25 * var(--u));
+}
+
+.kicker__title {
+  font-size: calc(13.5 * var(--u));
+  text-transform: uppercase;
+  letter-spacing: calc(2.43 * var(--u));
+  /* letter-spacing is added after the last glyph too — pull it back so the
+     run stays optically centred between its neighbours. */
+  margin-right: calc(-2.43 * var(--u));
+}
+
+/* ── Columns ───────────────────────────────────────────────────────────── */
+.col {
+  top: calc(201.57 * var(--u));
+}
+
+.col--left {
+  left: calc(118 * var(--u));
+  width: calc(634 * var(--u));
+}
+
+.col--right {
+  left: calc(806.096 * var(--u));
+  width: calc(363 * var(--u));
+}
+
+/* Hairline between the two columns. */
+.col--right::before {
+  content: "";
+  position: absolute;
+  left: calc(-27 * var(--u));
+  top: calc(1.477 * var(--u));
+  width: calc(1 * var(--u));
+  height: calc(585.875 * var(--u));
+  background: var(--ink);
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: calc(40 * var(--u));
+  line-height: calc(40 * var(--u));
+}
+
+/* ── About ─────────────────────────────────────────────────────────────── */
+.about__body {
+  display: flex;
+  margin-top: calc(10.55 * var(--u));
+}
+
+.about__photo {
+  flex: none;
+  width: calc(172 * var(--u));
+  height: calc(232 * var(--u));
+  object-fit: cover;
+  object-position: center;
+  border: calc(1 * var(--u)) solid var(--ink);
+  background: var(--accent);
+}
+
+.about__col {
+  flex: 1;
+  margin-left: calc(18 * var(--u));
+}
+
+.about__intro {
+  font-size: calc(15.1 * var(--u));
+  line-height: calc(19 * var(--u));
+  text-align: justify;
+  margin-top: calc(-0.2 * var(--u));
+}
+
+/* ── Skill pills ───────────────────────────────────────────────────────── */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: calc(9 * var(--u)) calc(6 * var(--u));
+  margin-top: calc(50.18 * var(--u));
+}
+
+.skills__pill {
+  flex: none;
+  width: calc(var(--w) * var(--u));
+  height: calc(29.444 * var(--u));
+  border: calc(1 * var(--u)) solid var(--ink);
+  border-radius: calc(14.722 * var(--u));
+  display: grid;
+  place-items: center;
+  font-size: calc(13 * var(--u));
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ── Work ──────────────────────────────────────────────────────────────── */
+.work {
+  margin-top: calc(18.1 * var(--u));
+}
+
+.job {
+  margin-top: calc(14.92 * var(--u));
+}
+
+.job + .job {
+  margin-top: calc(17.08 * var(--u));
+}
+
+.job__head {
+  position: relative;
+  padding-left: calc(25.33 * var(--u));
+  padding-right: calc(3.5 * var(--u));
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: calc(12 * var(--u));
+}
+
+.job__head::before {
+  content: "\2022";
+  position: absolute;
+  left: calc(9 * var(--u));
+  top: 0;
+  font-size: calc(17 * var(--u));
+  line-height: calc(17 * var(--u));
+}
+
+.job__title {
+  font-size: calc(17 * var(--u));
+  font-weight: 700;
+  line-height: calc(17 * var(--u));
+  white-space: nowrap;
+}
+
+.job__meta {
+  font-size: calc(13.55 * var(--u));
+  font-style: italic;
+  line-height: calc(13.55 * var(--u));
+  white-space: nowrap;
+}
+
+.job__desc {
+  margin-top: calc(6.8 * var(--u));
+  font-size: calc(15.1 * var(--u));
+  line-height: calc(19 * var(--u));
+}
+
+/* ── Projects ──────────────────────────────────────────────────────────── */
+.project {
+  display: flex;
+  align-items: flex-start;
+  height: calc(122 * var(--u));
+  padding: calc(12.5 * var(--u)) calc(10.5 * var(--u));
+  border: calc(1 * var(--u)) solid var(--ink);
+  margin-top: calc(12.48 * var(--u));
+}
+
+.project + .project {
+  margin-top: calc(12 * var(--u));
+}
+
+.project__icon {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: calc(95 * var(--u));
+  height: calc(95 * var(--u));
+  background: var(--accent);
+  border: calc(1 * var(--u)) solid var(--ink);
+  color: var(--paper);
+}
+
+.project__icon svg {
+  width: calc(var(--iw) * var(--u));
+  height: calc(var(--ih) * var(--u));
+  overflow: visible;
+}
+
+.project__body {
+  display: block;
+  margin-left: calc(12.73 * var(--u));
+  padding-top: calc(2.45 * var(--u));
+}
+
+.project__title {
+  display: block;
+  font-size: calc(17.5 * var(--u));
+  font-weight: 700;
+  line-height: calc(17.5 * var(--u));
+}
+
+.project__desc {
+  display: block;
+  margin-top: calc(6.51 * var(--u));
+  font-size: calc(14.2 * var(--u));
+  line-height: calc(17.67 * var(--u));
+}
+
+/* ── Miscellaneous strip & resume button ───────────────────────────────── */
+.misc {
+  display: flex;
+  align-items: center;
+  gap: calc(8.2 * var(--u));
+  width: calc(362 * var(--u));
+  height: calc(39 * var(--u));
+  padding-left: calc(11.9 * var(--u));
+  border: calc(1 * var(--u)) solid var(--ink);
+  margin-top: calc(12 * var(--u));
+  font-size: calc(15 * var(--u));
+  font-style: italic;
+  line-height: 1;
+}
+
+.misc__arrow {
+  width: calc(9.8 * var(--u));
+  height: calc(9.8 * var(--u));
+  flex: none;
+}
+
+.resume {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: calc(13.3 * var(--u));
+  width: calc(362.9 * var(--u));
+  height: calc(56 * var(--u));
+  border: calc(1.5 * var(--u)) solid var(--ink);
+  margin-top: calc(36.875 * var(--u));
+  font-size: calc(18.75 * var(--u));
+  font-weight: 700;
+  line-height: 1;
+}
+
+.resume__icon {
+  width: calc(17.5 * var(--u));
+  height: calc(17.5 * var(--u));
+  flex: none;
+}
+
+/* ── Links ─────────────────────────────────────────────────────────────── */
+.link--inline {
+  /* the artboard leaves a wider-than-word-space gap before the link */
+  margin-left: calc(3.7 * var(--u));
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: calc(1.4 * var(--u));
+  text-underline-offset: calc(2.2 * var(--u));
+}
+
+.link__arrow {
+  display: inline-block;
+  text-decoration: none;
+}
+
+/* ── Interaction ───────────────────────────────────────────────────────── */
+.link,
+.project,
+.misc,
+.resume,
+.social {
+  transition:
+    background 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.15s ease;
+}
+
+.link--text:hover {
+  background: rgba(26, 26, 26, 0.06);
+  box-shadow: 0 calc(1 * var(--u)) 0 0 rgba(26, 26, 26, 0.45);
+}
+
+.link--inline:hover {
+  background: rgba(162, 105, 86, 0.14);
+}
+
+.social:hover {
+  transform: translateY(calc(-1 * var(--u))) scale(1.06);
+  box-shadow: 0 0 calc(12 * var(--u)) calc(2 * var(--u)) rgba(162, 105, 86, 0.35);
+}
+
+.project:hover,
+.misc:hover {
+  background: rgba(162, 105, 86, 0.07);
+  box-shadow:
+    0 calc(6 * var(--u)) calc(24 * var(--u)) rgba(0, 0, 0, 0.18),
+    inset 0 0 0 calc(1 * var(--u)) rgba(162, 105, 86, 0.45);
+}
+
+.project:hover {
+  transform: translateY(calc(-2 * var(--u)));
+}
+
+.resume:hover {
+  background: rgba(162, 105, 86, 0.12);
+  box-shadow: 0 calc(4 * var(--u)) calc(20 * var(--u)) rgba(0, 0, 0, 0.18);
+  transform: translateY(calc(-1 * var(--u)));
+}
+
+:where(a):focus-visible {
+  outline: calc(2 * var(--u)) solid var(--accent);
+  outline-offset: calc(2 * var(--u));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .viewport {
+    scroll-behavior: auto;
+  }
+}
+
+/* Only the stacked layout draws rules between sections. */
+.section-rule {
+  display: none;
+  border: 0;
+  border-top: calc(0.727 * var(--u)) solid var(--ink);
+}
+
+/* On desktop the job title is a plain heading; the "View my work" link inside
+   the description carries the Wordgate destination. */
+.job__title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.job__arrow {
+  display: none;
+}
+
+.paper__sheet--mobile {
+  display: none;
+}
+
+/* ==========================================================================
+   Stacked layout — mobile artboard 375 × 1391, newspaper 326 × 1310
+   ========================================================================== */
+@media (max-width: 768px) {
+  .stage {
+    aspect-ratio: 375 / 1391;
+  }
+
+  .paper {
+    left: 50%;
+    top: 2.9116%; /* 40.5 ÷ 1391 */
+    width: 86.9333%; /* 326 ÷ 375 */
+    aspect-ratio: 326 / 1310;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* No padding here: container queries size against the content box, so
+       padding on .paper would shrink var(--u) for everything inside it.
+       The blocks below carry the page margin instead. */
+  }
+
+  /* Left page margin of the mobile artboard. */
+  .kicker,
+  .about,
+  .work,
+  .projects,
+  .contact-box,
+  .socials-box {
+    margin-left: calc(19.5474 * var(--u));
+  }
+
+  /* 1 design px of the 326-wide mobile artboard. */
+  .paper > * {
+    --u: 0.3067485cqw;
+  }
+
+  .paper__sheet {
+    display: none;
+  }
+
+  .paper__sheet--mobile {
+    display: block;
+  }
+
+  /* Collapse the two artboard columns into one reading order.
+     The artboard positioning has to be cleared first — an out-of-flow box
+     blockifies `display: contents` back into a block. */
+  .masthead,
+  .col,
+  .about__col {
+    position: static;
+    left: auto;
+    top: auto;
+    width: auto;
+    height: auto;
+    display: contents;
+  }
+
+  .masthead__name {
+    order: 1;
+  }
+  .kicker {
+    order: 2;
+  }
+  .about {
+    order: 3;
+  }
+  .work {
+    order: 4;
+  }
+  .projects {
+    order: 5;
+  }
+  .contact-box {
+    order: 6;
+  }
+  .socials-box {
+    order: 7;
+  }
+
+  .section-rule {
+    display: block;
+    width: calc(289.49 * var(--u));
+  }
+
+  .col--right::before {
+    display: none;
+  }
+
+  /* ── Masthead ──────────────────────────────────────────────────────── */
+  .masthead__name {
+    position: static;
+    /* centred on the paper sheet, which starts 5 design px in */
+    width: calc(320.042 * var(--u));
+    margin: calc(13.1 * var(--u)) 0 0 calc(5 * var(--u));
+    font-size: calc(32.7 * var(--u));
+    line-height: calc(32.7 * var(--u));
+  }
+
+  /* ── Kicker ────────────────────────────────────────────────────────── */
+  .kicker {
+    position: static;
+    width: calc(290.95 * var(--u));
+    height: calc(20.73 * var(--u));
+    margin-top: calc(11.03 * var(--u));
+    padding-top: calc(4.15 * var(--u));
+    border-top-width: calc(0.727 * var(--u));
+    border-bottom-width: calc(0.727 * var(--u));
+    line-height: calc(12 * var(--u));
+  }
+
+  .kicker__date,
+  .kicker__issue {
+    font-size: calc(8.7 * var(--u));
+  }
+
+  .kicker__title {
+    font-size: calc(8.24 * var(--u));
+    letter-spacing: calc(1.48 * var(--u));
+    margin-right: calc(-1.48 * var(--u));
+  }
+
+  /* ── Sections ──────────────────────────────────────────────────────── */
+  .about,
+  .work,
+  .projects {
+    position: static;
+    left: auto;
+    top: auto;
+    width: calc(289.49 * var(--u));
+  }
+
+  .headline {
+    font-size: calc(23.3 * var(--u));
+    line-height: calc(23.3 * var(--u));
+  }
+
+  .about {
+    margin-top: calc(12.34 * var(--u));
+  }
+
+  /* ── About ─────────────────────────────────────────────────────────── */
+  .about__body {
+    display: block;
+    margin-top: calc(11.93 * var(--u));
+  }
+
+  .about__photo {
+    float: left;
+    width: calc(83.45 * var(--u));
+    height: calc(113.26 * var(--u));
+    margin-right: calc(10.67 * var(--u));
+    border-width: calc(0.6 * var(--u));
+  }
+
+  .about__intro {
+    margin-top: calc(-0.4 * var(--u));
+    margin-right: calc(18.7 * var(--u));
+    font-size: calc(11.35 * var(--u));
+    line-height: calc(14 * var(--u));
+  }
+
+  /* ── Skill pills ───────────────────────────────────────────────────── */
+  .skills {
+    clear: both;
+    gap: calc(5.769 * var(--u)) calc(3.846 * var(--u));
+    margin-top: calc(13.17 * var(--u));
+  }
+
+  .skills__pill {
+    width: calc(var(--mw) * var(--u));
+    height: calc(18.874 * var(--u));
+    border-radius: calc(9.437 * var(--u));
+    border-width: calc(0.727 * var(--u));
+    font-size: calc(7.5 * var(--u));
+  }
+
+  /* ── Work ──────────────────────────────────────────────────────────── */
+  .work {
+    margin-top: calc(11.87 * var(--u));
+  }
+
+  .work .section-rule {
+    margin-bottom: calc(12.03 * var(--u));
+  }
+
+  .job {
+    margin-top: calc(12.73 * var(--u));
+  }
+
+  .job + .job {
+    margin-top: calc(13.07 * var(--u));
+  }
+
+  .job__head {
+    display: block;
+    padding-left: calc(18.6 * var(--u));
+    padding-right: 0;
+  }
+
+  .job__head::before {
+    left: calc(6.5 * var(--u));
+    font-size: calc(12.5 * var(--u));
+    line-height: calc(12.5 * var(--u));
+  }
+
+  .job__title {
+    font-size: calc(12.9 * var(--u));
+    line-height: calc(12.9 * var(--u));
+    white-space: normal;
+  }
+
+  .job__title-link {
+    text-decoration: underline;
+    text-decoration-thickness: calc(0.9 * var(--u));
+    text-underline-offset: calc(2.8 * var(--u));
+  }
+
+  .job__arrow {
+    display: inline-block;
+    width: calc(7.4 * var(--u));
+    height: calc(7.4 * var(--u));
+    margin-left: calc(4.2 * var(--u));
+    text-decoration: none;
+  }
+
+  .job__meta {
+    display: block;
+    margin-left: calc(-18.6 * var(--u));
+    margin-top: calc(7.1 * var(--u));
+    font-size: calc(10.1 * var(--u));
+    line-height: calc(10.1 * var(--u));
+    white-space: normal;
+  }
+
+  .job__desc {
+    margin-top: calc(3.94 * var(--u));
+    font-size: calc(11.35 * var(--u));
+    line-height: calc(14 * var(--u));
+  }
+
+  /* The desktop-only break that leaves room for the "View my work" link. */
+  .wrap-desktop {
+    display: none;
+  }
+
+  .link--inline {
+    display: none;
+  }
+
+  /* ── Projects ──────────────────────────────────────────────────────── */
+  .projects {
+    margin-top: calc(13.6 * var(--u));
+  }
+
+  .projects .section-rule {
+    margin-bottom: calc(11.87 * var(--u));
+  }
+
+  .project {
+    width: calc(289.49 * var(--u));
+    height: calc(90.64 * var(--u));
+    padding: calc(9.67 * var(--u)) calc(8.73 * var(--u));
+    border-width: calc(0.727 * var(--u));
+    margin-top: calc(11.73 * var(--u));
+  }
+
+  .project + .project {
+    margin-top: calc(8.728 * var(--u));
+  }
+
+  .project__icon {
+    width: calc(69.83 * var(--u));
+    height: calc(69.83 * var(--u));
+    border-width: calc(0.729 * var(--u));
+  }
+
+  .project__icon svg {
+    width: calc(var(--iw) * 0.729 * var(--u));
+    height: calc(var(--ih) * 0.729 * var(--u));
+  }
+
+  .project__body {
+    margin-left: calc(9.22 * var(--u));
+    padding-top: calc(1.6 * var(--u));
+  }
+
+  .project__title {
+    font-size: calc(12.9 * var(--u));
+    line-height: calc(12.9 * var(--u));
+  }
+
+  .project__desc {
+    margin-top: calc(5.4 * var(--u));
+    font-size: calc(10.5 * var(--u));
+    line-height: calc(13 * var(--u));
+  }
+
+  /* ── Miscellaneous strip & resume ──────────────────────────────────── */
+  .misc {
+    width: calc(289.49 * var(--u));
+    height: calc(33.46 * var(--u));
+    padding-left: calc(9.79 * var(--u));
+    border-width: calc(0.727 * var(--u));
+    margin-top: calc(8.73 * var(--u));
+    gap: calc(6.2 * var(--u));
+    font-size: calc(11.4 * var(--u));
+  }
+
+  .misc__arrow {
+    width: calc(7.4 * var(--u));
+    height: calc(7.4 * var(--u));
+  }
+
+  .resume {
+    width: calc(290.95 * var(--u));
+    height: calc(42.55 * var(--u));
+    border-width: calc(1.09 * var(--u));
+    margin-top: calc(11.63 * var(--u));
+    gap: calc(9.5 * var(--u));
+    font-size: calc(13.8 * var(--u));
+  }
+
+  .resume__icon {
+    width: calc(12.8 * var(--u));
+    height: calc(12.8 * var(--u));
+  }
+
+  /* ── Contact & socials — one card at the foot of the page ──────────── */
+  .contact-box,
+  .socials-box {
+    position: static;
+    left: auto;
+    top: auto;
+    width: calc(289.49 * var(--u));
+    height: auto;
+    border-width: calc(0.727 * var(--u));
+  }
+
+  .contact-box {
+    position: relative;
+    margin-top: calc(24.03 * var(--u));
+    border-bottom: 0;
+    padding: calc(12.32 * var(--u)) calc(10.6 * var(--u)) calc(9.4 * var(--u));
+  }
+
+  /* the rule above the card sits outside it */
+  .contact-box .section-rule {
+    position: absolute;
+    left: calc(-0.727 * var(--u));
+    top: calc(-13.06 * var(--u));
+  }
+
+  .socials-box {
+    position: relative;
+    border-top: 0;
+    padding: calc(12.63 * var(--u)) calc(10.6 * var(--u)) calc(10.33 * var(--u));
+  }
+
+  /* hairline between the two halves, inset from the card edge */
+  .socials-box::before {
+    content: "";
+    position: absolute;
+    left: calc(10.24 * var(--u));
+    right: calc(10.24 * var(--u));
+    top: 0;
+    height: calc(0.727 * var(--u));
+    background: var(--ink);
+  }
+
+  .contact-box__label,
+  .socials-box__label {
+    position: static;
+    left: auto;
+    top: auto;
+    font-size: calc(10.3 * var(--u));
+    line-height: calc(10.3 * var(--u));
+  }
+
+  .contact-box__list {
+    position: static;
+    left: auto;
+    top: auto;
+    margin-top: calc(6.4 * var(--u));
+    font-size: calc(10.2 * var(--u));
+    line-height: calc(15.5 * var(--u));
+  }
+
+  .contact-box__list > li:first-child {
+    font-size: calc(9.2 * var(--u));
+  }
+
+  .socials-box__list {
+    position: static;
+    left: auto;
+    top: auto;
+    margin-top: calc(10.26 * var(--u));
+    gap: calc(13.05 * var(--u));
+  }
+
+  .social {
+    width: calc(29 * var(--u));
+    height: calc(29 * var(--u));
+    border-radius: calc(2.9 * var(--u));
+  }
+}

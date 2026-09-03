@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chem AR - Case Study</title>
+    <meta name="description" content="Case study: Chem AR, an AR-based organic chemistry lab that lets non-technical educators build interactive learning material. Published by Springer Nature.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23806242'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Roboto+Serif:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b6b6b;
+            --text-tertiary: #767676;
+            --border-color: #e6e6e6;
+            --accent: #806242;
+            --card-bg: #ffffff;
+            --highlight-bg: #F6F4EF;
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --space-section: 24px;
+            --space-element: 12px;
+            --max-width: 800px;
+            --font-title: 'Roboto Serif', Georgia, serif;
+            --font-body: 'Roboto Serif', Georgia, serif;
+            --base-font-size: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: var(--base-font-size);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1 {
+            font-family: var(--font-title);
+            font-size: clamp(1.75rem, 1.5rem + 3vw, 2.25rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            line-height: 1.15;
+        }
+
+        .eyebrow {
+            font-family: var(--font-title);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            font-weight: 600;
+            margin: 0 0 8px;
+            line-height: 1.3;
+        }
+
+        p {
+            font-size: 1em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            max-width: 68ch;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        a { color: var(--accent); }
+
+        .sr-only {
+            position: absolute;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        ul { list-style: none; padding: 0; margin: 0; }
+
+        li {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 16px;
+        }
+
+        li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* Jump nav */
+        .toc-bar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .toc {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 20px;
+        }
+
+        .toc a {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            white-space: nowrap;
+            min-height: 24px;
+            display: inline-flex;
+            align-items: center;
+            transition: color 0.2s ease;
+        }
+
+        .toc a:hover, .toc a:focus-visible { color: var(--accent); }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 2px 0 16px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            padding: 6px 14px;
+        }
+
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 40px 24px var(--space-section);
+        }
+
+        section {
+            padding: 4px 0;
+            border-bottom: none;
+            scroll-margin-top: 84px;
+        }
+
+        section:first-child {
+            padding-top: 0;
+        }
+
+        img, video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .embed-caption {
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 8px;
+        }
+
+        .media-caption {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            margin-bottom: 0;
+            font-style: italic;
+        }
+
+        /* Info block - context callout */
+        .info-block {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            margin-top: var(--space-element);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .info-block p strong {
+            color: var(--accent);
+        }
+
+        .info-block p {
+            margin: 0;
+            color: var(--text-primary);
+            max-width: none;
+        }
+
+        /* Process grid */
+        .grid-2x2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: var(--space-element);
+        }
+
+        .grid-2x2 > div {
+            background: var(--highlight-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 8px 12px 8px 24px;
+        }
+
+        .grid-2x2 p strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--accent);
+        }
+
+        .grid-2x2 li {
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        .grid-2x2 li::before {
+            top: 6px;
+        }
+
+        /* Highlighted Insights */
+        .highlighted-insight {
+            background: var(--highlight-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            margin: 12px 0;
+        }
+
+        .highlighted-insight p.insight-title {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1em;
+        }
+
+        .highlighted-insight ul {
+            padding-left: 12px;
+            margin: 0;
+        }
+
+        .highlighted-insight li {
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-size: 0.95em;
+        }
+
+        .highlighted-insight li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* CTA */
+        .cta-container {
+            text-align: center;
+            margin-top: 24px;
+            margin-bottom: 24px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 44px;
+            padding: 10px 24px;
+            background-color: var(--accent);
+            color: #fdf8f2;
+            font-family: var(--font-body);
+            font-size: 1em;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            text-decoration: none;
+            border-radius: 100px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* Side by side images */
+        .side-by-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: var(--space-element);
+        }
+
+        details.disclosure {
+            margin-top: var(--space-element);
+        }
+
+        details.disclosure summary {
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            list-style: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 44px;
+        }
+
+        details.disclosure summary::-webkit-details-marker { display: none; }
+        details.disclosure summary::after { content: "\25BE"; font-size: 0.7em; transition: transform 0.2s ease; }
+        details.disclosure[open] summary::after { transform: rotate(180deg); }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .fade-in {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .fade-in.visible { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 8px 24px 40px;
+            text-align: center;
+        }
+
+        footer a {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        footer a:hover, footer a:focus-visible { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .grid-2x2 { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .side-by-side { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .grid-2x2 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="toc-bar" aria-label="Section navigation">
+        <div class="toc">
+            <a href="#brief">Brief</a>
+            <a href="#process">Process</a>
+            <a href="#tools">Tools</a>
+            <a href="#making">Making Chem AR</a>
+            <a href="#workflow">Workflow</a>
+            <a href="#research">Research</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero + Brief -->
+        <section id="brief">
+            <h1>Chem AR</h1>
+            <h2 class="eyebrow">The Brief</h2>
+            <p><strong>Can AI help non-technical educators create interactive learning material?</strong> That question shaped every decision in this project, from tooling to deployment.</p>
+
+            <div class="tag-row">
+                <span class="tag">Unity · AR/VR</span>
+                <span class="tag">AI-Assisted Development</span>
+                <span class="tag">Published — Springer Nature</span>
+                <span class="tag">Presented at IIT Guwahati</span>
+            </div>
+
+            <div class="info-block">
+                <p><strong>Context.</strong> NEP 2020 recommends adopting interactive learning for Industry 4.0. However, technical barriers prevent many educators from creating this learning material themselves.</p>
+            </div>
+        </section>
+
+        <!-- Process -->
+        <section id="process" class="fade-in">
+            <h2 class="eyebrow">Process</h2>
+            <div class="grid-2x2">
+                <div>
+                    <p><strong>Understand</strong></p>
+                    <ul>
+                        <li>Explored interaction methods (AR / VR)</li>
+                        <li>Studied constraints such as school computer infrastructure (Intel i3 machines with no dedicated GPUs)</li>
+                        <li>Evaluated availability of Head Mounted Displays (HMDs)</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>Ideate</strong></p>
+                    <ul>
+                        <li>Learned Unity</li>
+                        <li>Implemented color tracking</li>
+                        <li>Explored object tracking with MediaPipe Hands</li>
+                        <li>Evaluated deployment methods</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>Prototype</strong></p>
+                    <ul>
+                        <li>Designed interactions for a proof of concept</li>
+                        <li>Built Chem AR using AI</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>Synthesis</strong></p>
+                    <ul>
+                        <li>Compiled a repeatable workflow</li>
+                        <li>Documented all findings in a Research Paper</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning the Tools -->
+        <section id="tools" class="fade-in">
+            <h2 class="eyebrow">Learning the Tools</h2>
+            <p><strong>Marker-based AR turned out to be the most reliable starting point.</strong> I initially followed freeCodeCamp's AR tutorial for Unity and explored different types of AR before landing on physical markers.</p>
+
+            <div class="side-by-side" style="margin-top: 0;">
+                <img src="img1.webp" width="1600" height="1034" loading="lazy" decoding="async" alt="Unity AR tutorial exploration screen 1" style="width: 100%; border-radius: 12px; border: 1px solid var(--bg-color);">
+                <img src="img2.webp" width="1600" height="1034" loading="lazy" decoding="async" alt="Unity AR tutorial exploration screen 2" style="width: 100%; border-radius: 12px; border: 1px solid var(--bg-color);">
+            </div>
+
+            <p style="margin-top: var(--space-element);">In about a week, I created and tested a small <strong>Piano Tiles game</strong> using color tracking with a Rubik's Cube acting as the physical marker.</p>
+
+            <video class="lazy-autoplay" src="video1.mp4" width="960" height="712" poster="video1-poster.webp" preload="metadata" loop muted playsinline style="width: 100%; border-radius: 12px; aspect-ratio: 960/712; object-fit: cover; border: 1px solid var(--border-color);"></video>
+            <p class="media-caption">Piano Tiles demo — tapping tiles is detected via color tracking on a physical Rubik's Cube marker.</p>
+
+            <div class="highlighted-insight">
+                <p class="insight-title"><span class="icon" aria-hidden="true">✦</span> Insights</p>
+                <ul>
+                    <li>Can be deployed completely offline.</li>
+                    <li>Supports simple tap-based interactions through collision detection.</li>
+                    <li>Even with AI-generated code, Unity and game engines are generally difficult for non-technical users to learn.</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: var(--space-element);">After this, I explored MediaPipe Hands, which enables richer object tracking and more advanced interactions.</p>
+        </section>
+
+        <!-- The Making of Chem AR -->
+        <section id="making" class="fade-in">
+            <h2 class="eyebrow">The Making of Chem AR</h2>
+            <p><strong>Chem AR is an exploratory virtual lab</strong> built around a chemistry topic students commonly struggle with. Learners interact with C, H, and O to create carbon chains, intermediates, cyclic structures, and single, double and triple bonds. I also designed a <strong>pinch-and-drag interaction guide</strong> for the AI to follow.</p>
+
+            <img src="Interaction.webp" width="1600" height="814" loading="lazy" decoding="async" alt="Pinch-and-drag interaction guide for building molecules in Chem AR" style="width: 100%; border-radius: 12px; border: 1px solid var(--bg-color);">
+
+            <p style="margin-top: var(--space-element);">The application was deployed on the web using Vercel.</p>
+
+            <video class="lazy-autoplay" src="video2.mp4" width="1440" height="810" poster="video2-poster.webp" preload="metadata" loop muted playsinline style="width: 100%; border-radius: 12px; aspect-ratio: 1440/810; border: 1px solid var(--border-color);"></video>
+            <p class="media-caption">Live in the browser — pinching spawns atoms; dragging two adjacent atoms together forms a bond.</p>
+
+            <div class="cta-container">
+                <a href="https://organic-chem-ar.vercel.app/" target="_blank" rel="noopener" class="cta-button">Try it out yourself &rarr;</a>
+            </div>
+
+            <div class="highlighted-insight">
+                <p class="insight-title"><span class="icon" aria-hidden="true">✦</span> Insights</p>
+                <ul>
+                    <li>Technically easier than Unity.</li>
+                    <li>Web deployment is quick. Updates do not require reinstalling the application.</li>
+                    <li>Requires a stable internet connection.</li>
+                    <li>WebGL cannot fully utilize the device GPU.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Workflow -->
+        <section id="workflow" class="fade-in">
+            <h2 class="eyebrow">Workflow</h2>
+            <p><strong>All findings were compiled into a repeatable, reproducible workflow</strong> that enables non-technical educators to build similar learning experiences from start to finish.</p>
+            <img src="image10.webp" width="1600" height="706" loading="lazy" decoding="async" alt="Repeatable workflow for building AR-based learning experiences" style="width: 100%; border-radius: 12px; border: 50px solid #FFFFFF;">
+        </section>
+
+        <!-- Research & Publication -->
+        <section id="research" class="fade-in">
+            <h2 class="eyebrow">Research &amp; Publication</h2>
+            <p><strong>The work was published by Springer Nature</strong> after being documented as a research paper and presented at the Research &amp; Industrial Conclave 2025, IIT Guwahati.</p>
+
+            <div class="side-by-side" style="align-items: stretch;">
+                <!-- Left Side -->
+                <div style="display: flex; flex-direction: column;">
+                    <img src="img4.webp" width="1096" height="1592" loading="lazy" decoding="async" alt="Chem AR research paper cover page" style="width: 100%; flex: 1; object-fit: cover; border-radius: 12px; border: 1px solid var(--bg-color);">
+                    <div class="embed-caption" style="margin-top: 16px;">Research Paper</div>
+                </div>
+
+                <!-- Right Side -->
+                <div style="display: flex; flex-direction: column;">
+                    <div style="display: flex; flex-direction: column; gap: 12px; flex: 1;">
+                        <img src="img6.webp" width="1350" height="818" loading="lazy" decoding="async" alt="Presenting Chem AR at the Research & Industrial Conclave 2025, IIT Guwahati" style="width: 100%; flex: 1; object-fit: cover; border-radius: 12px; border: 1px solid var(--bg-color); min-height: 0;">
+                        <img src="img5.webp" width="1170" height="1170" loading="lazy" decoding="async" alt="Chem AR conference presentation slide" style="width: 100%; flex: 1.5; object-fit: cover; border-radius: 12px; border: 1px solid var(--bg-color); min-height: 0;">
+                    </div>
+                    <div class="embed-caption" style="margin-top: 16px;">Conference Presentation</div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <a href="#brief">Back to top ↑</a>
+    </footer>
+
+    <noscript>
+        <style>.fade-in { opacity: 1 !important; transform: none !important; }</style>
+    </noscript>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion) return;
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+            document.querySelectorAll('.fade-in').forEach(section => observer.observe(section));
+
+            const videoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.play().catch(() => {});
+                    else entry.target.pause();
+                });
+            }, { threshold: 0.25 });
+            document.querySelectorAll('video.lazy-autoplay').forEach(v => videoObserver.observe(v));
+        });
+    </script>
+</body>
+</html>

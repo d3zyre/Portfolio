@@ -1,0 +1,10 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "redirects": [
+    { "source": "/resq",        "destination": "/resq/" },
+    { "source": "/prescribble", "destination": "/prescribble/" },
+    { "source": "/chem-ar",     "destination": "/chem-ar/" },
+    { "source": "/wordgate",    "destination": "/wordgate/" }
+  ]
+}

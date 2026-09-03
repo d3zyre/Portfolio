@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescribble - Case Study</title>
+    <meta name="description" content="Case study: Prescribble, a digital prescription tool designed to fit doctors' natural handwriting workflow while fixing legibility and error problems.">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23806242'/%3E%3C/svg%3E">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Roboto+Serif:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- MAIN STYLING --- */
+        :root {
+            --bg-color: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #6b6b6b;
+            --text-tertiary: #767676;
+            --border-color: #e6e6e6;
+            --accent: #806242;
+            --card-bg: #ffffff;
+            --highlight-bg: #F6F4EF;
+            --radius-md: 12px;
+            --radius-lg: 24px;
+            --space-section: 24px;
+            --space-element: 16px;
+            --max-width: 800px;
+            --font-title: 'Roboto Serif', Georgia, serif;
+            --font-body: 'Roboto Serif', Georgia, serif;
+            --base-font-size: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem);
+        }
+
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-body);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: var(--base-font-size);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        h1 {
+            font-family: var(--font-title);
+            font-size: clamp(1.75rem, 1.5rem + 3vw, 2.25rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            line-height: 1.15;
+        }
+
+        .eyebrow {
+            font-family: var(--font-title);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            font-weight: 600;
+            margin: 0 0 8px;
+            line-height: 1.3;
+        }
+
+        p {
+            font-size: 1em;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            max-width: 68ch;
+        }
+
+        strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        a { color: var(--accent); }
+
+        .sr-only {
+            position: absolute;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
+        ul { list-style: none; padding: 0; margin: 0; }
+
+        li {
+            font-size: 0.85em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 16px;
+        }
+
+        li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* Jump nav */
+        .toc-bar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .toc {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 20px;
+        }
+
+        .toc a {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            white-space: nowrap;
+            min-height: 24px;
+            display: inline-flex;
+            align-items: center;
+            transition: color 0.2s ease;
+        }
+
+        .toc a:hover, .toc a:focus-visible { color: var(--accent); }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 2px 0 16px;
+        }
+
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.68rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 100px;
+            padding: 6px 14px;
+        }
+
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 40px 24px var(--space-section);
+        }
+
+        section {
+            padding: 4px 0;
+            border-bottom: none;
+            scroll-margin-top: 84px;
+        }
+
+        section:first-child {
+            padding-top: 0;
+        }
+
+        img { max-width: 100%; height: auto; }
+
+        /* Components */
+        .info-block {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-top: var(--space-element);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .info-block p strong {
+            color: var(--accent);
+        }
+
+        .info-block p {
+            margin: 0;
+            font-size: 1em;
+            color: var(--text-primary);
+            max-width: none;
+            line-height: 1.6;
+        }
+
+        .card-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: var(--space-element);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: var(--space-element);
+        }
+
+        .grid-3 > div {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .grid-3 p strong {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        /* Process Section Specifics */
+        #process .grid-3 {
+            gap: 8px;
+        }
+
+        #process .grid-3 > div {
+            background: var(--highlight-bg);
+            padding: 4px 12px 8px 24px;
+        }
+
+        #process li {
+            font-size: 0.8rem;
+            margin-bottom: 4px;
+        }
+
+        #process li::before {
+            top: 6px;
+        }
+
+        .insight-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+        }
+
+        .insight-card p {
+            margin: 0;
+            font-size: 1em;
+            color: var(--text-primary);
+            max-width: none;
+        }
+
+        .highlighted-insight {
+            background: var(--highlight-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px 32px;
+            margin: var(--space-element) 0;
+        }
+
+        .highlighted-insight p.insight-title {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1em;
+        }
+
+        .highlighted-insight ul {
+            padding-left: 12px;
+            margin: 0;
+        }
+
+        .highlighted-insight li {
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-size: 0.95em;
+        }
+
+        .highlighted-insight li:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlighted-insight li::before {
+            display: none;
+        }
+
+        .highlighted-insight p {
+            margin: 0;
+            font-size: 1em;
+            font-style: normal;
+            font-weight: 400;
+            color: var(--text-primary);
+            max-width: none;
+        }
+
+        .card-title {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+
+        .side-by-side {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: var(--space-element);
+        }
+
+        .content-image {
+            width: 100%;
+            height: auto;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            margin-top: var(--space-element);
+            display: block;
+        }
+
+        details.disclosure {
+            margin-top: 16px;
+        }
+
+        details.disclosure summary {
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            list-style: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 44px;
+        }
+        details.disclosure summary::-webkit-details-marker { display: none; }
+        details.disclosure summary::after { content: "\25BE"; font-size: 0.7em; transition: transform 0.2s ease; }
+        details.disclosure[open] summary::after { transform: rotate(180deg); }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--space-element);
+            font-size: 1em;
+            background: var(--card-bg);
+            border-radius: var(--radius-md);
+            border-style: hidden;
+            box-shadow: 0 0 0 1px var(--border-color), 0 1px 3px rgba(0, 0, 0, 0.03);
+        }
+        .comparison-table caption {
+            caption-side: top;
+            text-align: left;
+            font-weight: 600;
+            color: var(--accent);
+            padding: 12px 12px 8px;
+            font-size: 1em;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 8px 10px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            font-size: 1em;
+        }
+        .comparison-table th:first-child {
+            text-align: left;
+            padding-left: 24px;
+        }
+        .comparison-table td:first-child {
+            text-align: left;
+            font-weight: 500;
+            color: var(--text-primary);
+            padding-left: 24px;
+            font-size: 0.8rem;
+        }
+        .comparison-table th:last-child, .comparison-table td:last-child {
+            border-right: none;
+        }
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        .comparison-table th {
+            background: #f7f7f7;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* --- Pill-shaped CTA Buttons --- */
+        .cta-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 10px 24px;
+            background-color: var(--accent);
+            color: #ffffff;
+            font-family: var(--font-body);
+            font-size: 1em;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 100px;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+        }
+
+        .cta-button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .fade-in {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            }
+            .fade-in.visible { opacity: 1; transform: translateY(0); }
+        }
+
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 8px 24px 40px;
+            text-align: center;
+        }
+        footer a {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        footer a:hover, footer a:focus-visible { color: var(--accent); }
+
+        /* ---------- DOSAGE POPUP COMPONENT ---------- */
+        .popup-overlay{
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            padding:8px 0 4px;
+            margin-top: var(--space-element);
+        }
+        .popup-card{
+            background:#fff;
+            border-radius:16px;
+            border:1px solid var(--border-color);
+            box-shadow:0 10px 30px rgba(13,27,42,0.08);
+            width:100%;
+            max-width:560px;
+            overflow:hidden;
+            font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            --primary: #1a73e8;
+        }
+        .popup-header{
+            display:flex; align-items:flex-start; justify-content:space-between;
+            padding:20px 24px 12px;
+        }
+        .popup-header h3{ margin:0; font-size:1rem; font-weight:600; color:#374151; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+        .popup-header .meta{ margin:2px 0 0; font-size:0.75rem; color:#6b7280; }
+        .popup-header .meta .oos{ color:#ef4444; font-weight:600; margin-left:6px; }
+        .popup-close{
+            width:44px; height:44px; border:none; background:none;
+            border-radius:999px; color:#9ca3af; font-size:1.3rem; cursor:pointer;
+        }
+        .popup-close:hover{ background:#f3f4f6; }
+        .popup-body{ display:flex; }
+        .popup-col{ flex:1; padding:20px 24px; }
+        .popup-col + .popup-col{ border-left:1px solid #f3f4f6; }
+
+        .tooltip-track{ position:relative; height:40px; margin-bottom:8px; width:100%; padding:0 4px; }
+        .tooltip-bubble{
+            position:absolute; bottom:0; transform:translateX(-50%);
+            display:flex; flex-direction:column; align-items:center;
+            transition:left .15s ease;
+        }
+        .tooltip-value{
+            font-size:0.85rem; font-weight:600; padding:6px 12px; border-radius:8px;
+            min-width:40px; text-align:center;
+            background:#e5e7eb; color:#6b7280;
+        }
+        .tooltip-value.active{ background:var(--primary); color:#fff; box-shadow:0 4px 10px rgba(26,115,232,0.25); }
+        .tooltip-arrow{
+            width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent;
+            border-top:6px solid #e5e7eb;
+        }
+        .tooltip-arrow.active{ border-top-color:var(--primary); }
+
+        .field-label{ text-align:center; font-size:0.85rem; color:#4b5563; margin-top:16px; font-weight:500; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; display: block; }
+
+        input[type=range].days-slider{
+            width:100%; -webkit-appearance:none; appearance:none; height:4px; border-radius:4px;
+            outline:none; cursor:pointer; position:relative; z-index:2;
+            background:linear-gradient(to right, var(--primary) 0%, var(--primary) var(--progress, 0%), #e5e7eb var(--progress, 0%), #e5e7eb 100%);
+        }
+        input[type=range].days-slider::-webkit-slider-thumb{
+            -webkit-appearance:none; width:16px; height:16px; border-radius:50%;
+            background:var(--primary); cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,0.25);
+            margin-top:-6px;
+        }
+        input[type=range].days-slider::-webkit-slider-runnable-track{ height:4px; border-radius:4px; background:transparent; }
+        input[type=range].days-slider::-moz-range-track{ height:4px; border-radius:4px; background:#e5e7eb; }
+        input[type=range].days-slider::-moz-range-progress{ height:4px; border-radius:4px; background:var(--primary); }
+        input[type=range].days-slider::-moz-range-thumb{
+            width:16px; height:16px; border-radius:50%; border:none;
+            background:var(--primary); cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,0.25);
+        }
+
+        .ticks-row{ display:flex; justify-content:space-between; margin-top:4px; padding:0 4px; }
+        .tick-col{ display:flex; flex-direction:column; align-items:center; flex:1; text-align:center; }
+        .tick-mark{ width:1px; height:5px; margin-bottom:2px; background:#e5e7eb; }
+        .tick-mark.past, .tick-mark.current{ background:var(--primary); }
+        .tick-label{ font-size:0.6rem; color:#6b7280; width:100%; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
+        .tick-label.current{ color:var(--primary); font-weight:600; }
+        .tick-label.past{ color:var(--primary); font-weight:500; }
+
+        .other-input-wrap{ margin-top:16px; position:relative; }
+        .other-input{
+            width:100%; background:#f7f6f3; border-radius:10px; padding:10px 34px 10px 14px;
+            font-size:0.85rem; border:none; outline:none; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+        .other-input:focus-visible{ box-shadow:0 0 0 2px rgba(26,115,232,0.4); outline: none; }
+        .other-clear{
+            position:absolute; right:8px; top:50%; transform:translateY(-50%);
+            width:28px; height:28px; border-radius:50%; background:#d1d5db; color:#fff;
+            border:none; font-size:0.65rem; cursor:pointer;
+        }
+
+        .freq-label{ font-size:0.75rem; margin-bottom:12px; font-weight:500; color:#6b7280; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+        .freq-label.disabled{ color:#9ca3af; }
+        .freq-row{ display:flex; align-items:center; justify-content:center; gap:4px; margin-bottom:24px; transition:opacity .15s; }
+        .freq-row.disabled{ opacity:0.5; pointer-events:none; }
+        .freq-item{ display:flex; align-items:center; }
+        .freq-btn{ background:none; border:none; display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; min-width: 44px; min-height: 44px; justify-content: center; }
+        .freq-dot{ width:20px; height:20px; border-radius:50%; border:2px solid #9ca3af; background:#fff; transition:all .15s; }
+        .freq-dot.on{ background:var(--primary); border-color:var(--primary); }
+        .freq-text{ font-size:0.62rem; color:#4b5563; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+        .freq-connector{ width:32px; height:2px; margin-bottom:16px; background:#e5e7eb; }
+        .freq-connector.on{ background:var(--primary); }
+
+        .meal-label{ font-size:0.75rem; margin-bottom:8px; font-weight:500; color:#6b7280; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
+        .meal-label.disabled{ color:#9ca3af; }
+        .meal-toggle{
+            position:relative; display:flex; border-radius:999px; padding:2px;
+            background:rgba(118,118,128,0.12); height:44px; transition:opacity .15s;
+        }
+        .meal-toggle.disabled{ opacity:0.5; pointer-events:none; }
+        .meal-indicator{
+            position:absolute; top:2px; bottom:2px; border-radius:999px; background:#fff;
+            width:calc(50% - 2px); transition:left .3s ease; box-shadow:0 1px 3px rgba(0,0,0,0.15);
+        }
+        .meal-btn{
+            position:relative; z-index:1; flex:1; border:none; background:none; font-size:0.75rem;
+            font-weight:500; border-radius:999px; cursor:pointer; color:#6b7280; transition:color .3s;
+            font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        }
+        .meal-btn.active{ color:#1f2937; }
+
+        .empty-stomach-row{ display:flex; align-items:center; gap:10px; margin-top:20px; cursor:pointer; user-select:none; min-height: 44px; }
+        .checkbox-box{
+            width:20px; height:20px; border-radius:5px; border:2px solid #9ca3af; background:#fff;
+            display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all .15s;
+        }
+        .checkbox-box.checked{ background:var(--primary); border-color:var(--primary); }
+        .empty-stomach-text{ font-size:0.88rem; font-weight:500; color:#374151; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
+
+        .popup-footer{
+            display:flex; justify-content:flex-end; gap:12px; padding:16px 24px; border-top:1px solid #f3f4f6;
+        }
+        .footer-btn{ padding:9px 20px; min-height: 44px; border-radius:10px; font-size:0.85rem; border:none; cursor:pointer; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;}
+        .footer-btn.cancel{ background:none; color:#6b7280; }
+        .footer-btn.cancel:disabled{ cursor:not-allowed; }
+        .footer-btn.confirm{ background:var(--primary); color:#fff; font-weight:500; }
+        .footer-btn.confirm:disabled{ background:#f3f4f6; color:#9ca3af; cursor:not-allowed; }
+
+        @media (max-width: 768px) {
+            .card-row { grid-template-columns: 1fr; }
+            .grid-3 { grid-template-columns: 1fr; }
+            .side-by-side { grid-template-columns: 1fr; }
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+
+        @media (max-width:640px){
+            .popup-body{ flex-direction:column; }
+            .popup-col + .popup-col{ border-left:none; border-top:1px solid #f3f4f6; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="toc-bar" aria-label="Section navigation">
+        <div class="toc">
+            <a href="#brief">Brief</a>
+            <a href="#process">Process</a>
+            <a href="#secondary-research">Research</a>
+            <a href="#stakeholders">Stakeholders</a>
+            <a href="#primary-research">Blueprint</a>
+            <a href="#existing-solutions">Existing Solutions</a>
+            <a href="#ideating">Ideation</a>
+            <a href="#final-output">Final Output</a>
+            <a href="#dosage-modal">Try It</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Section 1: The Brief -->
+        <section id="brief">
+            <h1>Prescribble</h1>
+            <h2 class="eyebrow">The Brief</h2>
+            <p><strong>Handwritten prescriptions cause errors and legibility issues.</strong> Existing digital systems fix that but break doctors' natural, fast handwriting workflow in the process.</p>
+
+            <div class="tag-row">
+                <span class="tag">End-to-End UX Process</span>
+                <span class="tag">User Interviews & Service Blueprint</span>
+                <span class="tag">Working Prototype</span>
+                <span class="tag">Featured on Behance</span>
+            </div>
+        </section>
+
+        <!-- Section 2: Process -->
+        <section id="process" class="fade-in">
+            <h2 class="eyebrow">Process</h2>
+            <div class="grid-3">
+                <div>
+                    <p><strong>Empathise</strong></p>
+                    <ul>
+                        <li>Secondary Research</li>
+                        <li>Primary Research</li>
+                        <li>Service Blueprint</li>
+                        <li>User Personas</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>Ideate</strong></p>
+                    <ul>
+                        <li>Effort Vs. Impact</li>
+                        <li>Solution Concepts</li>
+                        <li>MoSCoW Analysis</li>
+                        <li>Info. Architecture</li>
+                    </ul>
+                </div>
+                <div>
+                    <p><strong>Prototype</strong></p>
+                    <ul>
+                        <li>Lo-fi Wireframes</li>
+                        <li>Style Guide</li>
+                        <li>Final Screens</li>
+                        <li>Working Prototype</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Secondary Research -->
+        <section id="secondary-research" class="fade-in">
+            <h2 class="eyebrow">Secondary Research</h2>
+            <div class="card-row">
+                <div class="info-block" style="margin-top: 0;">
+                    <p><strong>Article 21 & Right to Health.</strong> HC ruling emphasises a patient's right to unambiguously understand their medical information, reducing illegibility risks.</p>
+                </div>
+                <div class="info-block" style="margin-top: 0;">
+                    <p><strong>Mandatory Generics.</strong> SC ruling (May 2025) mandates doctors nationwide to prescribe only generic medicines instead of branded ones.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Stakeholders -->
+        <section id="stakeholders" class="fade-in">
+            <h2 class="eyebrow">Stakeholders</h2>
+            <div class="grid-3">
+                <div class="insight-card" style="justify-content: center; font-weight: 500;">
+                    <p>Doctor</p>
+                </div>
+                <div class="insight-card" style="justify-content: center; font-weight: 500;">
+                    <p>Patient</p>
+                </div>
+                <div class="insight-card" style="justify-content: center; font-weight: 500;">
+                    <p>Pharmacist</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Primary Research -->
+        <section id="primary-research" class="fade-in">
+            <h2 class="eyebrow">Primary Research</h2>
+            <p><strong>Interviews surfaced an unavailability loop</strong> that a service blueprint made visible end-to-end. Using data collected from user interviews, I mapped out this <strong>service blueprint</strong>.</p>
+            <img src="serblueprint.webp" width="1600" height="1200" loading="lazy" decoding="async" alt="Service Blueprint" class="content-image">
+
+            <div class="highlighted-insight">
+                <p class="insight-title"><span class="icon" aria-hidden="true">✦</span> Insights</p>
+                <ul>
+                    <li>Unavailability loop</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Section 6: Existing Solutions -->
+        <section id="existing-solutions" class="fade-in">
+            <h2 class="eyebrow">Existing Solutions</h2>
+            <table class="comparison-table">
+                <caption class="sr-only">Comparison of manual prescriptions, hospital management systems, and Prescribble across ten factors</caption>
+                <thead>
+                    <tr>
+                        <th style="font-size: 0.98rem;">Factor</th>
+                        <th style="font-size: 0.98rem;">Manual</th>
+                        <th style="font-size: 0.98rem;">HMS</th>
+                        <th style="font-size: 0.98rem;">Prescrip</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Input Method</td><td style="font-size: 0.8rem;">Writing</td><td style="font-size: 0.8rem;">Typing</td><td style="font-size: 0.8rem;">Selection</td></tr>
+                    <tr><td>Input Speed</td><td>✅</td><td>❌</td><td>❌</td></tr>
+                    <tr><td>Fits Natural Workflow</td><td>✅</td><td>❌</td><td>❌</td></tr>
+                    <tr><td>Legibility</td><td>❌</td><td>✅</td><td>✅</td></tr>
+                    <tr><td>Ease of Use</td><td>✅</td><td>❌</td><td>🟡</td></tr>
+                    <tr><td>Error Reduction</td><td>❌</td><td>✅</td><td>✅</td></tr>
+                    <tr><td>Pharmacy Integration</td><td>❌</td><td>🟡</td><td>✅</td></tr>
+                    <tr><td>Medicine Suggestions</td><td>❌</td><td>🟡</td><td>✅</td></tr>
+                    <tr><td>Record Keeping</td><td>❌</td><td>✅</td><td>✅</td></tr>
+                    <tr><td>Mobility / Flexibility</td><td>✅</td><td>❌</td><td>✅</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Section 7: Ideating Other Solutions -->
+        <section id="ideating" class="fade-in">
+            <h2 class="eyebrow">Ideating Other Solutions</h2>
+            <p><strong>Two alternative concepts were explored and rejected before landing on the selection-based approach.</strong> Both are detailed below.</p>
+            <div class="side-by-side">
+
+                <!-- Fully Typed Digital Prescriptions -->
+                <div class="info-block" style="margin-top: 0;">
+                    <p class="card-title">Fully Typed Digital Prescriptions</p>
+                    <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); margin-bottom: 0;"><strong>Rejected:</strong> interviews suggested doctors prefer speed, and this solution assumes a 15 min consultation window.</p>
+                    <details class="disclosure">
+                        <summary>See pros &amp; cons</summary>
+                        <table class="comparison-table" style="margin-top: 8px;">
+                            <caption class="sr-only">Pros and cons of fully typed digital prescriptions</caption>
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; padding-left: 10px;">Pros</th>
+                                    <th style="text-align: center;">Cons</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left; vertical-align: top; padding: 12px; font-weight: normal;">
+                                        <ul style="padding-left: 12px; margin: 0;">
+                                            <li style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary);">Very Clear prescriptions</li>
+                                            <li style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary);">Easy DB integration</li>
+                                            <li style="font-size: 0.8rem; margin-bottom: 0; color: var(--text-secondary);">Standardised format</li>
+                                        </ul>
+                                    </td>
+                                    <td style="text-align: left; vertical-align: top; padding: 12px;">
+                                        <ul style="padding-left: 12px; margin: 0;">
+                                            <li style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary);">Typing speed &lt;&lt;&lt; writing</li>
+                                            <li style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary);">Disrupts existing workflow</li>
+                                            <li style="font-size: 0.8rem; margin-bottom: 0; color: var(--text-secondary);">Resistance from doctors</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </details>
+                </div>
+
+                <!-- Voice-Assisted Prescription System -->
+                <div class="info-block" style="margin-top: 0;">
+                    <p class="card-title">Voice-Assisted Prescription System</p>
+                    <p style="font-size: 0.85rem; line-height: 1.5; color: var(--text-primary); margin-bottom: 0;"><strong>Rejected:</strong> speech recognition struggles with background clinic noise, and doctors don't want to dictate sensitive information aloud.</p>
+                    <details class="disclosure">
+                        <summary>See pros &amp; cons</summary>
+                        <table class="comparison-table" style="margin-top: 8px;">
+                            <caption class="sr-only">Pros and cons of a voice-assisted prescription system</caption>
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center; padding-left: 10px;">Pros</th>
+                                    <th style="text-align: center;">Cons</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: left; vertical-align: top; padding: 12px; font-weight: normal;">
+                                        <ul style="padding-left: 12px; margin: 0;">
+                                            <li style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary);">Faster than typing</li>
+                                            <li style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary);">Hands-free interaction</li>
+                                            <li style="font-size: 0.8rem; margin-bottom: 0; color: var(--text-secondary);">Structures Rx automatically</li>
+                                        </ul>
+                                    </td>
+                                    <td style="text-align: left; vertical-align: top; padding: 12px;">
+                                        <ul style="padding-left: 12px; margin: 0;">
+                                            <li style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary);">Background noise in clinics</li>
+                                            <li style="font-size: 0.8rem; margin-bottom: 4px; color: var(--text-secondary);">Accent recognition issues</li>
+                                            <li style="font-size: 0.8rem; margin-bottom: 0; color: var(--text-secondary);">Privacy concerns in crowd</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </details>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 8: Final Output -->
+        <section id="final-output" class="fade-in">
+            <h2 class="eyebrow">Final Output</h2>
+            <img src="final.webp" width="1600" height="1714" loading="lazy" decoding="async" alt="Prescribble final screens" class="content-image">
+        </section>
+
+        <!-- Section 9: Dosage Modal -->
+        <section id="dosage-modal" class="fade-in">
+            <h2 class="eyebrow">Try Interacting with the Dosage Modal Yourself</h2>
+
+            <div class="popup-overlay" id="popupOverlay" style="margin-top: 0;">
+              <div class="popup-card">
+                <div class="popup-header">
+                  <div>
+                    <h3>Itraconazole 100mg Capsule</h3>
+                    <p class="meta">Cerospor · Freyza <span class="oos" id="stockTag" style="display:none;">(Out of Stock)</span></p>
+                  </div>
+                  <button class="popup-close" id="closePopupBtn" aria-label="Close dosage dialog">×</button>
+                </div>
+
+                <div class="popup-body">
+                  <!-- LEFT: Days -->
+                  <div class="popup-col">
+                    <div class="tooltip-track" aria-hidden="true">
+                      <div class="tooltip-bubble" id="tooltipBubble" style="left:50%;">
+                        <div class="tooltip-value" id="tooltipValue">-</div>
+                        <div class="tooltip-arrow" id="tooltipArrow"></div>
+                      </div>
+                    </div>
+
+                    <div style="padding:0 4px; position:relative; margin-top:16px;">
+                      <label class="field-label" for="daysSlider">No. of Days</label>
+                      <input type="range" min="0" max="10" value="0" class="days-slider" id="daysSlider" aria-describedby="ticksRow">
+                      <div class="ticks-row" id="ticksRow" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="other-input-wrap">
+                      <label for="otherDaysInput" class="sr-only">Other number of days</label>
+                      <input type="text" inputmode="numeric" placeholder="Other" class="other-input" id="otherDaysInput">
+                      <button class="other-clear" id="clearOtherBtn" aria-label="Clear custom day value" style="display:none;">✕</button>
+                    </div>
+                  </div>
+
+                  <!-- RIGHT: Meal timing -->
+                  <div class="popup-col">
+                    <p class="freq-label" id="freqLabel">Frequency</p>
+                    <div class="freq-row" id="freqRow">
+                      <div class="freq-item">
+                        <button class="freq-btn" data-idx="0" aria-pressed="false"><div class="freq-dot" id="dot0"></div><span class="freq-text">Morning</span></button>
+                        <div class="freq-connector" id="conn0"></div>
+                      </div>
+                      <div class="freq-item">
+                        <button class="freq-btn" data-idx="1" aria-pressed="false"><div class="freq-dot" id="dot1"></div><span class="freq-text">Afternoon</span></button>
+                        <div class="freq-connector" id="conn1"></div>
+                      </div>
+                      <div class="freq-item">
+                        <button class="freq-btn" data-idx="2" aria-pressed="false"><div class="freq-dot" id="dot2"></div><span class="freq-text">Night</span></button>
+                      </div>
+                    </div>
+
+                    <p class="meal-label" id="mealLabel">Meal Timing</p>
+                    <div class="meal-toggle" id="mealToggle">
+                      <div class="meal-indicator" id="mealIndicator" style="left:2px;"></div>
+                      <button class="meal-btn active" data-meal="Before Meal" id="mealBefore" aria-pressed="true">Before Meal</button>
+                      <button class="meal-btn" data-meal="After Meal" id="mealAfter" aria-pressed="false">After Meal</button>
+                    </div>
+
+                    <label class="empty-stomach-row" id="emptyStomachRow">
+                      <div class="checkbox-box" id="checkboxBox">
+                        <svg width="10" height="8" viewBox="0 0 10 8" fill="none" id="checkboxTick" style="display:none;" aria-hidden="true">
+                          <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </div>
+                      <span class="empty-stomach-text">Empty Stomach</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="popup-footer">
+                  <button class="footer-btn cancel" id="cancelBtn" disabled>Cancel</button>
+                  <button class="footer-btn confirm" id="confirmBtn" disabled>Add to Treatment</button>
+                </div>
+              </div>
+            </div>
+        </section>
+
+        <!-- Section 10: End Links (Prototype) -->
+        <section class="fade-in" style="border-bottom: none;">
+            <div class="cta-container">
+                <a href="https://prescribble.vercel.app/" target="_blank" rel="noopener" class="cta-button">View product prototype &rarr;</a>
+                <a href="https://www.behance.net/gallery/253421719/Prescribble" target="_blank" rel="noopener" class="cta-button">View the full case study &rarr;</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <a href="#brief">Back to top ↑</a>
+    </footer>
+
+    <noscript>
+        <style>.fade-in { opacity: 1 !important; transform: none !important; }</style>
+    </noscript>
+
+    <!-- Scripts for animations and Popup interactiveness -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Scroll Animation
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (!prefersReducedMotion) {
+                const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
+                document.querySelectorAll('.fade-in').forEach(section => observer.observe(section));
+            }
+
+            // --- Popup Interactivity Logic ---
+            const DAY_STEPS = [1,2,3,5,7,10,14,21,28,30,60];
+            let sliderIndex = -1;
+            let useOther = false;
+            let otherDays = "";
+            let mealTiming = "After Meal";
+            let frequency = [false,false,false];
+            let emptyStomach = false;
+
+            const ticksRow = document.getElementById('ticksRow');
+            DAY_STEPS.forEach((val,i)=>{
+                const col = document.createElement('div');
+                col.className='tick-col';
+                col.innerHTML = `<div class="tick-mark" id="tick-${i}"></div><span class="tick-label" id="ticklabel-${i}">${val}</span>`;
+                ticksRow.appendChild(col);
+            });
+
+            const slider = document.getElementById('daysSlider');
+            const tooltipBubble = document.getElementById('tooltipBubble');
+            const tooltipValue = document.getElementById('tooltipValue');
+            const tooltipArrow = document.getElementById('tooltipArrow');
+            const otherInput = document.getElementById('otherDaysInput');
+            const clearOtherBtn = document.getElementById('clearOtherBtn');
+            const confirmBtn = document.getElementById('confirmBtn');
+
+            function selectedDays(){
+                if(useOther && otherDays) return parseInt(otherDays)||0;
+                if(sliderIndex>=0) return DAY_STEPS[sliderIndex];
+                return 0;
+            }
+
+            function renderDays(){
+                const progress = sliderIndex>=0 ? (sliderIndex/(DAY_STEPS.length-1))*100 : 0;
+                slider.style.setProperty('--progress', progress+'%');
+                const active = sliderIndex>=0 || (useOther && otherDays);
+                tooltipValue.textContent = selectedDays()>0 ? selectedDays() : '-';
+                tooltipValue.classList.toggle('active', !!active);
+                tooltipArrow.classList.toggle('active', !!active);
+                slider.setAttribute('aria-valuetext', selectedDays()>0 ? (selectedDays()+' days') : 'not set');
+                if(useOther || sliderIndex<0){
+                  tooltipBubble.style.left = '50%';
+                } else {
+                  tooltipBubble.style.left = `calc(${progress}% + ${8 - (progress/100)*16}px)`;
+                }
+                DAY_STEPS.forEach((val,i)=>{
+                  const tick = document.getElementById(`tick-${i}`);
+                  const label = document.getElementById(`ticklabel-${i}`);
+                  tick.classList.remove('past','current');
+                  label.classList.remove('past','current');
+                  if(i===sliderIndex){ tick.classList.add('current'); label.classList.add('current'); }
+                  else if(i<sliderIndex){ tick.classList.add('past'); label.classList.add('past'); }
+                });
+                validate();
+            }
+
+            slider.addEventListener('input', (e)=>{
+                sliderIndex = parseInt(e.target.value);
+                useOther = false;
+                renderDays();
+            });
+
+            otherInput.addEventListener('input',(e)=>{
+                otherDays = e.target.value;
+                useOther = true;
+                clearOtherBtn.style.display = otherDays ? 'flex' : 'none';
+                renderDays();
+            });
+
+            clearOtherBtn.addEventListener('click',()=>{
+                otherDays=''; useOther=false; otherInput.value='';
+                clearOtherBtn.style.display='none';
+                renderDays();
+            });
+
+            // Frequency
+            document.querySelectorAll('.freq-btn').forEach(btn=>{
+                btn.addEventListener('click',()=>{
+                  const idx = parseInt(btn.dataset.idx);
+                  frequency[idx] = !frequency[idx];
+                  btn.setAttribute('aria-pressed', String(frequency[idx]));
+                  renderFreq();
+                });
+            });
+
+            function renderFreq(){
+                frequency.forEach((on,i)=>{
+                  document.getElementById(`dot${i}`).classList.toggle('on', on);
+                });
+                document.getElementById('conn0').classList.toggle('on', frequency[0] && frequency[1]);
+                document.getElementById('conn1').classList.toggle('on', frequency[1] && frequency[2]);
+                validate();
+            }
+
+            // Meal timing
+            const mealIndicator = document.getElementById('mealIndicator');
+            document.getElementById('mealBefore').addEventListener('click',()=>setMeal('Before Meal'));
+            document.getElementById('mealAfter').addEventListener('click',()=>setMeal('After Meal'));
+
+            function setMeal(option){
+                mealTiming = option;
+                const beforeBtn = document.getElementById('mealBefore');
+                const afterBtn = document.getElementById('mealAfter');
+                beforeBtn.classList.toggle('active', option==='Before Meal');
+                afterBtn.classList.toggle('active', option==='After Meal');
+                beforeBtn.setAttribute('aria-pressed', String(option==='Before Meal'));
+                afterBtn.setAttribute('aria-pressed', String(option==='After Meal'));
+                mealIndicator.style.left = option==='Before Meal' ? '2px' : 'calc(50%)';
+            }
+
+            // Empty stomach
+            const checkboxBox = document.getElementById('checkboxBox');
+            const checkboxTick = document.getElementById('checkboxTick');
+            const emptyStomachRow = document.getElementById('emptyStomachRow');
+            const freqRow = document.getElementById('freqRow');
+            const freqLabel = document.getElementById('freqLabel');
+            const mealToggle = document.getElementById('mealToggle');
+            const mealLabel = document.getElementById('mealLabel');
+
+            emptyStomachRow.addEventListener('click', ()=>{
+                emptyStomach = !emptyStomach;
+                checkboxBox.classList.toggle('checked', emptyStomach);
+                checkboxTick.style.display = emptyStomach ? 'block' : 'none';
+                freqRow.classList.toggle('disabled', emptyStomach);
+                freqLabel.classList.toggle('disabled', emptyStomach);
+                mealToggle.classList.toggle('disabled', emptyStomach);
+                mealLabel.classList.toggle('disabled', emptyStomach);
+                validate();
+            });
+
+            function validate(){
+                confirmBtn.disabled = true; // Demo logic only
+            }
+
+            document.getElementById('closePopupBtn').addEventListener('click', ()=>{});
+
+            renderDays();
+            renderFreq();
+        });
+    </script>
+</body>
+</html>

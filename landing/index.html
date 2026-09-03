@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Akanksha Gupta — Design Portfolio</title>
+    <meta
+      name="description"
+      content="Design portfolio of Akanksha Gupta — UI/UX, visual design and creative explorations, laid out as an interactive newspaper on a desk."
+    />
+    <meta name="author" content="Akanksha Gupta" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Akanksha Gupta — Design Portfolio" />
+    <meta
+      property="og:description"
+      content="UX designer working on disaster-response, healthcare and AR learning tools. ResQ, Prescribble, ChemAR and more."
+    />
+
+    <link rel="preload" href="./fonts/roboto-serif-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="./fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./fonts/fonts.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <div class="viewport" id="viewport">
+      <!-- Layer 0 — the desk. Injected by main.js, fixed behind everything. -->
+      <div class="scenery scenery--table" id="scenery-table" aria-hidden="true"></div>
+
+      <div class="stage" id="stage">
+        <!-- Layer 1 — objects behind the newspaper (parallaxes away from cursor) -->
+        <div class="scenery scenery--bg" id="scenery-bg" aria-hidden="true"></div>
+
+        <!-- Layer 2 — the newspaper itself -->
+        <article class="paper">
+          <!-- Torn-paper silhouette + drop shadow. Decorative only. -->
+          <svg
+            class="paper__sheet"
+            viewBox="0 0 1280 835"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <g filter="url(#paper-shadow)">
+              <path d="M59.5027 7.37647C165.503 -9.12357 422.003 5.87564 1123.5 15.3756L93.5027 585.376C93.5027 506.876 103.003 56.8765 59.5027 7.37647Z" fill="#A39483"/>
+              <path d="M38.5799 74.6668C47.0021 97.8755 81.2234 176.179 88.7717 618.655L162.502 46.3761C140.503 52.876 103.503 78.876 38.5799 74.6668Z" fill="#D9C7B3"/>
+              <path d="M1239 45.8762C1230.58 69.0849 1196.29 174.883 1188.74 617.358L1008 17.377C1032.5 34.3762 1180 24.3762 1239 45.8762Z" fill="#A39483"/>
+              <path d="M1179.24 641.377C1217.84 207.398 1253.78 101.621 1267.61 102.268C1267.82 102.305 1268.03 102.341 1268.24 102.377C1268.04 102.315 1267.83 102.278 1267.61 102.268C1169.1 85.4009 1134.7 59.3849 1126.88 41.3382L1125.74 28.377C1124.58 31.8119 1124.67 36.2595 1126.88 41.3382L1179.24 641.377Z" fill="#D9C7B3"/>
+              <rect x="90.0027" y="14.377" width="1107" height="800" fill="#F0E4D7"/>
+              <path d="M88.6457 553.067C88.9257 547.51 91.4101 526.812 91.5026 521.377L91.1531 813.377C90.4167 812.713 88.3734 811.54 88.0075 811.113C87.281 810.298 86.8262 810.144 85.2119 807.751C83.8421 805.284 82.9912 801.682 82.0766 797.184C80.7996 790.904 79.1068 783.939 78.2335 779.015C76.5633 769.597 75.2904 761.489 74.8021 755.483C74.3547 749.981 73.7283 742.522 73.5343 738.434C73.3016 733.53 72.7118 727.454 72.439 723.037C72.1853 718.931 71.9866 716.262 71.8385 711.516C71.5387 701.912 71.8639 694.861 72.439 688.877C73.2173 680.779 73.6314 668.639 74.8048 660.195C76.2585 649.734 77.1457 641.041 77.7317 637.285C78.6161 631.617 80.9098 613.664 82.2646 604.143C83.0406 598.689 83.8844 591.684 84.5749 586.387C85.2871 580.924 86.1141 576.67 86.6095 571.175C87.2273 564.323 88.4232 557.483 88.6457 553.067Z" fill="#F0E4D7"/>
+              <path d="M1197.77 546.827C1197.49 541.136 1195.99 519.942 1195.89 514.377V813.377C1196.64 812.697 1198.05 811.496 1198.42 811.059C1199.15 810.224 1199.61 810.066 1201.24 807.617C1202.63 805.09 1203.49 801.401 1204.42 796.796C1205.71 790.365 1207.42 783.233 1208.31 778.191C1210 768.547 1211.28 760.245 1211.78 754.095C1212.23 748.461 1212.86 740.824 1213.06 736.637C1213.3 731.616 1213.89 725.395 1214.17 720.872C1214.43 716.667 1214.78 713.936 1214.78 709.075C1214.78 698.877 1214.75 692.02 1214.17 685.892C1213.38 677.601 1212.96 665.169 1211.78 656.523C1210.3 645.811 1209.41 636.909 1208.81 633.064C1207.92 627.26 1205.6 608.877 1204.23 599.127C1203.44 593.543 1202.59 586.369 1201.89 580.946C1201.17 575.352 1200.33 570.996 1199.83 565.369C1199.21 558.352 1198 551.348 1197.77 546.827Z" fill="#F0E4D7"/>
+              <path d="M86.5027 14.377C85.0023 31.879 89.5024 43.8775 90.0024 57.877L132.502 14.377C120.502 16.377 102.503 14.877 86.5027 14.377Z" fill="#F0E4D7"/>
+              <path d="M1199 14.3769C1196 23.879 1197 27.3765 1197 41.8766L1164.5 14.3768C1173.5 13.8788 1190.5 11.3768 1199 14.3769Z" fill="#F0E4D7"/>
+            </g>
+            <defs>
+              <filter id="paper-shadow" x="27.5799" y="0" width="1240.66" height="834.377" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dx="-11" dy="20"/>
+                <feComposite in2="hardAlpha" operator="out"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0.367807 0 0 0 0 0.208378 0 0 0 0 0.185603 0 0 0 0.25 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+              </filter>
+            </defs>
+          </svg>
+
+          <svg
+            class="paper__sheet paper__sheet--mobile"
+            viewBox="0 0 326 1310"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <g filter="url(#paper-shadow-mobile)">
+              <rect x="5" y="0" width="320.042" height="1305.02" fill="#F0E4D7"/>
+            </g>
+            <defs>
+              <filter id="paper-shadow-mobile" x="0" y="0" width="325.042" height="1309.02" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                <feOffset dx="-5" dy="4"/>
+                <feComposite in2="hardAlpha" operator="out"/>
+                <feColorMatrix type="matrix" values="0 0 0 0 0.431373 0 0 0 0 0.298039 0 0 0 0 0.254902 0 0 0 0.5 0"/>
+                <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
+                <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/>
+              </filter>
+            </defs>
+          </svg>
+
+          <!-- ── Masthead ─────────────────────────────────────────────── -->
+          <header class="masthead">
+            <section class="contact-box">
+              <hr class="section-rule" />
+              <h2 class="contact-box__label">Contact Me Here</h2>
+              <ul class="contact-box__list">
+                <li><a href="tel:+918292322762" class="link link--text">+91 82923 22762</a></li>
+                <li><a href="mailto:akankshag5003@iitg.ac.in" class="link link--text">akankshag5003@iitg.ac.in</a></li>
+                <li><a href="mailto:akanksha.guptaa4@gmail.com" class="link link--text">akanksha.guptaa4@gmail.com</a></li>
+              </ul>
+            </section>
+
+            <h1 class="masthead__name">Akanksha Gupta</h1>
+
+            <section class="socials-box">
+              <h2 class="socials-box__label">Find My Socials</h2>
+              <ul class="socials-box__list">
+                <li>
+                  <a class="social" href="https://www.linkedin.com/in/akanksha-gupta4/" target="_blank" rel="noopener" aria-label="LinkedIn">
+                    <svg viewBox="1005 93 30 30" aria-hidden="true" focusable="false"><path d="M1012.69 102.207V117H1008.74V102.207H1012.69ZM1008.49 98.3516C1008.49 97.7773 1008.69 97.3034 1009.09 96.9297C1009.49 96.556 1010.03 96.3691 1010.71 96.3691C1011.37 96.3691 1011.9 96.556 1012.3 96.9297C1012.71 97.3034 1012.92 97.7773 1012.92 98.3516C1012.92 98.9258 1012.71 99.3997 1012.3 99.7734C1011.9 100.147 1011.37 100.334 1010.71 100.334C1010.03 100.334 1009.49 100.147 1009.09 99.7734C1008.69 99.3997 1008.49 98.9258 1008.49 98.3516ZM1019.8 105.365V117H1015.86V102.207H1019.55L1019.8 105.365ZM1019.22 109.084H1018.16C1018.16 107.99 1018.3 107.006 1018.58 106.131C1018.86 105.247 1019.26 104.495 1019.77 103.875C1020.28 103.246 1020.89 102.768 1021.59 102.439C1022.3 102.102 1023.09 101.934 1023.97 101.934C1024.66 101.934 1025.29 102.034 1025.87 102.234C1026.44 102.435 1026.93 102.754 1027.34 103.191C1027.76 103.629 1028.08 104.208 1028.3 104.928C1028.53 105.648 1028.64 106.527 1028.64 107.566V117H1024.68V107.553C1024.68 106.896 1024.59 106.386 1024.4 106.021C1024.22 105.657 1023.95 105.402 1023.6 105.256C1023.25 105.101 1022.82 105.023 1022.31 105.023C1021.78 105.023 1021.32 105.128 1020.93 105.338C1020.55 105.548 1020.23 105.839 1019.97 106.213C1019.73 106.577 1019.54 107.006 1019.41 107.498C1019.29 107.99 1019.22 108.519 1019.22 109.084Z" fill="currentColor"/></svg>
+                  </a>
+                </li>
+                <li>
+                  <a class="social" href="https://www.behance.net/akankshagupta59" target="_blank" rel="noopener" aria-label="Behance">
+                    <svg viewBox="1063 92.5 30 30" aria-hidden="true" focusable="false"><path d="M1071.2 107.512H1066.82L1066.8 105.098H1070.48C1071.12 105.098 1071.66 105.016 1072.07 104.852C1072.48 104.68 1072.79 104.434 1073 104.113C1073.21 103.785 1073.31 103.387 1073.31 102.918C1073.31 102.387 1073.21 101.957 1073.01 101.629C1072.81 101.301 1072.5 101.062 1072.08 100.914C1071.67 100.766 1071.13 100.691 1070.48 100.691H1068.04V115H1064.52V97.9375H1070.48C1071.47 97.9375 1072.36 98.0312 1073.14 98.2188C1073.93 98.4062 1074.59 98.6914 1075.14 99.0742C1075.69 99.457 1076.11 99.9414 1076.39 100.527C1076.68 101.105 1076.83 101.793 1076.83 102.59C1076.83 103.293 1076.67 103.941 1076.35 104.535C1076.04 105.129 1075.54 105.613 1074.86 105.988C1074.19 106.363 1073.31 106.57 1072.22 106.609L1071.2 107.512ZM1071.05 115H1065.86L1067.23 112.258H1071.05C1071.67 112.258 1072.17 112.16 1072.56 111.965C1072.95 111.762 1073.24 111.488 1073.43 111.145C1073.62 110.801 1073.71 110.406 1073.71 109.961C1073.71 109.461 1073.62 109.027 1073.45 108.66C1073.29 108.293 1073.02 108.012 1072.66 107.816C1072.29 107.613 1071.8 107.512 1071.2 107.512H1067.82L1067.84 105.098H1072.06L1072.87 106.047C1073.91 106.031 1074.74 106.215 1075.38 106.598C1076.02 106.973 1076.48 107.461 1076.77 108.062C1077.07 108.664 1077.21 109.309 1077.21 109.996C1077.21 111.09 1076.98 112.012 1076.5 112.762C1076.02 113.504 1075.32 114.062 1074.4 114.438C1073.49 114.812 1072.37 115 1071.05 115ZM1085.48 115.234C1084.49 115.234 1083.61 115.078 1082.83 114.766C1082.05 114.445 1081.38 114.004 1080.84 113.441C1080.3 112.879 1079.88 112.227 1079.59 111.484C1079.3 110.734 1079.16 109.938 1079.16 109.094V108.625C1079.16 107.664 1079.3 106.785 1079.57 105.988C1079.84 105.191 1080.23 104.5 1080.74 103.914C1081.26 103.328 1081.88 102.879 1082.62 102.566C1083.35 102.246 1084.18 102.086 1085.1 102.086C1086 102.086 1086.8 102.234 1087.49 102.531C1088.19 102.828 1088.77 103.25 1089.24 103.797C1089.71 104.344 1090.07 105 1090.32 105.766C1090.56 106.523 1090.68 107.367 1090.68 108.297V109.703H1080.6V107.453H1087.36V107.195C1087.36 106.727 1087.28 106.309 1087.11 105.941C1086.94 105.566 1086.69 105.27 1086.36 105.051C1086.02 104.832 1085.59 104.723 1085.07 104.723C1084.62 104.723 1084.24 104.82 1083.92 105.016C1083.6 105.211 1083.34 105.484 1083.13 105.836C1082.94 106.188 1082.79 106.602 1082.69 107.078C1082.59 107.547 1082.55 108.062 1082.55 108.625V109.094C1082.55 109.602 1082.62 110.07 1082.76 110.5C1082.91 110.93 1083.11 111.301 1083.38 111.613C1083.65 111.926 1083.98 112.168 1084.36 112.34C1084.75 112.512 1085.2 112.598 1085.69 112.598C1086.3 112.598 1086.86 112.48 1087.39 112.246C1087.92 112.004 1088.38 111.641 1088.76 111.156L1090.4 112.938C1090.13 113.32 1089.77 113.688 1089.31 114.039C1088.86 114.391 1088.31 114.68 1087.67 114.906C1087.03 115.125 1086.3 115.234 1085.48 115.234ZM1088.75 97.9727V99.8828H1080.71V97.9727H1088.75Z" fill="currentColor"/></svg>
+                  </a>
+                </li>
+                <li>
+                  <a class="social" href="https://instagram.com/d3zyre" target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg viewBox="1119 91.877 32 32" fill="none" aria-hidden="true" focusable="false">
+                      <path d="M1140.86 95.7979H1129.13C1125.89 95.7979 1123.26 98.4244 1123.26 101.665V113.398C1123.26 116.638 1125.89 119.265 1129.13 119.265H1140.86C1144.1 119.265 1146.73 116.638 1146.73 113.398V101.665C1146.73 98.4244 1144.1 95.7979 1140.86 95.7979Z" stroke="currentColor" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M1139.22 106.905C1139.35 107.793 1139.2 108.7 1138.78 109.496C1138.37 110.293 1137.72 110.939 1136.92 111.342C1136.11 111.746 1135.21 111.886 1134.32 111.744C1133.43 111.601 1132.61 111.183 1131.98 110.548C1131.35 109.914 1130.93 109.095 1130.78 108.209C1130.64 107.323 1130.78 106.415 1131.19 105.613C1131.59 104.811 1132.24 104.157 1133.03 103.744C1133.83 103.331 1134.74 103.179 1135.62 103.311C1136.53 103.445 1137.37 103.867 1138.01 104.514C1138.66 105.162 1139.08 106 1139.22 106.905Z" stroke="currentColor" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M1142.33 100.667H1142.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </a>
+                </li>
+              </ul>
+            </section>
+          </header>
+
+          <!-- ── Kicker rule ──────────────────────────────────────────── -->
+          <div class="kicker">
+            <span class="kicker__date">August 2026</span>
+            <span class="kicker__title">Design Portfolio</span>
+            <span class="kicker__issue">Vol. 01, no. 02</span>
+          </div>
+
+          <!-- ── Column 1 — about + experience ────────────────────────── -->
+          <div class="col col--left">
+            <section class="about">
+              <h2 class="headline">who am i and what do i do?</h2>
+              <div class="about__body">
+                <img
+                  class="about__photo"
+                  src="/portrait.jpg"
+                  width="640"
+                  height="800"
+                  alt="Akanksha Gupta"
+                  decoding="async"
+                  fetchpriority="high"
+                />
+                <div class="about__col">
+                  <p class="about__intro">
+                    Hi! I love how humans interact with cool tech. I enjoy learning
+                    about unfamiliar domains and finding ways to make complex
+                    experiences feel intuitive. Outside of work, you'll find me
+                    solving a rubik's cube, playing chess or gaming.
+                  </p>
+                  <ul class="skills">
+                    <li class="skills__pill" style="--w: 119.336; --mw: 78.446">User Research</li>
+                    <li class="skills__pill" style="--w: 109.337; --mw: 72.446">Wireframing</li>
+                    <li class="skills__pill" style="--w: 141.337; --mw: 93.446">Info. Architecture</li>
+                    <li class="skills__pill" style="--w: 107.336; --mw: 70.446">Prototyping</li>
+                    <li class="skills__pill" style="--w: 173.337; --mw: 114.446">End-to-end Workflows</li>
+                    <li class="skills__pill" style="--w: 143.337; --mw: 94.446">Systems Thinking</li>
+                    <li class="skills__pill" style="--w: 148.336; --mw: 98.446">Developer Handoff</li>
+                    <li class="skills__pill" style="--w: 112.337; --mw: 73.446">Gamification</li>
+                    <li class="skills__pill" style="--w: 106.337; --mw: 70.446">Storytelling</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <section class="work">
+              <hr class="section-rule" />
+              <h2 class="headline">where have i worked?</h2>
+
+              <article class="job">
+                <div class="job__head">
+                  <h3 class="job__title">
+                    <a class="job__title-link" href="/wordgate" target="_blank" rel="noopener"
+                      >UX Design Intern, Wordgate<svg class="job__arrow" viewBox="1073.2 670.9 9.8 9.8" aria-hidden="true" focusable="false"><path d="M1080.54 679.117L1080.22 679.077L1079.86 674.777L1074.2 680.437L1073.38 679.617L1079.04 673.957L1074.74 673.597L1074.68 673.277L1082.58 671.037L1082.78 671.237L1080.54 679.117Z" fill="currentColor"/></svg
+                    ></a>
+                  </h3>
+                  <span class="job__meta">Remote &middot; May 2026&ndash;Present (4 mo)</span>
+                </div>
+                <p class="job__desc">
+                  Sole designer rebuilding the information architecture, design
+                  system and 80+<br class="wrap-desktop" /> screens from scratch
+                  for a data-heavy word-strategy game.
+                  <a class="link link--inline" href="/wordgate" target="_blank" rel="noopener">View my work<span class="link__arrow" aria-hidden="true">&rarr;</span></a>
+                </p>
+              </article>
+
+              <article class="job">
+                <div class="job__head">
+                  <h3 class="job__title">Visual Design Intern, Creative Banjara</h3>
+                  <span class="job__meta">Noida, On-site &middot; May&ndash;Jul 2025</span>
+                </div>
+                <p class="job__desc">
+                  Delivered branding, logo systems and packaging design across 6+
+                  clients for a CGI marketing agency, self-taught Illustrator,
+                  turned briefs into client-ready assets.
+                </p>
+              </article>
+
+              <article class="job">
+                <div class="job__head">
+                  <h3 class="job__title">Workshop Facilitator, ArtLabs</h3>
+                  <span class="job__meta">Jamshedpur, On-site &middot; Apr&rsquo;23&ndash;May&rsquo;24</span>
+                </div>
+                <p class="job__desc">
+                  Founding team member who helped grow a creative workshop studio
+                  from 0 to 1,200+ members, planning and facilitating 20+
+                  hands-on workshops for the local community.
+                </p>
+              </article>
+            </section>
+          </div>
+
+          <!-- ── Column 2 — projects ──────────────────────────────────── -->
+          <div class="col col--right">
+            <section class="projects">
+              <hr class="section-rule" />
+              <h2 class="headline">what have i made?</h2>
+
+              <a class="project" href="/resq" target="_blank" rel="noopener">
+                <span class="project__icon" aria-hidden="true">
+                  <svg style="--iw:25.4;--ih:25.4" viewBox="852.3 303 25.4 25.4" focusable="false"><path d="M876.328 312.162C877.787 310.703 877.122 309 876.328 308.172L872.828 304.672C871.358 303.213 869.667 303.878 868.838 304.672L866.855 306.667H863.833C861.617 306.667 860.333 307.833 859.68 309.175L854.5 314.355V319.022L853.672 319.838C852.213 321.308 852.878 323 853.672 323.828L857.172 327.328C857.802 327.958 858.478 328.192 859.12 328.192C859.948 328.192 860.707 327.783 861.162 327.328L864.312 324.167H868.5C870.483 324.167 871.487 322.93 871.848 321.717C873.167 321.367 873.89 320.363 874.182 319.383C875.99 318.917 876.667 317.202 876.667 316V312.5H875.978L876.328 312.162ZM874.333 316C874.333 316.525 874.112 317.167 873.167 317.167H872V318.333C872 318.858 871.778 319.5 870.833 319.5H869.667V320.667C869.667 321.192 869.445 321.833 868.5 321.833H863.355L859.528 325.66C859.167 325.998 858.957 325.8 858.828 325.672L855.34 322.195C855.002 321.833 855.2 321.623 855.328 321.495L856.833 319.978V315.312L859.167 312.978V314.833C859.167 316.245 860.1 318.333 862.667 318.333C865.233 318.333 866.167 316.245 866.167 314.833H874.333V316ZM874.672 310.505L872.688 312.5H863.833V314.833C863.833 315.358 863.612 316 862.667 316C861.722 316 861.5 315.358 861.5 314.833V311.333C861.5 310.797 861.698 309 863.833 309H867.812L870.472 306.34C870.833 306.002 871.043 306.2 871.172 306.328L874.66 309.805C874.998 310.167 874.8 310.377 874.672 310.505Z" fill="currentColor"/></svg>
+                </span>
+                <span class="project__body">
+                  <span class="project__title">ResQ</span>
+                  <span class="project__desc">A mesh-network disaster communication app connecting victims and volunteers in Assam when cellular networks go down.</span>
+                </span>
+              </a>
+
+              <a class="project" href="/prescribble" target="_blank" rel="noopener">
+                <span class="project__icon" aria-hidden="true">
+                  <svg style="--iw:24;--ih:24" viewBox="853.096 437.377 24 24" focusable="false"><path fill-rule="evenodd" clip-rule="evenodd" d="M873.689 437.628C873.529 437.467 873.311 437.377 873.083 437.377C872.856 437.377 872.638 437.467 872.477 437.628L864.42 445.702C864.289 445.834 864.204 446.005 864.179 446.189L863.664 449.84C863.646 449.972 863.658 450.105 863.7 450.231C863.742 450.356 863.812 450.47 863.905 450.564C863.999 450.658 864.112 450.729 864.238 450.771C864.363 450.814 864.497 450.827 864.628 450.809L868.279 450.312C868.465 450.287 868.637 450.202 868.769 450.07L876.844 441.996C876.924 441.916 876.987 441.822 877.03 441.718C877.073 441.613 877.096 441.502 877.096 441.389C877.096 441.276 877.073 441.165 877.03 441.061C876.987 440.956 876.924 440.862 876.844 440.782L873.689 437.628ZM855.283 440.163C855.283 439.808 855.571 439.52 855.926 439.52H867.712C867.996 439.52 868.268 439.408 868.469 439.207C868.67 439.006 868.783 438.733 868.783 438.449C868.783 438.165 868.67 437.892 868.469 437.691C868.268 437.491 867.996 437.378 867.712 437.378H855.926C854.388 437.378 853.14 438.626 853.14 440.163V458.592C853.14 460.131 854.388 461.378 855.926 461.378H871.355C872.894 461.378 874.14 460.131 874.14 458.592V450.449C874.14 450.165 874.027 449.892 873.826 449.691C873.626 449.491 873.353 449.378 873.069 449.378C872.785 449.378 872.512 449.491 872.311 449.691C872.11 449.892 871.997 450.165 871.997 450.449V455.391H855.283V440.163ZM858.283 442.52C858.283 441.929 858.763 441.449 859.355 441.449H862.783C863.067 441.449 863.34 441.562 863.541 441.763C863.742 441.964 863.855 442.236 863.855 442.52C863.855 442.805 863.742 443.077 863.541 443.278C863.34 443.479 863.067 443.592 862.783 443.592H859.355C859.07 443.592 858.798 443.479 858.597 443.278C858.396 443.077 858.283 442.805 858.283 442.52ZM859.355 445.735C859.07 445.735 858.798 445.848 858.597 446.049C858.396 446.25 858.283 446.522 858.283 446.806C858.283 447.09 858.396 447.363 858.597 447.564C858.798 447.765 859.07 447.878 859.355 447.878H861.069C861.353 447.878 861.626 447.765 861.826 447.564C862.027 447.363 862.14 447.09 862.14 446.806C862.14 446.522 862.027 446.25 861.826 446.049C861.626 445.848 861.353 445.735 861.069 445.735H859.355Z" fill="currentColor"/></svg>
+                </span>
+                <span class="project__body">
+                  <span class="project__title">Prescribble</span>
+                  <span class="project__desc">A handwriting-first prescription app for iPad with salt-first recommendations, and pharmacy integration.</span>
+                </span>
+              </a>
+
+              <a class="project" href="/chem-ar" target="_blank" rel="noopener">
+                <span class="project__icon" aria-hidden="true">
+                  <svg style="--iw:16;--ih:29.1" viewBox="856.6 568.3 16 29.1" focusable="false"><path d="M871.598 592.341L868.028 584.004C867.678 583.188 867.391 581.794 867.391 580.906C867.391 580.017 867.936 579.291 868.602 579.291C869.268 579.291 869.813 578.745 869.813 578.079C869.813 577.414 869.086 576.868 868.198 576.868H860.931C860.042 576.868 859.316 577.412 859.316 578.079C859.316 578.747 859.861 579.291 860.527 579.291C861.193 579.291 861.738 580.017 861.738 580.906C861.738 581.794 861.451 583.188 861.101 584.005L857.531 592.343C857.18 593.159 856.893 594.192 856.893 594.635C856.893 595.078 857.257 595.807 857.701 596.25C858.145 596.693 859.235 597.058 860.123 597.058H869.006C869.893 597.058 870.982 596.697 871.428 596.25C871.874 595.804 872.236 595.079 872.236 594.635C872.236 594.191 871.949 593.158 871.598 592.343V592.341ZM865.715 574.478C865.715 574.783 865.836 575.075 866.052 575.291C866.268 575.507 866.561 575.628 866.866 575.628C867.171 575.628 867.464 575.507 867.679 575.291C867.895 575.075 868.017 574.783 868.017 574.478C868.016 574.172 867.895 573.88 867.679 573.664C867.463 573.448 867.17 573.327 866.865 573.327C866.56 573.327 866.267 573.449 866.052 573.665C865.836 573.881 865.715 574.172 865.715 574.478ZM862.618 574.655C862.759 574.655 862.894 574.599 862.994 574.499C863.093 574.4 863.149 574.265 863.149 574.124C863.149 573.983 863.093 573.848 862.994 573.748C862.894 573.648 862.759 573.592 862.618 573.592C862.477 573.592 862.342 573.648 862.242 573.748C862.143 573.848 862.087 573.983 862.087 574.124C862.087 574.265 862.143 574.4 862.242 574.499C862.342 574.599 862.477 574.655 862.618 574.655ZM864.655 571.999C864.883 572.01 865.11 571.975 865.324 571.895C865.538 571.816 865.734 571.694 865.899 571.537C866.064 571.379 866.196 571.19 866.285 570.98C866.375 570.771 866.421 570.545 866.421 570.317C866.421 570.089 866.375 569.863 866.284 569.653C866.194 569.444 866.063 569.255 865.897 569.097C865.732 568.94 865.536 568.819 865.322 568.739C865.108 568.66 864.88 568.625 864.653 568.637C864.225 568.664 863.824 568.852 863.53 569.165C863.237 569.477 863.074 569.889 863.074 570.318C863.074 570.746 863.238 571.158 863.532 571.47C863.826 571.782 864.227 571.97 864.655 571.997V571.999Z" fill="currentColor"/></svg>
+                </span>
+                <span class="project__body">
+                  <span class="project__title">ChemAR</span>
+                  <span class="project__desc">AR organic chemistry lab built with MediaPipe and vibe code, letting students build molecules with their hands via webcam.</span>
+                </span>
+              </a>
+
+              <a class="misc" href="https://www.behance.net/gallery/253469251/Gigs-Fun-Stuff" target="_blank" rel="noopener">
+                <span>Miscellaneous, explorations &amp; more</span>
+                <svg class="misc__arrow" viewBox="1073.2 670.9 9.8 9.8" aria-hidden="true" focusable="false"><path d="M1080.54 679.117L1080.22 679.077L1079.86 674.777L1074.2 680.437L1073.38 679.617L1079.04 673.957L1074.74 673.597L1074.68 673.277L1082.58 671.037L1082.78 671.237L1080.54 679.117Z" fill="currentColor"/></svg>
+              </a>
+
+              <a class="resume" href="/Akanksha_Gupta_Resume.pdf" download="Akanksha_Gupta_Resume.pdf">
+                <span>Resume</span>
+                <svg class="resume__icon" viewBox="1022.3 751.5 17.5 17.5" fill="none" aria-hidden="true" focusable="false">
+                  <path d="M1038.55 762.752V766.085C1038.55 766.527 1038.37 766.951 1038.06 767.264C1037.75 767.576 1037.32 767.752 1036.88 767.752H1025.22C1024.77 767.752 1024.35 767.576 1024.04 767.264C1023.72 766.951 1023.55 766.527 1023.55 766.085V762.752" stroke="currentColor" stroke-width="1.45833" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1026.88 758.585L1031.05 762.752L1035.22 758.585" stroke="currentColor" stroke-width="1.45833" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M1031.05 762.752V752.752" stroke="currentColor" stroke-width="1.45833" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </section>
+          </div>
+        </article>
+
+        <!-- Layer 3 — objects in front of the newspaper (never intercepts clicks) -->
+        <div class="scenery scenery--fg" id="scenery-fg" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
