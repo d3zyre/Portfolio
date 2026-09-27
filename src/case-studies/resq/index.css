@@ -1,0 +1,51 @@
+/* Scan only this case study for classes; the other pages ship their own CSS. */
+@import "tailwindcss" source(".");
+
+@theme {
+  --color-bg:    #F7F7F5;
+  --color-ink:   #1A2744;
+  --color-red:   #D4351C;
+  --color-mid:   #9AA1AD;
+  --color-grey:  #687282;  /* was #6B7686 (4.29:1); nudged to pass AA body text */
+  --color-line:  #E2E1DD;
+  --color-panel: #EDECE8;
+  --color-green: #22A06B;
+  --color-hair:  #C9C8C3;
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+/* The long-form blocks position artwork outside the 1400px stage on purpose
+   (phones bleed off the edge). Each stage clips its own overflow, but this is
+   the belt-and-braces guard against any of it producing a horizontal scrollbar. */
+html, body { overflow-x: clip; max-width: 100%; }
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: #1A274412; }
+
+/* the mono micro-label used all over the deck */
+.tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
