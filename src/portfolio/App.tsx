@@ -8,7 +8,7 @@ import { Dock } from './components/Dock'
 
 export default function App() {
   const { turns, composer, started, run, submit, setPrompt, isBusy } = useChat()
-  const [open, setOpen] = useState<Record<GroupKey, boolean>>({ projects: true, experience: true, skills: false })
+  const [open, setOpen] = useState<Record<GroupKey, boolean>>({ projects: true, experience: true, skills: true })
   // Phones are too narrow to push the page aside, so the sidebar starts collapsed there.
   const [collapsed, setCollapsed] = useState(() => window.matchMedia('(max-width: 640px)').matches)
 
@@ -39,7 +39,7 @@ export default function App() {
 
       <Chat turns={turns} started={started} />
 
-      <Dock composer={composer} started={started} onSuggestion={() => run('projects')} onSubmit={submit} />
+      <Dock composer={composer} started={started} onSubmit={submit} />
     </>
   )
 }

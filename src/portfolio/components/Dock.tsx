@@ -6,23 +6,22 @@ type Props = {
   composer: Composer
   /** The chips hide once the conversation has started. */
   started: boolean
-  onSuggestion: () => void
   onSubmit: () => void
 }
 
-export function Dock({ composer, started, onSuggestion, onSubmit }: Props) {
+export function Dock({ composer, started, onSubmit }: Props) {
   return (
     <div className="dock">
       <div className={'suggestions' + (started ? ' is-hidden' : '')} id="suggestions">
         {suggestions.map((s) => (
-          <button key={s.title} className="sugg" data-q={s.q} onClick={onSuggestion}>
+          <a key={s.title} className="sugg" href={s.href} target="_blank" rel="noopener">
             <Thumb src={s.img} />
             <span className="sugg__body">
               <span className="sugg__tag">{s.tag}</span>
               <span className="sugg__title">{s.title}</span>
               <span className="sugg__sub">{s.sub}</span>
             </span>
-          </button>
+          </a>
         ))}
       </div>
 

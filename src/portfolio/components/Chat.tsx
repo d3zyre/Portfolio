@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { experience, flows, projects, ROLES } from '../content'
+import { experience, flows, shownProjects, ROLES } from '../content'
 import type { Turn } from '../useChat'
 import { Rotator } from './Rotator'
 import { Thumb } from './Thumb'
@@ -7,7 +7,7 @@ import { Thumb } from './Thumb'
 function ProjectCards() {
   return (
     <div className="cards msg">
-      {projects.map((p) => (
+      {shownProjects.map((p) => (
         <a key={p.key} className="card" href={p.href} target="_blank" rel="noopener">
           <Thumb src={p.img} />
           <span className="card__top"><span>{p.tag}</span></span>

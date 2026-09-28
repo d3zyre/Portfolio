@@ -23,6 +23,8 @@ export type Project = {
   img: string
   desc: string
   meta: string[]
+  /** Kept here but left out of the projects answer. */
+  hidden?: boolean
 }
 
 export const projects: Project[] = [
@@ -35,10 +37,13 @@ export const projects: Project[] = [
   { key: 'chem', tag: 'Research · 2025', title: 'ChemAR', href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg',
     desc: 'A workflow for building AR learning experiences with AI, without writing code. Tested by building ChemAR, where students assemble organic molecules with hand tracking. Presented at RIC, IIT Guwahati and accepted by Springer Nature.',
     meta: ['Human-AI workflow', 'AR', 'Published'] },
-  { key: 'word', tag: 'Internship · 2026', title: 'Wordgate', href: '#', img: '/assets/thumb-wordgate.jpg',
+  { key: 'word', tag: 'Internship · 2026', title: 'Wordgate', href: '#', img: '/assets/thumb-wordgate.jpg', hidden: true,
     desc: 'Redesign of a strategy word game as the sole designer. Rebuilt the information architecture, replaced a hardcoded interface with a design system, and delivered 80+ high-fidelity screens.',
     meta: ['Design system', 'IA', 'Game UX'] },
 ]
+
+/** The projects the chat shows. */
+export const shownProjects = projects.filter((p) => !p.hidden)
 
 export type Job = {
   company: string
@@ -89,8 +94,9 @@ export type Flow = {
 export const flows: Record<FlowKey, Flow> = {
   projects: {
     prompt: 'What have you built?',
-    steps: [['Opened', 'projects/', '4 folders']],
-    text: 'Here are four. Three are my own projects, and Wordgate is from my internship.',
+    steps: [['Opened', 'projects/', `${shownProjects.length} folders`]],
+    // With Wordgate shown: 'Here are four. Three are my own projects, and Wordgate is from my internship.'
+    text: 'Here are three, all my own projects.',
     render: 'projects',
     next: 'experience',
   },
@@ -116,11 +122,11 @@ export const flows: Record<FlowKey, Flow> = {
 /** Shown in the composer once every flow has run. */
 export const DONE_PROMPT = 'That\'s all for now. Everything else is in the sidebar.'
 
-/** The chips above the composer. Any of them starts the conversation. */
+/** The project chips above the composer. Each opens its case study in a new tab. */
 export const suggestions = [
-  { q: 'Walk me through ResQ.', img: '/assets/thumb-resq.jpg', tag: 'Self-guided', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
-  { q: 'How was Prescribble tested?', img: '/assets/thumb-prescribble.jpg', tag: 'Course project', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
-  { q: 'Show me ChemAR running.', img: '/assets/thumb-chemar.jpg', tag: 'Research', title: 'ChemAR', sub: 'AR chemistry, built with AI' },
+  { href: CASE_STUDIES.resq, img: '/assets/thumb-resq.jpg', tag: 'Self-guided', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
+  { href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg', tag: 'Course project', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
+  { href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg', tag: 'Research', title: 'ChemAR', sub: 'AR chemistry, built with AI' },
 ]
 
 /** Words the intro kicker types through. */
