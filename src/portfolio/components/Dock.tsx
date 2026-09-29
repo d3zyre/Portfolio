@@ -1,4 +1,5 @@
-import { suggestions } from '../content'
+import type { MouseEvent } from 'react'
+import { suggestions, type ProjectKey } from '../content'
 import type { Composer } from '../useChat'
 import { Thumb } from './Thumb'
 
@@ -6,22 +7,23 @@ type Props = {
   composer: Composer
   /** The chips hide once the conversation has started. */
   started: boolean
+  onProject: (e: MouseEvent, key: ProjectKey) => void
   onSubmit: () => void
 }
 
-export function Dock({ composer, started, onSubmit }: Props) {
+export function Dock({ composer, started, onProject, onSubmit }: Props) {
   return (
     <div className="dock">
       <div className={'suggestions' + (started ? ' is-hidden' : '')} id="suggestions">
         {suggestions.map((s) => (
-          <a key={s.title} className="sugg" href={s.href} target="_blank" rel="noopener">
+          <button key={s.title} className="sugg" onClick={(e) => onProject(e, s.project)}>
             <Thumb src={s.img} />
             <span className="sugg__body">
               <span className="sugg__tag">{s.tag}</span>
               <span className="sugg__title">{s.title}</span>
               <span className="sugg__sub">{s.sub}</span>
             </span>
-          </a>
+          </button>
         ))}
       </div>
 

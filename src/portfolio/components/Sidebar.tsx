@@ -1,5 +1,5 @@
 import type { MouseEvent } from 'react'
-import { CASE_STUDIES, type FlowKey } from '../content'
+import { CASE_STUDIES, type FlowKey, type ProjectKey } from '../content'
 
 export type GroupKey = 'projects' | 'experience' | 'skills'
 
@@ -8,6 +8,8 @@ type Props = {
   onToggleGroup: (group: GroupKey) => void
   /** A nav item that also asks its question in the chat. */
   onFlow: (e: MouseEvent, flow: FlowKey, group?: GroupKey) => void
+  /** A project link: opens that project's summary in the chat. */
+  onProject: (e: MouseEvent, key: ProjectKey) => void
 }
 
 const EXT = <svg className="ext" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg>
@@ -24,7 +26,7 @@ function Chev({ onToggle }: { onToggle: () => void }) {
   )
 }
 
-export function Sidebar({ open, onToggleGroup, onFlow }: Props) {
+export function Sidebar({ open, onToggleGroup, onFlow, onProject }: Props) {
   const groupClass = (g: GroupKey) => 'group' + (open[g] ? ' is-open' : '')
 
   return (
@@ -56,9 +58,9 @@ export function Sidebar({ open, onToggleGroup, onFlow }: Props) {
             <Chev onToggle={() => onToggleGroup('projects')} />
           </button>
           <div className="tree">
-            <a href={CASE_STUDIES.resq} target="_blank" rel="noopener">ResQ{EXT}</a>
-            <a href={CASE_STUDIES.prescribble} target="_blank" rel="noopener">Prescribble{EXT}</a>
-            <a href={CASE_STUDIES.chemar} target="_blank" rel="noopener">ChemAR{EXT}</a>
+            <a href={CASE_STUDIES.resq} onClick={(e) => onProject(e, 'resq')}>ResQ{EXT}</a>
+            <a href={CASE_STUDIES.prescribble} onClick={(e) => onProject(e, 'prescribble')}>Prescribble{EXT}</a>
+            <a href={CASE_STUDIES.chemar} onClick={(e) => onProject(e, 'chemar')}>ChemAR{EXT}</a>
           </div>
         </div>
 

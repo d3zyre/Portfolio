@@ -377,3 +377,7 @@ img.avatar{ object-fit:cover; object-position:50% 50%; background:var(--panel-2)
 
 .pills{ gap:5px; padding:4px 4px 8px 12px; }
 .pills span{ font-size:.68rem; padding:2px 8px; }
+
+/* Project summary: the rest of the work, under the case study card */
+.more{ display:grid; gap:10px; margin-top:10px; }
+.more__label{ font-size:.84rem; color:var(--ink-2); }

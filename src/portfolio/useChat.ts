@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { DONE_PROMPT, flows, type FlowKey } from './content'
 
 /** One question and its answer in the thread. */
@@ -11,9 +11,14 @@ export type Turn = {
   done: number
   /** The answer text and cards are showing. */
   answered: boolean
+  /** Brought back from a saved chat: shown complete, without scrolling to it. */
+  restored?: boolean
 }
 
 export type Composer = { text: string; empty: boolean; disabled: boolean }
+
+/** What's needed to put a conversation back the way it was. */
+export type ChatSnapshot = { turns: FlowKey[]; next: FlowKey | null }
 
 const wait = (ms: number) => new Promise<void>((r) => setTimeout(r, ms))
 
@@ -26,13 +31,19 @@ const promptFor = (key: FlowKey | null): Composer =>
  * The scripted conversation. Each run adds the question, reveals the tool-call
  * rows one by one, then the answer, and queues the next question in the composer.
  */
-export function useChat() {
-  const [turns, setTurns] = useState<Turn[]>([])
-  const [composer, setComposer] = useState<Composer>(() => promptFor('projects'))
-  const [started, setStarted] = useState(false)
+export function useChat(initial?: ChatSnapshot | null) {
+  const [turns, setTurns] = useState<Turn[]>(() =>
+    (initial?.turns ?? []).map((key, id) => {
+      const n = flows[key].steps.length
+      return { id, key, shown: n, done: n, answered: true, restored: true }
+    }))
+  const [composer, setComposer] = useState<Composer>(() => promptFor(initial ? initial.next : 'projects'))
+  const [started, setStarted] = useState(() => (initial?.turns.length ?? 0) > 0)
   const busy = useRef(false)
-  const nextKey = useRef<FlowKey | null>('projects')
-  const nextId = useRef(0)
+  const nextKey = useRef<FlowKey | null>(initial ? initial.next : 'projects')
+  const nextId = useRef(initial?.turns.length ?? 0)
+  const turnsRef = useRef(turns)
+  useEffect(() => { turnsRef.current = turns }, [turns])
 
   const setPrompt = useCallback((key: FlowKey | null) => {
     nextKey.current = key
@@ -62,7 +73,7 @@ export function useChat() {
     update(() => ({ answered: true }))
 
     busy.current = false
-    setPrompt(f.next)
+    setPrompt(f.next === undefined ? nextKey.current : f.next)
   }, [setPrompt])
 
   const submit = useCallback(() => {
@@ -71,5 +82,10 @@ export function useChat() {
 
   const isBusy = useCallback(() => busy.current, [])
 
-  return { turns, composer, started, run, submit, setPrompt, isBusy }
+  const snapshot = useCallback((): ChatSnapshot => ({
+    turns: turnsRef.current.map((t) => t.key),
+    next: nextKey.current,
+  }), [])
+
+  return { turns, composer, started, run, submit, setPrompt, isBusy, snapshot }
 }

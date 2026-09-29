@@ -1,0 +1,33 @@
+/*
+ * The strip above each case study, in the portfolio's colours and type.
+ * Everything is scoped to .csbar and set explicitly: it looks the same on every
+ * case study page whatever that page's own styles are, and none of it reaches the page.
+ */
+.csbar{
+  position:relative; z-index:2;
+  box-sizing:border-box;
+  display:flex; align-items:center; gap:28px;
+  height:60px; margin:0; padding:0 clamp(16px, 3vw, 32px);
+  background:#151413;
+  border:0; border-bottom:1px solid rgba(255,250,240,.08);
+  font-family:"Geist", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size:14px; font-weight:400; font-style:normal; line-height:1.4; letter-spacing:normal;
+  color:#A9A49B; text-align:left;
+  -webkit-font-smoothing:antialiased;
+}
+.csbar__back{
+  display:inline-flex; align-items:center; gap:8px;
+  color:#A9A49B; text-decoration:none;
+  transition:color .2s cubic-bezier(.22,.9,.28,1);
+}
+.csbar__back:hover{ color:#EDEAE4; }
+.csbar__back svg{
+  display:block; flex:none; width:16px; height:16px;
+  fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round;
+}
+.csbar__crumb{ display:inline-flex; align-items:center; min-width:0; color:#8C877F; white-space:nowrap; }
+.csbar__dot{
+  flex:none; width:7px; height:7px; margin-right:10px; border-radius:50%;
+  background:#8FBF7F; box-shadow:0 0 0 3px rgba(143,191,127,.15);
+}
+.csbar__crumb b{ color:#EDEAE4; font-weight:600; }

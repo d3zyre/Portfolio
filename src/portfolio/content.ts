@@ -4,7 +4,7 @@
  */
 
 /**
- * Case study routes. Each is its own page (see vite.config.ts) and opens in a new tab.
+ * Case study routes. Each is its own page (see vite.config.ts), opened in the same tab.
  * The trailing slash matters: it is what resolves to <folder>/index.html in dev,
  * in preview and on Vercel.
  */
@@ -14,8 +14,11 @@ export const CASE_STUDIES = {
   chemar: '/chem-ar/',
 } as const
 
+/** A project with a case study. Selecting one opens its summary in the chat. */
+export type ProjectKey = keyof typeof CASE_STUDIES
+
 export type Project = {
-  key: string
+  key: ProjectKey | 'wordgate'
   tag: string
   title: string
   href: string
@@ -31,19 +34,24 @@ export const projects: Project[] = [
   { key: 'resq', tag: 'Self-guided · Jul 2026', title: 'ResQ', href: CASE_STUDIES.resq, img: '/assets/thumb-resq.jpg',
     desc: 'A disaster communication platform for Assam that keeps working over a mesh network when the cell network fails. Emergency workflows, AI-assisted request routing and dashboards for coordinators and field teams, with a human making the final call.',
     meta: ['User research', 'Mesh network', 'AI ethics'] },
-  { key: 'presc', tag: 'Course project · 2026', title: 'Prescribble', href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg',
+  { key: 'prescribble', tag: 'Self-guided · 2026', title: 'Prescribble', href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg',
     desc: 'An iPad prescription system for busy government OPDs, where doctors keep writing by hand with Apple Scribble. Stakeholder interviews, a service blueprint of the full journey, and a working prototype deployed on Vercel to test the flow.',
     meta: ['Service blueprint', 'Healthcare', 'Deployed prototype'] },
-  { key: 'chem', tag: 'Research · 2025', title: 'ChemAR', href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg',
+  { key: 'chemar', tag: 'Research project · 2025', title: 'ChemAR', href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg',
     desc: 'A workflow for building AR learning experiences with AI, without writing code. Tested by building ChemAR, where students assemble organic molecules with hand tracking. Presented at RIC, IIT Guwahati and accepted by Springer Nature.',
     meta: ['Human-AI workflow', 'AR', 'Published'] },
-  { key: 'word', tag: 'Internship · 2026', title: 'Wordgate', href: '#', img: '/assets/thumb-wordgate.jpg', hidden: true,
+  { key: 'wordgate', tag: 'Internship · 2026', title: 'Wordgate', href: '#', img: '/assets/thumb-wordgate.jpg', hidden: true,
     desc: 'Redesign of a strategy word game as the sole designer. Rebuilt the information architecture, replaced a hardcoded interface with a design system, and delivered 80+ high-fidelity screens.',
     meta: ['Design system', 'IA', 'Game UX'] },
 ]
 
 /** The projects the chat shows. */
 export const shownProjects = projects.filter((p) => !p.hidden)
+
+export const projectByKey = (key: ProjectKey) => projects.find((p) => p.key === key)!
+
+/** Narrows a project to one that has a case study (and so a summary to open). */
+export const isCaseStudy = (key: string): key is ProjectKey => key in CASE_STUDIES
 
 export type Job = {
   company: string
@@ -77,7 +85,7 @@ export const experience: Job[] = [
     ] },
 ]
 
-export type FlowKey = 'projects' | 'experience' | 'about'
+export type FlowKey = 'projects' | 'experience' | 'about' | ProjectKey
 
 export type Flow = {
   /** What the visitor "asks". */
@@ -85,10 +93,10 @@ export type Flow = {
   /** Tool-call rows shown before the answer: [verb, target, meta]. */
   steps: [string, string, string][]
   text: string | string[]
-  /** Rich block shown under the answer. */
-  render: 'projects' | 'experience' | null
-  /** The question queued in the composer afterwards. */
-  next: FlowKey | null
+  /** Rich block shown under the answer. 'project' is one project's summary card plus the others. */
+  render: 'projects' | 'experience' | 'project' | null
+  /** The question queued in the composer afterwards. Left out, whatever was queued stays queued. */
+  next?: FlowKey | null
 }
 
 export const flows: Record<FlowKey, Flow> = {
@@ -117,16 +125,38 @@ export const flows: Record<FlowKey, Flow> = {
     render: null,
     next: null,
   },
+
+  // One project's summary, opened by selecting it anywhere on the page.
+  resq: {
+    prompt: 'Walk me through ResQ.',
+    steps: [['Opened', 'projects/resq/', 'case study']],
+    text: 'Opening the ResQ case study. It starts with Assam\'s floods and follows a request all the way to the field team.',
+    render: 'project',
+  },
+  prescribble: {
+    prompt: 'How was Prescribble tested?',
+    steps: [['Opened', 'projects/prescribble/', 'case study']],
+    text: 'Seven interviews with doctors, patients and pharmacists, then a working build deployed on Vercel. The case study has the live build in it.',
+    render: 'project',
+  },
+  chemar: {
+    prompt: 'Show me ChemAR running.',
+    steps: [['Opened', 'projects/chem-ar/', 'case study']],
+    text: 'Here it is running in the browser with hand tracking. Pinch to spawn an atom, then drag two together to form a bond.',
+    render: 'project',
+  },
 }
+
+export const OTHER_PROJECTS_LABEL = 'Check out my other projects'
 
 /** Shown in the composer once every flow has run. */
 export const DONE_PROMPT = 'That\'s all for now. Everything else is in the sidebar.'
 
-/** The project chips above the composer. Each opens its case study in a new tab. */
-export const suggestions = [
-  { href: CASE_STUDIES.resq, img: '/assets/thumb-resq.jpg', tag: 'Self-guided', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
-  { href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg', tag: 'Course project', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
-  { href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg', tag: 'Research', title: 'ChemAR', sub: 'AR chemistry, built with AI' },
+/** The project chips above the composer. Each opens that project's summary in the chat. */
+export const suggestions: { project: ProjectKey; img: string; tag: string; title: string; sub: string }[] = [
+  { project: 'resq', img: '/assets/thumb-resq.jpg', tag: 'Self-guided', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
+  { project: 'prescribble', img: '/assets/thumb-prescribble.jpg', tag: 'Self-guided', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
+  { project: 'chemar', img: '/assets/thumb-chemar.jpg', tag: 'Research project', title: 'ChemAR', sub: 'AR chemistry, built with AI' },
 ]
 
 /** Words the intro kicker types through. */

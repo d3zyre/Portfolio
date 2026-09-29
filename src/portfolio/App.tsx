@@ -1,14 +1,15 @@
-import { useCallback, useLayoutEffect, useState, type MouseEvent } from 'react'
-import type { FlowKey } from './content'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from 'react'
+import type { FlowKey, ProjectKey } from './content'
 import { useChat } from './useChat'
+import { saveChat, type SavedChat } from './savedChat'
 import { Sidebar, type GroupKey } from './components/Sidebar'
 import { Topbar } from './components/Topbar'
 import { Chat } from './components/Chat'
 import { Dock } from './components/Dock'
 
-export default function App() {
-  const { turns, composer, started, run, submit, setPrompt, isBusy } = useChat()
-  const [open, setOpen] = useState<Record<GroupKey, boolean>>({ projects: true, experience: true, skills: true })
+export default function App({ saved }: { saved: SavedChat | null }) {
+  const { turns, composer, started, run, submit, setPrompt, isBusy, snapshot } = useChat(saved)
+  const [open, setOpen] = useState<Record<GroupKey, boolean>>(saved?.open ?? { projects: true, experience: true, skills: true })
   // Phones are too narrow to push the page aside, so the sidebar starts collapsed there.
   const [collapsed, setCollapsed] = useState(() => window.matchMedia('(max-width: 640px)').matches)
 
@@ -16,6 +17,20 @@ export default function App() {
   useLayoutEffect(() => {
     document.body.classList.toggle('side-collapsed', collapsed)
   }, [collapsed])
+
+  // Coming back to a saved chat: land where the visitor left off.
+  useLayoutEffect(() => {
+    if (saved) window.scrollTo(0, saved.scrollY)
+  }, [saved])
+
+  // Save the chat whenever the page is left, so "Back to chat" can bring it back.
+  const openRef = useRef(open)
+  useEffect(() => { openRef.current = open }, [open])
+  useEffect(() => {
+    const save = () => saveChat({ ...snapshot(), open: openRef.current, scrollY: window.scrollY })
+    window.addEventListener('pagehide', save)
+    return () => window.removeEventListener('pagehide', save)
+  }, [snapshot])
 
   const toggleSide = useCallback(() => setCollapsed((c) => !c), [])
   const toggleGroup = useCallback((g: GroupKey) => setOpen((o) => ({ ...o, [g]: !o[g] })), [])
@@ -28,18 +43,28 @@ export default function App() {
     run(flow)
   }, [isBusy, setPrompt, run])
 
+  /**
+   * Selecting a project opens its summary in the chat. Project links still point at
+   * the case study, so a middle- or ctrl-click opens it in a new tab as usual.
+   */
+  const onProject = useCallback((e: MouseEvent, key: ProjectKey) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+    e.preventDefault()
+    run(key)
+  }, [run])
+
   return (
     <>
       <div className="grid" aria-hidden="true"></div>
 
-      <Sidebar open={open} onToggleGroup={toggleGroup} onFlow={onFlow} />
+      <Sidebar open={open} onToggleGroup={toggleGroup} onFlow={onFlow} onProject={onProject} />
       <div className="scrim" id="scrim" onClick={toggleSide}></div>
 
       <Topbar onMenu={toggleSide} />
 
-      <Chat turns={turns} started={started} />
+      <Chat turns={turns} started={started} onProject={onProject} />
 
-      <Dock composer={composer} started={started} onSubmit={submit} />
+      <Dock composer={composer} started={started} onProject={onProject} onSubmit={submit} />
     </>
   )
 }

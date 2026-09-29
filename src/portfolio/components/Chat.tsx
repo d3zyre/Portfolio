@@ -1,23 +1,55 @@
-import { useEffect, useRef } from 'react'
-import { experience, flows, shownProjects, ROLES } from '../content'
+import { useEffect, useRef, type MouseEvent } from 'react'
+import { experience, flows, isCaseStudy, OTHER_PROJECTS_LABEL, projectByKey, shownProjects, ROLES, type Project, type ProjectKey } from '../content'
 import type { Turn } from '../useChat'
 import { Rotator } from './Rotator'
 import { Thumb } from './Thumb'
 
-function ProjectCards() {
+type OnProject = (e: MouseEvent, key: ProjectKey) => void
+
+function ProjectCard({ p, cta, onClick }: { p: Project; cta: string; onClick?: (e: MouseEvent) => void }) {
+  return (
+    <a className="card" href={p.href} onClick={onClick}>
+      <Thumb src={p.img} />
+      <span className="card__top"><span>{p.tag}</span></span>
+      <span className="card__title">{p.title}</span>
+      <span className="card__sub">{p.desc}</span>
+      <span className="card__meta">{p.meta.map((m) => <span key={m}>{m}</span>)}</span>
+      <span className="card__open">{cta}</span>
+    </a>
+  )
+}
+
+/** Project cards; selecting one opens its summary. */
+function ProjectCards({ list, onProject }: { list: Project[]; onProject: OnProject }) {
   return (
     <div className="cards msg">
-      {shownProjects.map((p) => (
-        <a key={p.key} className="card" href={p.href} target="_blank" rel="noopener">
-          <Thumb src={p.img} />
-          <span className="card__top"><span>{p.tag}</span></span>
-          <span className="card__title">{p.title}</span>
-          <span className="card__sub">{p.desc}</span>
-          <span className="card__meta">{p.meta.map((m) => <span key={m}>{m}</span>)}</span>
-          <span className="card__open">Open ↗</span>
-        </a>
+      {list.map((p) => (
+        <ProjectCard
+          key={p.key}
+          p={p}
+          cta="Open ↗"
+          onClick={isCaseStudy(p.key) ? (e) => onProject(e, p.key as ProjectKey) : undefined}
+        />
       ))}
     </div>
+  )
+}
+
+/** One project up front, linking to its case study, with the rest of the work underneath. */
+function ProjectSummary({ project, onProject }: { project: ProjectKey; onProject: OnProject }) {
+  const others = shownProjects.filter((p) => p.key !== project)
+  return (
+    <>
+      <div className="cards msg">
+        <ProjectCard p={projectByKey(project)} cta="Read case study →" />
+      </div>
+      {others.length > 0 && (
+        <div className="more msg">
+          <p className="more__label">{OTHER_PROJECTS_LABEL}</p>
+          <ProjectCards list={others} onProject={onProject} />
+        </div>
+      )}
+    </>
   )
 }
 
@@ -41,17 +73,18 @@ function Experience() {
   )
 }
 
-function TurnView({ turn }: { turn: Turn }) {
+function TurnView({ turn, onProject }: { turn: Turn; onProject: OnProject }) {
   const f = flows[turn.key]
   const question = useRef<HTMLDivElement | null>(null)
 
   // Pin each new question near the top of the viewport as it's asked.
   useEffect(() => {
+    if (turn.restored) return
     const frame = requestAnimationFrame(() => {
       question.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     })
     return () => cancelAnimationFrame(frame)
-  }, [])
+  }, [turn.restored])
 
   return (
     <>
@@ -67,8 +100,9 @@ function TurnView({ turn }: { turn: Turn }) {
         {turn.answered && (
           <>
             {([] as string[]).concat(f.text).map((t) => <p key={t} className="answer msg">{t}</p>)}
-            {f.render === 'projects' && <ProjectCards />}
+            {f.render === 'projects' && <ProjectCards list={shownProjects} onProject={onProject} />}
             {f.render === 'experience' && <Experience />}
+            {f.render === 'project' && isCaseStudy(turn.key) && <ProjectSummary project={turn.key} onProject={onProject} />}
           </>
         )}
       </div>
@@ -76,7 +110,7 @@ function TurnView({ turn }: { turn: Turn }) {
   )
 }
 
-export function Chat({ turns, started }: { turns: Turn[]; started: boolean }) {
+export function Chat({ turns, started, onProject }: { turns: Turn[]; started: boolean; onProject: OnProject }) {
   return (
     <main className={'chat' + (started ? ' is-active' : '')} id="chat">
 
@@ -86,7 +120,7 @@ export function Chat({ turns, started }: { turns: Turn[]; started: boolean }) {
       </section>
 
       <div className="thread" id="thread" aria-live="polite">
-        {turns.map((t) => <TurnView key={t.id} turn={t} />)}
+        {turns.map((t) => <TurnView key={t.id} turn={t} onProject={onProject} />)}
       </div>
 
     </main>
