@@ -3,8 +3,18 @@
  * Everything is scoped to .csbar and set explicitly: it looks the same on every
  * case study page whatever that page's own styles are, and none of it reaches the page.
  */
+/*
+ * React mounts .csbar into this div (#case-study-bar in each page's index.html), so the
+ * div itself stays in the DOM wrapping it. Without `display: contents` that div becomes
+ * .csbar's containing block — and since the div is sized to fit only the 60px bar, sticky
+ * has no room to work in: the bar scrolls away with its own wrapper after the first 60px
+ * instead of stopping at the top of the viewport. `display: contents` removes the div from
+ * the box model entirely, so .csbar's containing block is body, which is exactly what a
+ * page-spanning sticky header needs.
+ */
+#case-study-bar{ display:contents; }
 .csbar{
-  position:relative; z-index:2;
+  position:sticky; top:0; z-index:1000;
   box-sizing:border-box;
   display:flex; align-items:center; gap:28px;
   height:60px; margin:0; padding:0 clamp(16px, 3vw, 32px);
