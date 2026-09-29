@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from 'react'
-import type { FlowKey, ProjectKey } from './content'
+import { CASE_STUDIES, type FlowKey, type ProjectKey } from './content'
 import { useChat } from './useChat'
 import { saveChat, type SavedChat } from './savedChat'
 import { Sidebar, type GroupKey } from './components/Sidebar'
 import { Topbar } from './components/Topbar'
 import { Chat } from './components/Chat'
 import { Dock } from './components/Dock'
+
+/** How long a project's summary stays up before its case study opens, in ms. */
+const OPEN_DELAY = 1400
 
 export default function App({ saved }: { saved: SavedChat | null }) {
   const { turns, composer, started, run, submit, setPrompt, isBusy, snapshot } = useChat(saved)
@@ -44,13 +47,16 @@ export default function App({ saved }: { saved: SavedChat | null }) {
   }, [isBusy, setPrompt, run])
 
   /**
-   * Selecting a project opens its summary in the chat. Project links still point at
-   * the case study, so a middle- or ctrl-click opens it in a new tab as usual.
+   * Selecting a project shows its summary in the chat, then opens the case study by
+   * itself a moment later. Project links still point at the case study, so a middle-
+   * or ctrl-click opens it in a new tab as usual.
    */
-  const onProject = useCallback((e: MouseEvent, key: ProjectKey) => {
+  const onProject = useCallback(async (e: MouseEvent, key: ProjectKey) => {
     if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
     e.preventDefault()
-    run(key)
+    if (!(await run(key))) return
+    await new Promise((r) => setTimeout(r, OPEN_DELAY))
+    window.location.assign(CASE_STUDIES[key])
   }, [run])
 
   return (

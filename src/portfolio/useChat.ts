@@ -50,8 +50,9 @@ export function useChat(initial?: ChatSnapshot | null) {
     setComposer(promptFor(key))
   }, [])
 
-  const run = useCallback(async (key: FlowKey) => {
-    if (busy.current) return
+  /** Resolves true once the answer is showing, false if another answer was still running. */
+  const run = useCallback(async (key: FlowKey): Promise<boolean> => {
+    if (busy.current) return false
     busy.current = true
     setStarted(true)
 
@@ -74,6 +75,7 @@ export function useChat(initial?: ChatSnapshot | null) {
 
     busy.current = false
     setPrompt(f.next === undefined ? nextKey.current : f.next)
+    return true
   }, [setPrompt])
 
   const submit = useCallback(() => {
