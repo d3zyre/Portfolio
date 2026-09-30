@@ -31,10 +31,10 @@ export type Project = {
 }
 
 export const projects: Project[] = [
-  { key: 'resq', tag: 'Mobile app · Jul 2026', title: 'ResQ', href: CASE_STUDIES.resq, img: '/assets/thumb-resq.jpg',
+  { key: 'resq', tag: 'Mobile App · Jul 2026', title: 'ResQ', href: CASE_STUDIES.resq, img: '/assets/thumb-resq.jpg',
     desc: 'A disaster communication platform for Assam that keeps working over a mesh network when the cell network fails. Emergency workflows, AI-assisted request routing and dashboards for coordinators and field teams, with a human making the final call.',
     meta: ['User research', 'Mesh network', 'AI ethics'] },
-  { key: 'prescribble', tag: 'iPad app · 2026', title: 'Prescribble', href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg',
+  { key: 'prescribble', tag: 'iPad App · 2026', title: 'Prescribble', href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg',
     desc: 'An iPad prescription system for busy government OPDs, where doctors keep writing by hand with Apple Scribble. Stakeholder interviews, a service blueprint of the full journey, and a working prototype deployed on Vercel to test the flow.',
     meta: ['Service blueprint', 'Healthcare', 'Deployed prototype'] },
   { key: 'chemar', tag: 'Research project · 2025', title: 'ChemAR', href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg',
@@ -155,8 +155,8 @@ export const DONE_PROMPT = 'That\'s all for now. Everything else is in the sideb
 
 /** The project chips above the composer. Each opens that project's summary in the chat. */
 export const suggestions: { project: ProjectKey; img: string; tag: string; title: string; sub: string }[] = [
-  { project: 'resq', img: '/assets/thumb-resq.jpg', tag: 'Mobile app', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
-  { project: 'prescribble', img: '/assets/thumb-prescribble.jpg', tag: 'iPad app', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
+  { project: 'resq', img: '/assets/thumb-resq.jpg', tag: 'Mobile App', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
+  { project: 'prescribble', img: '/assets/thumb-prescribble.jpg', tag: 'iPad App', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
   { project: 'chemar', img: '/assets/thumb-chemar.jpg', tag: 'Research project', title: 'ChemAR', sub: 'AR chemistry, built with AI' },
 ]
 
