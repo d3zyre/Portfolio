@@ -119,10 +119,7 @@ export const flows: Record<FlowKey, Flow> = {
   about: {
     prompt: 'What are you into?',
     steps: [['Opened', 'about.md', '']],
-    text: [
-      'I love how humans interact with cool tech. I want to make those interactions easier and more fun, and build immersive tech that feels natural and accessible to everyone.',
-      'Outside design, I lift (I made the IIT Guwahati weightlifting team through institute-wide trials), I\'m learning Japanese, and I led the design team for IITG MUN\'26. I also gave a talk on design and AI to school students in Seraikella.',
-    ],
+    text: 'Hi! I love how humans interact with cool tech. I enjoy learning about unfamiliar domains and finding ways to make complex experiences feel intuitive. Outside of work, you\'ll find me solving a rubik\'s cube, playing chess or gaming.',
     render: null,
     next: null,
   },
