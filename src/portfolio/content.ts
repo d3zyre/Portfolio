@@ -31,10 +31,10 @@ export type Project = {
 }
 
 export const projects: Project[] = [
-  { key: 'resq', tag: 'Self-guided · Jul 2026', title: 'ResQ', href: CASE_STUDIES.resq, img: '/assets/thumb-resq.jpg',
+  { key: 'resq', tag: 'Mobile app · Jul 2026', title: 'ResQ', href: CASE_STUDIES.resq, img: '/assets/thumb-resq.jpg',
     desc: 'A disaster communication platform for Assam that keeps working over a mesh network when the cell network fails. Emergency workflows, AI-assisted request routing and dashboards for coordinators and field teams, with a human making the final call.',
     meta: ['User research', 'Mesh network', 'AI ethics'] },
-  { key: 'prescribble', tag: 'Self-guided · 2026', title: 'Prescribble', href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg',
+  { key: 'prescribble', tag: 'iPad app · 2026', title: 'Prescribble', href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg',
     desc: 'An iPad prescription system for busy government OPDs, where doctors keep writing by hand with Apple Scribble. Stakeholder interviews, a service blueprint of the full journey, and a working prototype deployed on Vercel to test the flow.',
     meta: ['Service blueprint', 'Healthcare', 'Deployed prototype'] },
   { key: 'chemar', tag: 'Research project · 2025', title: 'ChemAR', href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg',
@@ -65,11 +65,12 @@ export type Job = {
 export const experience: Job[] = [
   { company: 'Mobiclay Technology', role: 'UI/UX Intern', when: 'May to Aug 2026 · Remote', href: '#',
     points: [
-      'Sole designer on Wordgate, a strategy word game, owning UX decisions end to end at an early-stage company.',
-      'Rebuilt the information architecture around drop-offs, onboarding issues and weak game modes from a trial release.',
-      'Built a design system from scratch to replace a fully hardcoded interface.',
-      'Delivered 80+ high-fidelity screens across gameplay, onboarding, dashboards and system states, with 40+ more in progress.',
-      'Prototyped key interactions in Figma before handoff to cut down dev rework.',
+      'Sole designer for Wordgate, a strategy word game at an early-stage startup; owned end-to-end UX decisions.',
+      'Rebuilt the information architecture around drop-offs and onboarding issues from a trial release, reducing steps and clicks across core flows.',
+      'Ran continuous user testing and A/B tests on competing flows, adopting the most intuitive one for a clearer user journey.',
+      'Built a scalable design system from scratch with clearer component grouping, replacing a fully hardcoded interface.',
+      'Delivered 120+ high-fidelity screens across gameplay, onboarding, dashboards and system states (loading, error, modal, transition).',
+      'Prototyped key component interactions in Figma to validate behaviour before developer handoff, reducing dev rework.',
     ] },
   { company: 'Creative Banjara', role: 'Visual Design Intern', when: 'May to Jul 2025 · Noida', href: '#',
     points: [
@@ -154,8 +155,8 @@ export const DONE_PROMPT = 'That\'s all for now. Everything else is in the sideb
 
 /** The project chips above the composer. Each opens that project's summary in the chat. */
 export const suggestions: { project: ProjectKey; img: string; tag: string; title: string; sub: string }[] = [
-  { project: 'resq', img: '/assets/thumb-resq.jpg', tag: 'Self-guided', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
-  { project: 'prescribble', img: '/assets/thumb-prescribble.jpg', tag: 'Self-guided', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
+  { project: 'resq', img: '/assets/thumb-resq.jpg', tag: 'Mobile app', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
+  { project: 'prescribble', img: '/assets/thumb-prescribble.jpg', tag: 'iPad app', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
   { project: 'chemar', img: '/assets/thumb-chemar.jpg', tag: 'Research project', title: 'ChemAR', sub: 'AR chemistry, built with AI' },
 ]
 
