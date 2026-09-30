@@ -37,7 +37,7 @@ export const projects: Project[] = [
   { key: 'prescribble', tag: 'iPad App · 2026', title: 'Prescribble', href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg',
     desc: 'An iPad prescription system for busy government OPDs, where doctors keep writing by hand with Apple Scribble. Stakeholder interviews, a service blueprint of the full journey, and a working prototype deployed on Vercel to test the flow.',
     meta: ['Service blueprint', 'Healthcare', 'Deployed prototype'] },
-  { key: 'chemar', tag: 'Research project · 2025', title: 'ChemAR', href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg',
+  { key: 'chemar', tag: 'Research Project · 2025', title: 'ChemAR', href: CASE_STUDIES.chemar, img: '/assets/thumb-chemar.jpg',
     desc: 'A workflow for building AR learning experiences with AI, without writing code. Tested by building ChemAR, where students assemble organic molecules with hand tracking. Presented at RIC, IIT Guwahati and accepted by Springer Nature.',
     meta: ['Human-AI workflow', 'AR', 'Published'] },
   { key: 'wordgate', tag: 'Internship · 2026', title: 'Wordgate', href: '#', img: '/assets/thumb-wordgate.jpg', hidden: true,
@@ -157,7 +157,7 @@ export const DONE_PROMPT = 'That\'s all for now. Everything else is in the sideb
 export const suggestions: { project: ProjectKey; img: string; tag: string; title: string; sub: string }[] = [
   { project: 'resq', img: '/assets/thumb-resq.jpg', tag: 'Mobile App', title: 'ResQ', sub: 'Disaster comms over a mesh network' },
   { project: 'prescribble', img: '/assets/thumb-prescribble.jpg', tag: 'iPad App', title: 'Prescribble', sub: 'Handwritten prescriptions on iPad' },
-  { project: 'chemar', img: '/assets/thumb-chemar.jpg', tag: 'Research project', title: 'ChemAR', sub: 'AR chemistry, built with AI' },
+  { project: 'chemar', img: '/assets/thumb-chemar.jpg', tag: 'Research Project', title: 'ChemAR', sub: 'AR chemistry, built with AI' },
 ]
 
 /** Words the intro kicker types through. */
