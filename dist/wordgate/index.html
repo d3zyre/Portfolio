@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wordgate · Akanksha Gupta</title>
+<meta name="description" content="Redesigning a shipped word game so it is easy to understand and quick to get around. Internship case study by Akanksha Gupta.">
+<meta name="theme-color" content="#135C40">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/wordgate/wg.css?v=1792831905">
+</head>
+<body>
+
+
+
+
+<nav class="toc" aria-label="Sections"><div class="toc-in"><a class="toc-home" href="/" aria-label="Back to all work">←</a>
+    <a href="#game" data-n="01"><span>The game</span></a>
+    <a href="#audit" data-n="02"><span>The problem</span></a>
+    <a href="#structure" data-n="03"><span>Structure</span></a>
+    <a href="#testing" data-n="04"><span>Process</span></a>
+    <a href="#decisions" data-n="05"><span>Solutions</span></a>
+    <a href="#measure" data-n="06"><span>Success</span></a>
+    <a href="#reflection" data-n="07"><span>Reflection</span></a>
+  </div></nav>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="tilt" aria-hidden="true">
+      <div class="col"><div class="device"><div class="scr"><img src="/wordgate/assets/home-final-core.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/hero-craft.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/shop-coins.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/host-create.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+      <div class="col"><div class="device"><div class="scr"><img src="/wordgate/assets/video/scorescreen-poster.webp" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/host-leaderboard.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/home-final-locked.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/video/gameplay-poster.webp" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+      <div class="col"><div class="device"><div class="scr"><img src="/wordgate/assets/dash-leaderboard.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/home-final-craft.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/tutorial/t03.webp" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/shop-plans.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+      <div class="col"><div class="device"><div class="scr"><img src="/wordgate/assets/host-sharelink.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/video/wordmine-poster.webp" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/medal-modal.jpg" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><div class="device"><div class="scr"><img src="/wordgate/assets/shop-history.png" alt=""></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+    </div>
+
+    <div class="wrap hero-wrap" style="position:static">
+
+              <div class="hero-in">
+        <span class="mark hero-logo" aria-label="Wordgate"><svg viewBox="0 0 88.24 40" aria-hidden="true"><path d="M0 15.2897H2.16364L3.73555 21.6316L5.79456 15.2897H7.62625L9.67924 21.6243L11.3101 15.2897H13.3823L10.7713 24.7653H8.73754L6.70379 18.7471L4.65801 24.7653H2.59901L0 15.2897Z" fill="currentColor"/><path d="M17.896 24.2718C17.1468 23.8319 16.5587 23.237 16.1329 22.4868C15.7059 21.7367 15.4931 20.9169 15.4931 20.0288C15.4931 19.1406 15.7072 18.3208 16.1365 17.5707C16.5659 16.8206 17.154 16.2256 17.9033 15.7858C18.6525 15.3459 19.486 15.126 20.4037 15.126C21.3213 15.126 22.156 15.3459 22.9052 15.7858C23.6545 16.2256 24.2438 16.8206 24.672 17.5707C25.1014 18.3208 25.3154 19.1406 25.3154 20.0288C25.3154 20.9169 25.1026 21.7367 24.6756 22.4868C24.2486 23.237 23.6605 23.8319 22.9113 24.2718C22.162 24.7116 21.3261 24.9315 20.4037 24.9315C19.4812 24.9315 18.6453 24.7116 17.896 24.2718ZM18.0319 21.5095C18.2701 21.9468 18.5972 22.2889 19.0133 22.5357C19.4295 22.7825 19.8925 22.9047 20.4037 22.9047C20.9148 22.9047 21.385 22.7813 21.8 22.5357C22.2161 22.2889 22.542 21.9468 22.7778 21.5095C23.0135 21.0721 23.1314 20.5785 23.1314 20.0275C23.1314 19.4765 23.0135 18.9842 22.7778 18.5456C22.542 18.1082 22.2161 17.7662 21.8 17.5194C21.3838 17.2726 20.9184 17.1504 20.4037 17.1504C19.8889 17.1504 19.4295 17.2738 19.0133 17.5194C18.5972 17.7662 18.2701 18.1082 18.0319 18.5456C17.7938 18.983 17.6748 19.4765 17.6748 20.0275C17.6748 20.5785 17.7938 21.0709 18.0319 21.5095Z" fill="currentColor"/><path d="M28.2752 15.2897H32.1923C32.9416 15.2897 33.5838 15.4107 34.119 15.6526C34.6542 15.8944 35.0632 16.2463 35.347 16.7081C35.6308 17.1699 35.7727 17.7221 35.7727 18.3647C35.7727 19.0074 35.626 19.5083 35.3314 19.9359C35.0367 20.3622 34.6085 20.6909 34.0457 20.9193C34.1924 21.0342 34.3283 21.1832 34.4522 21.3677C34.5761 21.5522 34.7023 21.7819 34.8322 22.0543L36.1636 24.7665H33.7149L32.3631 21.9554C32.2717 21.7709 32.1599 21.6402 32.0252 21.5632C31.8905 21.4862 31.7137 21.4471 31.4924 21.4471H30.4208V24.7665H28.2764V15.2909L28.2752 15.2897ZM32.1538 19.4802C32.6085 19.4802 32.9633 19.3837 33.2194 19.1894C33.4744 18.9964 33.6031 18.7252 33.6031 18.3782C33.6031 18.0312 33.4756 17.76 33.2194 17.567C32.9645 17.3739 32.6085 17.2762 32.1538 17.2762H30.4196V19.4802H32.1538Z" fill="currentColor"/><path d="M38.7915 15.2897H41.8968C42.9841 15.2897 43.9174 15.4888 44.6967 15.8871C45.4761 16.2854 46.069 16.8413 46.4767 17.5572C46.8832 18.2719 47.0877 19.1002 47.0877 20.0422C47.0877 20.9841 46.8844 21.7904 46.4767 22.5039C46.069 23.2162 45.4748 23.772 44.6931 24.1703C43.9113 24.5686 42.9793 24.7677 41.8968 24.7677H38.7915V15.2921V15.2897ZM41.8451 22.7531C42.7892 22.7531 43.5349 22.5271 44.0833 22.0739C44.6306 21.6206 44.9048 20.9438 44.9048 20.0409C44.9048 19.1381 44.6318 18.4368 44.0857 17.9848C43.5397 17.5328 42.7929 17.308 41.8439 17.308H40.9347V22.7519H41.8439L41.8451 22.7531Z" fill="currentColor"/><path d="M52.0355 24.2743C51.2863 23.8369 50.7102 23.2444 50.3073 22.4991C49.9044 21.7539 49.7035 20.928 49.7035 20.0215C49.7035 19.115 49.9068 18.2647 50.3145 17.5243C50.721 16.7827 51.3067 16.1975 52.0716 15.7687C52.8353 15.3399 53.7337 15.1249 54.7644 15.1249C55.6568 15.1249 56.4073 15.2605 57.0159 15.5305C57.6244 15.8005 58.1079 16.1523 58.4675 16.5836L56.8764 17.9495C56.6466 17.699 56.3532 17.4901 55.996 17.3227C55.6388 17.1554 55.2239 17.0723 54.7524 17.0723C54.1847 17.0723 53.6844 17.1969 53.2515 17.4449C52.8185 17.6941 52.4829 18.0411 52.2448 18.487C52.0067 18.9342 51.8876 19.4448 51.8876 20.0215C51.8876 20.5981 51.9983 21.0905 52.2183 21.5389C52.4396 21.9872 52.7596 22.3403 53.1793 22.5981C53.599 22.8559 54.0957 22.9841 54.667 22.9841C55.1048 22.9841 55.4957 22.9108 55.8396 22.763C56.1836 22.6152 56.453 22.4014 56.6479 22.1192C56.8427 21.8382 56.9401 21.501 56.9401 21.1088V21.0819H54.5492V19.3007H59.1422V20.4552C59.1422 21.2872 58.9702 22.041 58.6263 22.719C58.2823 23.3971 57.7724 23.9346 57.0965 24.3329C56.4205 24.7312 55.6087 24.9303 54.661 24.9303C53.6604 24.9303 52.786 24.7116 52.0367 24.273L52.0355 24.2743Z" fill="currentColor"/><path d="M64.6697 15.2897H67.1389L70.6471 24.7653H68.4317L67.763 22.8973H64.0083L63.3396 24.7653H61.1507L64.6721 15.2897H64.6697ZM67.0667 20.9389L65.8844 17.6464L64.7082 20.9389H67.0667Z" fill="currentColor"/><path d="M74.0364 17.3167H71.1451V15.2911H79.0708V17.3167H76.1796V24.7667H74.0364V17.3167Z" fill="currentColor"/><path d="M81.7395 15.2897H88.2353V17.2493H83.8695V18.9585H87.391V20.9181H83.8695V22.8057H88.2353V24.7653H81.7395V15.2897Z" fill="currentColor"/><path d="M44.1183 38.0452C36.9538 38.0452 30.7672 33.7142 27.9601 27.4957H25.8651C28.7912 34.8211 35.869 39.9999 44.1183 39.9999C52.3675 39.9999 59.4453 34.8198 62.3715 27.4957H60.2764C57.4693 33.7154 51.2827 38.0452 44.1183 38.0452Z" fill="currentColor"/><path d="M44.1183 1.95474C51.3127 1.95474 57.5222 6.32235 60.3125 12.5836H62.4027C59.4958 5.2167 52.3952 0 44.1183 0C35.8413 0 28.7395 5.2167 25.8338 12.5836H27.924C30.7143 6.32235 36.9238 1.95474 44.1183 1.95474Z" fill="currentColor"/></svg></span>
+        <p class="kick caps">Internship · Mobiclay · Sole designer</p>
+        <h1>Players loved the game, but they had to <span>guess how it worked.</span></h1>
+        <p class="lede">I redesigned a shipped strategy word game to be <strong>easy to understand</strong> and <strong>quick to get around</strong>.</p>
+        <ul class="meta">
+          <li><b>Role</b>Sole designer</li>
+          <li><b>Team</b>Founder + developer</li>
+          <li><b>When</b>Summer 2026 · 3 months</li>
+          <li><b>Status</b>Built, not launched</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><span class="ic ic-fill"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="5" width="8" height="15" rx="2.2"/><rect x="13" y="3" width="8" height="15" rx="2.2" opacity=".55"/></svg></span><div><span class="num">120+</span><span class="lbl">high-fidelity screens</span></div></div>
+      <div class="stat"><span class="ic ic-fill"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5a9.5 9.5 0 1 0 0 19 9.5 9.5 0 0 0 0-19zm-1.3 13.6-3.9-3.9 1.5-1.5 2.4 2.4 5.2-5.2 1.5 1.5z"/></svg></span><div><span class="num">Tested</span><span class="lbl">with real players</span></div></div>
+      <div class="stat"><span class="ic ic-fill"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M6 9v3a4 4 0 0 0 4 4h5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="18" cy="6" r="3" opacity=".55"/></svg></span><div><span class="num">10+</span><span class="lbl">flows redesigned, end to end</span></div></div>
+    </div>
+  </div>
+
+  <!-- Showcase: the app, in its own colour, after the fold -->
+  <div class="wrap">
+
+    <!-- 01 GAME -->
+    <section class="sec" id="game">
+      <p class="kicker sec-div"><span class="key">01</span>The game</p>
+        <div class="head">
+        <div><h2>One letter is <em>banned</em></h2></div>
+        <p class="sub">Start your word with any letter of the target <b>except the red one</b>. The rest can be <b>any letters at all</b>, and that's the part players kept missing.</p>
+      </div>
+      <div class="game rv">
+        <div class="board">
+          <span class="caps">Target word</span>
+          <div class="tiles" id="tiles"><span class="tile ban">P</span><span class="tile">L</span><span class="tile">A</span><span class="tile">N</span><span class="tile">E</span><span class="tile">T</span></div>
+          <p class="hint">Red is out of play. Every other letter is a way in.</p>
+        </div>
+        <div class="try">
+          <span class="caps">Try a word</span>
+          <div class="words" id="words">
+            <button type="button" aria-pressed="false" data-w="PLANE">PLANE</button>
+            <button type="button" aria-pressed="false" data-w="GRAPE">GRAPE</button>
+            <button type="button" aria-pressed="false" data-w="NURSE">NURSE</button>
+            <button type="button" aria-pressed="false" data-w="TULIP">TULIP</button>
+          </div>
+          <p class="verdict" id="verdict" aria-live="polite">Tap a word to play it.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 PROBLEM -->
+    <section class="sec" id="audit">
+      <p class="kicker sec-div"><span class="key">02</span>The problem</p>
+      <div class="head">
+        <div><h2>The game was fun. <em>Everything around it was scattered.</em></h2></div>
+        <p class="sub">I spent the first month <b>auditing version 1</b> end to end with the founder. It surfaced <b>nine problems</b> in four groups.</p>
+      </div>
+      <div class="probs">
+        <div class="pgroup rv"><div><span class="pg-k">Scattered</span><h3>Things that belong together lived apart</h3></div><ol>
+          <li><i>01</i><span><b>Coins and subscriptions</b> were bought on unrelated screens.</span></li>
+          <li><i>02</i><span><b>Stats were everywhere:</b> medals in one place, badges in another.</span></li>
+          <li><i>03</i><span><b>Profile and settings</b> were padded with filler.</span></li>
+          <li><i>04</i><span><b>Game modes</b> couldn't sit together without clutter.</span></li></ol></div>
+        <div class="pgroup rv"><div><span class="pg-k">Hard to learn</span><h3>Nothing taught the game well</h3></div><ol>
+          <li><i>05</i><span><b>Onboarding</b> took 3 to 5 minutes, couldn&#39;t be skipped, and players dropped off before their first game.</span></li>
+          <li><i>06</i><span><b>The rulebook</b> was 17 to 20 pages of text, with no visuals or interaction.</span></li></ol></div>
+        <div class="pgroup rv"><div><span class="pg-k">Missing</span><h3>Key flows didn't exist yet</h3></div><ol>
+          <li><i>07</i><span><b>Hosting a game</b> was only hardcoded screens, with no real flow to create one and share it with friends.</span></li>
+          <li><i>08</i><span><b>Wordmine</b>, a new relaxed mode, had no UX at all, and had to stay separate because it isn't competitive.</span></li></ol></div>
+        <div class="pgroup rv"><div><span class="pg-k">Discouraging</span><h3>A good round could still feel like losing</h3></div><ol>
+          <li><i>09</i><span><b>One ranking</b> meant “Rank 15 of 18” read as a loss, even after a good round, and rare-word hunters had no way to win.</span></li></ol></div>
+      </div>
+
+      <div class="hmw rv">
+        <span class="caps">How might we</span>
+        <p>Make the whole game <span class="hl g">easy to understand</span>, in as <span class="hl y">few taps</span> as possible?</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- 03 STRUCTURE -->
+  <div class="band dark" style="margin-inline:16px">
+    <div class="wrap">
+      <section class="sec" id="structure">
+        <p class="kicker sec-div"><span class="key">03</span>Structure</p>
+        <div class="head">
+          <div><h2>Players kept coming back. <em>Home didn't show them where to go.</em></h2></div>
+          <p class="sub">The founder's brief: reach the <b>rules</b>, see when a <b>new mode</b> opens, keep the <b>leaderboard</b> one tap away. I remapped the app first, then explored <b>5 home directions</b>.</p>
+        </div>
+
+        <div class="maps rv">
+          <figure class="map"><div class="map-top"><span class="caps">Version 1</span><span class="map-tag bad">Scattered</span></div><svg class="ia" viewBox="0 0 600 470" role="img" aria-label="Version 1 structure: home branches to seven areas; coins split across Account and R Coins; Transactions and Gatelist each reached two ways."><defs><marker id="a-base" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1,1.5 L8.5,5 L1,8.5 Z" fill="#8FAE9E"/></marker><marker id="a-gold" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1,1.5 L8.5,5 L1,8.5 Z" fill="#E0A21B"/></marker><marker id="a-dup" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1,1.5 L8.5,5 L1,8.5 Z" fill="#D8584A"/></marker></defs><path class="c " d="M120,220.0 H150 Q158,220.0 158,212.0 V47.0 Q158,39.0 166,39.0 H194" marker-end="url(#a-base)"/><path class="c " d="M120,220.0 H150 Q158,220.0 158,212.0 V107.0 Q158,99.0 166,99.0 H194" marker-end="url(#a-base)"/><path class="c " d="M120,220.0 H150 Q158,220.0 158,212.0 V167.0 Q158,159.0 166,159.0 H194" marker-end="url(#a-base)"/><path class="c " d="M120,220.0 H157.5 Q158,220.0 158,219.5 V219.5 Q158,219.0 158.5,219.0 H194" marker-end="url(#a-base)"/><path class="c " d="M120,220.0 H150 Q158,220.0 158,228.0 V271.0 Q158,279.0 166,279.0 H194" marker-end="url(#a-base)"/><path class="c " d="M120,220.0 H150 Q158,220.0 158,228.0 V331.0 Q158,339.0 166,339.0 H194" marker-end="url(#a-base)"/><path class="c " d="M120,220.0 H150 Q158,220.0 158,228.0 V391.0 Q158,399.0 166,399.0 H194" marker-end="url(#a-base)"/><path class="c gold" d="M364,211.0 H384 Q392,211.0 392,203.0 V167.0 Q392,159.0 400,159.0 H444" marker-end="url(#a-gold)"/><path class="c dup" d="M364,227.0 H388.0 Q392,227.0 392,231.0 V231.0 Q392,235.0 396.0,235.0 H444" marker-end="url(#a-dup)"/><path class="c dup" d="M364,271.0 H406 Q414,271.0 414,263.0 V259.0 Q414,251.0 422,251.0 H444" marker-end="url(#a-dup)"/><path class="c dup" d="M364,287.0 H406 Q414,287.0 414,295.0 V323.0 Q414,331.0 422,331.0 H444" marker-end="url(#a-dup)"/><path class="c dup" d="M68.0,246 V448 Q68.0,456 76.0,456 H420 Q428,456 428,448 V355.0 Q428,347.0 436,347.0 H444" marker-end="url(#a-dup)"/><g class="n root"><rect x="16" y="194" width="104" height="52" rx="12"/><text class="t" x="32" y="225.0">Home</text></g><g class="n"><rect x="196" y="16" width="168" height="46" rx="12"/><text class="t" x="212" y="35.0">Play</text><text class="s" x="212" y="52.0">Origin, Range</text></g><g class="n"><rect x="196" y="76" width="168" height="46" rx="12"/><text class="t" x="212" y="95.0">Challenge</text><text class="s" x="212" y="112.0">Create, share, play</text></g><g class="n"><rect x="196" y="136" width="168" height="46" rx="12"/><text class="t" x="212" y="155.0">My Page</text><text class="s" x="212" y="172.0">Badges, medals, stats</text></g><g class="n"><rect x="196" y="196" width="168" height="46" rx="12"/><text class="t" x="212" y="215.0">Account</text><text class="s" x="212" y="232.0">Settings, support, about</text></g><g class="n gold"><rect x="196" y="256" width="168" height="46" rx="12"/><text class="t" x="212" y="275.0">R Coins</text><text class="s" x="212" y="292.0">Watch ad, buy</text></g><g class="n"><rect x="196" y="316" width="168" height="46" rx="12"/><text class="t" x="212" y="344.0">Network</text></g><g class="n"><rect x="196" y="376" width="168" height="46" rx="12"/><text class="t" x="212" y="404.0">Wordmine</text></g><g class="n gold"><rect x="446" y="136" width="138" height="46" rx="12"/><text class="t" x="462" y="155.0">Purchase</text><text class="s" x="462" y="172.0">Plans</text></g><g class="n dup"><rect x="446" y="220" width="138" height="46" rx="12"/><text class="t" x="462" y="239.0">Transactions</text><text class="s" x="462" y="256.0">Coin history</text></g><g class="n dup"><rect x="446" y="316" width="138" height="46" rx="12"/><text class="t" x="462" y="335.0">Gatelist</text><text class="s" x="462" y="352.0">Word list</text></g></svg>
+            <ul class="map-key"><li><i class="k-coin"></i>Coin screens split across two areas</li><li><i class="k-dup"></i>Same screen, two ways in</li></ul></figure>
+          <figure class="map"><div class="map-top"><span class="caps">Redesign</span><span class="map-tag good">One home</span></div><svg class="ia" viewBox="0 0 600 470" role="img" aria-label="Redesigned structure: one home with three actions on the mode card and three fixed buttons; every coin screen lives in Shop, also reached from the coin counter."><defs><marker id="a-base" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1,1.5 L8.5,5 L1,8.5 Z" fill="#8FAE9E"/></marker><marker id="a-gold" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1,1.5 L8.5,5 L1,8.5 Z" fill="#E0A21B"/></marker><marker id="a-dup" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1,1.5 L8.5,5 L1,8.5 Z" fill="#D8584A"/></marker></defs><text class="g" x="246" y="22">ON THE MODE CARD</text><text class="g" x="246" y="236">THREE FIXED BUTTONS</text><path class="c " d="M166,202.0 H192 Q200,202.0 200,194.0 V65.0 Q200,57.0 208,57.0 H244" marker-end="url(#a-base)"/><path class="c " d="M166,202.0 H192 Q200,202.0 200,194.0 V125.0 Q200,117.0 208,117.0 H244" marker-end="url(#a-base)"/><path class="c " d="M166,202.0 H192 Q200,202.0 200,194.0 V185.0 Q200,177.0 208,177.0 H244" marker-end="url(#a-base)"/><path class="c gold" d="M166,202.0 H192 Q200,202.0 200,210.0 V263.0 Q200,271.0 208,271.0 H244" marker-end="url(#a-gold)"/><path class="c " d="M166,202.0 H192 Q200,202.0 200,210.0 V323.0 Q200,331.0 208,331.0 H244" marker-end="url(#a-base)"/><path class="c " d="M166,202.0 H192 Q200,202.0 200,210.0 V383.0 Q200,391.0 208,391.0 H244" marker-end="url(#a-base)"/><path class="c gold" d="M136,320.0 H214 Q222,320.0 222,312.0 V291.0 Q222,283.0 230,283.0 H244" marker-end="url(#a-gold)"/><g class="n root"><rect x="16" y="170" width="150" height="64" rx="12"/><text class="t" x="32" y="198.0">Home</text><text class="s" x="32" y="215.0">Core / Craft switch</text></g><g class="n gold small"><rect x="16" y="300" width="120" height="40" rx="12"/><text class="t" x="32" y="325.0">Coin counter</text></g><g class="n"><rect x="246" y="32" width="338" height="50" rx="12"/><text class="t" x="262" y="53.0">Play solo</text><text class="s" x="262" y="70.0">Game → Score</text></g><g class="n"><rect x="246" y="92" width="338" height="50" rx="12"/><text class="t" x="262" y="113.0">Host game</text><text class="s" x="262" y="130.0">Create → Share → Play → Leaderboard</text></g><g class="n"><rect x="246" y="152" width="338" height="50" rx="12"/><text class="t" x="262" y="173.0">How to play</text><text class="s" x="262" y="190.0">5 short sections</text></g><g class="n gold"><rect x="246" y="246" width="338" height="50" rx="12"/><text class="t" x="262" y="267.0">Shop</text><text class="s" x="262" y="284.0">Coin packs · Plans · Transactions</text></g><g class="n"><rect x="246" y="306" width="338" height="50" rx="12"/><text class="t" x="262" y="327.0">Wordmine</text><text class="s" x="262" y="344.0">Word list → Dig</text></g><g class="n"><rect x="246" y="366" width="338" height="50" rx="12"/><text class="t" x="262" y="387.0">Leaderboard</text><text class="s" x="262" y="404.0">Score or rarity · 7 days · Friends</text></g></svg>
+            <ul class="map-key"><li><i class="k-coin"></i>Every coin screen in Shop</li><li><i class="k-line"></i>One level from home</li></ul></figure>
+        </div>
+
+        <div class="story">
+          <div>
+            <p class="sub">My first direction had <b>two swipes</b> on one screen. In prototype tests with returning players, they <b>fought each other</b>.</p>
+            <div class="first rv"><span class="sticker">First try</span><div class="device"><div class="scr"><img src="/wordgate/assets/home-explore-swipes.png" alt="Early home direction with a mode row at the top and a swipeable shortcut carousel at the bottom." loading="lazy"></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+          </div>
+          <div class="fan rv">
+            <figure><div class="device"><div class="scr"><img src="/wordgate/assets/home-final-locked.png" alt="Craft mode locked, with Unlocks at Level 5 and a progress bar." loading="lazy"></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><figcaption><b>Locked</b>Shows what it takes</figcaption></figure>
+            <figure class="pinned"><span class="sticker go">Final</span><div class="device"><div class="scr"><img src="/wordgate/assets/home-final-core.png" alt="Final home: Core mode, Play Solo and Host Game, and Shop, Wordmine and Leaderboard buttons." loading="lazy"></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><figcaption><b>Home</b>Switch picks the mode</figcaption></figure>
+            <figure><div class="device"><div class="scr"><img src="/wordgate/assets/shop-coins.png" alt="Shop: coin packs and watch-an-ad rewards, with Subscriptions and Transactions tabs." loading="lazy"></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div><figcaption><b>Shop</b>Coins, plans and history in one place</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="changes">
+          <div class="change rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="5"/><circle cx="16" cy="12" r="3" fill="currentColor"/></svg></span><h3>Two swipes became none</h3><p>Modes became a <strong>two-way switch</strong>; the carousel became <strong>three fixed buttons</strong>.</p></div>
+          <div class="change rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></span><h3>Locked modes stay visible</h3><p>Craft shows <strong>what it takes to unlock</strong>, with a progress bar.</p></div>
+          <div class="change rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="7" ry="2.6"/><path d="M5 6v6c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6V6"/><path d="M5 12v6c0 1.4 3.1 2.6 7 2.6s7-1.2 7-2.6v-6"/></svg></span><h3>Coins live in one place</h3><p>Packs, ads, plans and history are <strong>tabs in Shop</strong>, one tap from the coin counter.</p></div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <!-- 04 PROCESS -->
+    <section class="sec" id="testing">
+      <p class="kicker sec-div"><span class="key">04</span>Process</p>
+        <div class="head">
+        <div><h2>Alternatives, <em>not single answers</em></h2></div>
+        <p class="sub">The only designer, with the founder and a developer in every review.</p>
+      </div>
+      <div class="steps">
+        <div class="step rv"><span class="key">1</span><span class="who">Every flow</span><h3>Options before decisions</h3><p>Every flow went to review as <strong>two or three working directions</strong>. The founder and developer used each, and we chose by comparing <strong>pros and cons</strong> rather than taste.</p></div>
+        <div class="step rv"><span class="key">2</span><span class="who">Bigger flows</span><h3>Prototype tests</h3><p><strong>Clickable Figma prototypes</strong>, shared through the founder with a small group of returning players, to test whether each interaction felt intuitive. This caught the <strong>clashing swipes</strong> on home.</p></div>
+        <div class="step rv"><span class="key">3</span><span class="who">The build</span><h3>Checked on device</h3><p>Each build tested <strong>on a phone</strong> for tap targets and legibility, with extra care on <strong>small screens</strong>. In version 1, the always-open keyboard left no room above it on smaller phones.</p></div>
+      </div>
+    </section>
+
+    <!-- 05 DECISIONS -->
+    <section class="sec" id="decisions">
+      <p class="kicker sec-div"><span class="key">05</span>Key solutions</p>
+        <div class="head">
+        <div><h2>One answer <em>for every problem</em></h2></div>
+      </div>
+
+      <article class="dec d-green rv">
+        <div>
+          <span class="big" aria-hidden="true">01</span><span class="n">Scattered</span>
+          <h3>Every coin and plan, now in one Shop</h3>
+          <p class="what">Coin packs, ad rewards, plans and <strong>transaction history</strong> now live in <strong>one Shop</strong>, with a tab each. It opens from the bottom bar or by tapping the <strong>coin counter</strong>.</p>
+          <details class="more"><summary>Why this</summary><dl class="why inner">
+            <div><dt>Why</dt><dd>In version 1, coins and subscriptions were bought on <strong>unrelated screens</strong>, split between Account and R Coins.</dd></div>
+            <div><dt>Rejected</dt><dd>Keeping buying inside Account. Players look for money where the coins are.</dd></div>
+            <div><dt>Trade-off</dt><dd>One screen holds more, so it splits into <strong>three tabs</strong>: Coin packs, Subscriptions, Transactions.</dd></div>
+          </dl></details>
+        </div>
+        <div class="ph"><div class="device"><div class="scr"><video data-auto muted loop playsinline preload="none" poster="/wordgate/assets/video/shop-poster.webp" aria-label="Shop with coin packs, plans and transaction history."><source src="/wordgate/assets/video/shop.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+      </article>
+
+      <article class="dec d-mint flip rv">
+        <div class="ph"><div class="device"><div class="scr"><video data-auto muted loop playsinline preload="none" poster="/wordgate/assets/video/tutorial-poster.webp" aria-label="Tutorial steps typing out while a pointer slides to the letter each one explains."><source src="/wordgate/assets/video/tutorial.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+        <div>
+          <span class="big" aria-hidden="true">02</span><span class="n">Hard to learn</span>
+          <h3>Teach the rule by using it</h3>
+          <p class="what">Short steps that <strong>point at the screen</strong>, then hand over the keyboard. You're <strong>playing by step 5</strong>.</p>
+          <details class="more"><summary>Why this</summary><dl class="why inner">
+            <div><dt>Why</dt><dd>Reading didn't teach the rule. <strong>Doing it once</strong> does.</dd></div>
+            <div><dt>Rejected</dt><dd>A video or carousel. Still reading.</dd></div>
+            <div><dt>Trade-off</dt><dd>More steps, so each is <strong>one sentence</strong>.</dd></div>
+          </dl></details>
+        </div>
+      </article>
+
+      <article class="dec d-mint dec-more rv">
+        <div>
+          <span class="n">Rulebook</span>
+          <h3>From 20 pages to 5 short sections</h3>
+          <p class="what">The <strong>17–20 page rulebook</strong> became <strong>How to Play</strong>: 5 sections that each answer one question, with visuals, opened only when someone needs them.</p>
+          <details class="more"><summary>Why this</summary><dl class="why inner">
+            <div><dt>Why</dt><dd>Nobody reads 20 pages of text, and the rulebook had <strong>no visuals or interaction</strong>.</dd></div>
+            <div><dt>Rejected</dt><dd>Trimming the same long page. It was still one wall of text.</dd></div>
+            <div><dt>Trade-off</dt><dd>Rules are split across sections, so each one gets a <strong>clear title</strong> to find it fast.</dd></div>
+          </dl></details>
+        </div>
+        <div class="ph"><div class="device"><div class="scr"><video data-auto muted loop playsinline preload="none" poster="/wordgate/assets/video/howtoplay-poster.webp" aria-label="How to Play sections opening one by one."><source src="/wordgate/assets/video/howtoplay.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+      </article>
+
+            <article class="dec d-red flip rv">
+        <div>
+          <span class="big" aria-hidden="true">03</span><span class="n">Missing flows</span>
+          <h3>Hosting, built end to end</h3>
+          <p class="what">The hardcoded screens became a real flow: <strong>create</strong> a game, <strong>share</strong> a link in one tap, <strong>play</strong>, then watch the <strong>leaderboard</strong> fill.</p>
+          <details class="more"><summary>Why this</summary><dl class="why inner">
+            <div><dt>Why</dt><dd>Hosting existed only as <strong>hardcoded screens</strong>, so friends had no way to actually play together.</dd></div>
+            <div><dt>Rejected</dt><dd>Sharing a room code to type in. A link opens the game directly.</dd></div>
+            <div><dt>Trade-off</dt><dd>More screens to build, so each step does <strong>one job</strong>.</dd></div>
+          </dl></details>
+        </div>
+        <div class="ph"><div class="device"><div class="scr"><video data-auto muted loop playsinline preload="none" poster="/wordgate/assets/video/hostgame-poster.webp" aria-label="Creating a hosted game and sharing the link."><source src="/wordgate/assets/video/hostgame.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+      </article>
+
+      <article class="dec d-brown rv">
+        <div class="ph"><div class="device"><div class="scr"><video data-auto muted loop playsinline preload="none" poster="/wordgate/assets/video/wordmine-poster.webp" aria-label="Wordmine word list and digging into a word."><source src="/wordgate/assets/video/wordmine.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+        <div>
+          <span class="big" aria-hidden="true">04</span><span class="n">Missing flows</span>
+          <h3>Wordmine, a calm space of its own</h3>
+          <p class="what">A relaxed mode with no score pressure: browse a <strong>word list</strong>, then <strong>dig</strong> into any word. It has its own button on home and its own <strong>brown</strong> colour.</p>
+          <details class="more"><summary>Why this</summary><dl class="why inner">
+            <div><dt>Why</dt><dd>Wordmine had <strong>no UX at all</strong>, and it had to stay separate because it isn&#39;t competitive.</dd></div>
+            <div><dt>Rejected</dt><dd>Folding it into Core or Craft as another mode. That would bring ranks into a mode meant to be calm.</dd></div>
+            <div><dt>Trade-off</dt><dd>One more place on home, so it sits in the <strong>bottom bar</strong> instead of beside the main modes.</dd></div>
+          </dl></details>
+        </div>
+      </article>
+
+      <article class="dec d-green flip rv">
+        <div class="ph"><div class="device"><div class="scr"><video data-auto muted loop playsinline preload="none" poster="/wordgate/assets/video/leaderboard-poster.webp" aria-label="Leaderboard switching between scores, 7 days and Friends."><source src="/wordgate/assets/video/leaderboard.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+        <div>
+          <span class="big" aria-hidden="true">05</span><span class="n">Discouraging</span>
+          <h3>More than one way to win</h3>
+          <p class="what">Rank by <strong>game score or rarity</strong>, then narrow to <strong>7 days</strong> or <strong>Friends</strong>, so a good round always counts for something.</p>
+          <details class="more"><summary>Why this</summary><dl class="why inner">
+            <div><dt>Why</dt><dd>One ranking told <strong>most players they lost</strong>, and rare-word hunters had no way to win.</dd></div>
+            <div><dt>Rejected</dt><dd>More badges on the same single ranking.</dd></div>
+            <div><dt>Trade-off</dt><dd>Two scores to explain, so each toggle gets <strong>a one-line definition</strong>.</dd></div>
+          </dl></details>
+        </div>
+      </article>
+    </section>
+
+    <!-- 06 SYSTEM -->
+    <section class="sec sec-cont" id="system">
+        <div class="head">
+        <div><h2>Colour tells you <em>what you're doing</em></h2></div>
+        <p class="sub">Version 1 used colour <b>screen by screen</b>. I gave each kind of play <b>one colour</b>, used everywhere it appears.</p>
+      </div>
+      <div class="sys">
+        <div class="sw g rv"><div><span class="caps">Core & Craft</span><b>Solo play</b><span class="hex">#135C40</span></div><div class="device"><div class="scr"><img src="/wordgate/assets/home-final-core.png" alt="" loading="lazy"></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+        <div class="sw r rv"><div><span class="caps">Host game</span><b>Hosted games</b><span class="hex">#B8372A</span></div><div class="device"><div class="scr"><img src="/wordgate/assets/host-leaderboard.png" alt="" loading="lazy"></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+        <div class="sw y rv"><div><span class="caps">Wordmine</span><b>Practice</b><span class="hex">#806552</span></div><div class="device"><div class="scr"><img src="/wordgate/assets/wordmine-game.png" alt="" loading="lazy"></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></div>
+      </div>
+    </section>
+
+    <!-- 07 DESIGN -->
+    <section class="sec sec-cont" id="design">
+      <div class="ribbon rv" aria-roledescription="carousel" aria-label="Five redesigned flows">
+        <div class="track" tabindex="0"><figure class="slide" data-t="Scored live" data-d="Built as you type"><div class="device"><div class="scr"><video muted loop playsinline autoplay preload="metadata" poster="/wordgate/assets/video/gameplay-poster.webp" aria-label="Scored live"><source src="/wordgate/assets/video/gameplay.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></figure><figure class="slide" data-t="Score, explained" data-d="Every number gets one sentence"><div class="device"><div class="scr"><video muted loop playsinline autoplay preload="metadata" poster="/wordgate/assets/video/scorescreen-poster.webp" aria-label="Score, explained"><source src="/wordgate/assets/video/scorescreen.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></figure><figure class="slide" data-t="Learn by playing" data-d="Playing by step 5"><div class="device"><div class="scr"><video muted loop playsinline autoplay preload="metadata" poster="/wordgate/assets/video/tutorial-poster.webp" aria-label="Learn by playing"><source src="/wordgate/assets/video/tutorial.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></figure><figure class="slide" data-t="Rules you can find" data-d="5 sections, one question each"><div class="device"><div class="scr"><video muted loop playsinline autoplay preload="metadata" poster="/wordgate/assets/video/howtoplay-poster.webp" aria-label="Rules you can find"><source src="/wordgate/assets/video/howtoplay.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></figure><figure class="slide" data-t="One Shop" data-d="Coins, plans and history together"><div class="device"><div class="scr"><video muted loop playsinline autoplay preload="metadata" poster="/wordgate/assets/video/shop-poster.webp" aria-label="One Shop"><source src="/wordgate/assets/video/shop.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></figure><figure class="slide" data-t="Host a game" data-d="Create, share, play"><div class="device"><div class="scr"><video muted loop playsinline autoplay preload="metadata" poster="/wordgate/assets/video/hostgame-poster.webp" aria-label="Host a game"><source src="/wordgate/assets/video/hostgame.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></figure><figure class="slide" data-t="Wordmine" data-d="Practice, no pressure"><div class="device"><div class="scr"><video muted loop playsinline autoplay preload="metadata" poster="/wordgate/assets/video/wordmine-poster.webp" aria-label="Wordmine"><source src="/wordgate/assets/video/wordmine.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></figure><figure class="slide" data-t="Two ways to rank" data-d="Game score or rarity"><div class="device"><div class="scr"><video muted loop playsinline autoplay preload="metadata" poster="/wordgate/assets/video/leaderboard-poster.webp" aria-label="Two ways to rank"><source src="/wordgate/assets/video/leaderboard.mp4" type="video/mp4"></video></div><img class="bz" src="/wordgate/assets/bezel-black-cut.png" alt=""></div></figure></div>
+        <div class="ribbon-bar">
+          <p class="ribbon-cap" aria-live="polite"><b></b><span></span></p>
+          <div class="ribbon-nav"><button type="button" class="prev" aria-label="Previous flow">‹</button><button type="button" class="next-btn" aria-label="Next flow">›</button></div>
+        </div>
+      </div>
+      <p class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>My Page, badges, sign-in and engineering specs aren't shown here due to an active NDA. <a href="mailto:akanksha.guptaa4@gmail.com">Get in touch</a> to hear more.</p>
+    </section>
+
+    <!-- 08 SUCCESS -->
+    <section class="sec" id="measure">
+      <p class="kicker sec-div"><span class="key">06</span>Success signals</p>
+        <div class="head">
+        <div><h2>Success means players <em>get it on their own</em></h2></div>
+        <p class="sub">Three things I'd check, and <b>how</b> I'd know it worked.</p>
+      </div>
+      <div class="signals">
+        <div class="sig rv"><span class="i">Comprehension</span><h3>Can a new player explain their score?</h3><p class="sig-p">I'd sit with <strong>five first-time players</strong>, let them finish a round, and ask them to <strong>talk me through the score screen</strong>. It works if they can name <strong>medal and rarity points</strong> without any help.</p></div>
+        <div class="sig rv"><span class="i">Efficiency</span><h3>Is it faster to get around?</h3><p class="sig-p">The same three tasks (<strong>play, host, buy coins</strong>) on a <strong>v1 and a v2 prototype</strong>. I'd count taps and time on each. Success is <strong>fewer of both</strong> in v2.</p></div>
+        <div class="sig rv"><span class="i">Retention</span><h3>Does a low rank still feel okay?</h3><p class="sig-p">After launch, I'd compare <strong>next-day return</strong> for players who finish in the <strong>bottom half</strong> against the top half. If they come back <strong>just as often</strong>, a low rank isn't pushing them away.</p></div>
+      </div>
+      <p class="cap" style="margin-top:20px">The first two can run on prototypes before launch. Retention needs the live game.</p>
+    </section>
+
+    <!-- 09 REFLECTION -->
+    <section class="sec" id="reflection">
+      <p class="kicker sec-div"><span class="key">07</span>Reflection</p>
+        <div class="head">
+        <div><h2>What being the only designer <em>taught me</em></h2></div>
+      </div>
+      <div class="medals">
+        <div class="medal rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16M17 4v16M4 9h6M14 15h6"/></svg></span><h3>Options beat opinions</h3><p><strong>Working alternatives</strong> turned “I don't like it” into “this one feels better”.</p></div>
+        <div class="medal rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg></span><h3>Answer where the question is</h3><p>The fix was never more rules. It was <strong>one sentence, in the right place</strong>.</p></div>
+        <div class="medal rv"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span><h3>Next time</h3><p>Run sessions <strong>myself</strong>, include <strong>brand-new players</strong>, and start from <strong>WCAG</strong>.</p></div>
+      </div>
+    </section>
+
+    <a class="next" href="/glance/"><span class="caps">Next project</span><h3>Glance Coach, a workout coach that knows the TV is shared</h3><span class="go">Read case study →</span></a>
+  </div>
+</main>
+
+<footer class="foot"><div class="wrap foot-in">
+  <div><a href="mailto:akanksha.guptaa4@gmail.com">akanksha.guptaa4@gmail.com</a><a href="https://linkedin.com/in/akanksha-gupta4" target="_blank" rel="noopener">LinkedIn</a></div>
+  <div>© 2026 Akanksha Gupta</div>
+</div></footer>
+
+<script src="/wordgate/cs.js?v=1792825829"></script>
+<script>
+  // Floating section pill: appears once the hero has scrolled away and highlights the section you're in
+  const rail = document.querySelector('.toc')
+  new IntersectionObserver(([e]) => rail.classList.toggle('show', !e.isIntersecting), { threshold: 0.15 }).observe(document.querySelector('.hero'))
+  const tabs = [...rail.querySelectorAll('a[href^="#"]')]
+  const secEls = tabs.map(a => document.querySelector(a.getAttribute('href')))
+  let current = -1
+  const paint = () => {
+    const y = scrollY + innerHeight * 0.4
+    let on = 0
+    secEls.forEach((sec, k) => { if (sec.getBoundingClientRect().top + scrollY <= y) on = k })
+    if (on === current) return
+    current = on
+    tabs.forEach((a, k) => a.classList.toggle('on', k === on))
+    tabs[on].scrollIntoView({ block: 'nearest', inline: 'center' })
+  }
+  addEventListener('scroll', () => requestAnimationFrame(paint), { passive: true }); addEventListener('resize', paint); paint()
+
+
+  // Try-a-word: plays the banned-letter rule against PLANET
+  const target = 'PLANET', banned = 'P'
+  const verdicts = {
+    PLANE: ['bad', 'Not allowed', 'It starts with P, the banned letter.'],
+    GRAPE: ['bad', 'Not allowed', "G isn't anywhere in PLANET."],
+    NURSE: ['good', 'Valid', "N is in PLANET. U, R, S and E don't need to be."],
+    TULIP: ['good', 'Valid', 'T is in PLANET. After that, even the P is fine.'],
+  }
+  const tiles = [...document.querySelectorAll('#tiles .tile')]
+  const out = document.getElementById('verdict')
+  document.querySelectorAll('#words button').forEach(b => b.addEventListener('click', () => {
+    const [kind, title, why] = verdicts[b.dataset.w]
+    document.querySelectorAll('#words button').forEach(o => { o.setAttribute('aria-pressed', o === b); o.className = o === b ? kind : '' })
+    out.className = 'verdict ' + kind
+    out.innerHTML = '<b>' + title + '</b>' + why
+    const first = b.dataset.w[0]
+    tiles.forEach((t, i) => t.classList.toggle('hit', kind === 'good' && target[i] === first && first !== banned))
+  }))
+
+
+  // Flow ribbon: drifts slowly in a loop; arrows step one phone at a time
+  ;(() => {
+    const track = document.querySelector('.ribbon .track'); if (!track) return
+    const orig = [...track.children], cap = document.querySelector('.ribbon-cap')
+    // Enough copies that the strip can always scroll one full set past the screen edge, then jump back unnoticed
+    const addSet = () => orig.forEach(n => { const c = n.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.querySelectorAll('video').forEach(v => v.removeAttribute('data-auto')); track.appendChild(c) })
+    addSet()
+    const setW = () => track.children[orig.length].offsetLeft - track.children[0].offsetLeft
+    while (track.scrollWidth < setW() * 2 + track.clientWidth + 200) addSet()
+    const all = [...track.children]
+    track.querySelectorAll('video').forEach(v => { v.muted = true; v.loop = true; v.preload = 'auto' })
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches
+    let paused = false, pos = 0
+    const half = () => all[orig.length].offsetLeft - all[0].offsetLeft
+    const mark = () => {
+      const mid = track.scrollLeft + track.clientWidth / 2
+      let best = 0, bd = Infinity
+      all.forEach((s, k) => { const d = Math.abs(s.offsetLeft + s.offsetWidth / 2 - mid); if (d < bd) { bd = d; best = k } })
+      const s = all[best]
+      cap.querySelector('b').textContent = s.dataset.t
+      cap.querySelector('span').textContent = s.dataset.d
+    }
+    let last = performance.now()
+    const tick = now => {
+      const dt = Math.min(100, now - last); last = now
+      if (!paused && !still) { pos += dt * 0.024; if (pos >= half()) pos -= half(); track.scrollLeft = pos }
+      mark(); requestAnimationFrame(tick)
+    }
+    const step = dir => {
+      const w = all[1].offsetLeft - all[0].offsetLeft
+      pos = (Math.round(track.scrollLeft / w) + dir) * w
+      if (pos < 0) pos += half()
+      track.scrollTo({ left: pos, behavior: 'smooth' })
+      paused = true; clearTimeout(step.t); step.t = setTimeout(() => { pos = track.scrollLeft; paused = false }, 2500)
+    }
+    document.querySelector('.ribbon .prev').onclick = () => step(-1)
+    document.querySelector('.ribbon .next-btn').onclick = () => step(1)
+    // Keeps drifting; only a manual scroll or swipe pauses it briefly
+    const hold = () => { paused = true; clearTimeout(step.t); step.t = setTimeout(() => { pos = track.scrollLeft; paused = false }, 2500) }
+    track.addEventListener('wheel', hold, { passive: true })
+    track.addEventListener('touchstart', hold, { passive: true })
+    track.addEventListener('scroll', () => { if (paused) pos = track.scrollLeft }, { passive: true })
+    addEventListener('load', () => { track.querySelectorAll('video').forEach(v => v.play().catch(() => {})); requestAnimationFrame(tick) })
+  })()
+
+  // Fade blocks in as they arrive
+  const rv = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target) } }), { rootMargin: '0px 0px -8% 0px' })
+  document.querySelectorAll('.rv').forEach(el => rv.observe(el))
+</script>
+</body>
+</html>
