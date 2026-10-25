@@ -13,6 +13,12 @@ export default function App({ saved }: { saved: SavedChat | null }) {
   const [open, setOpen] = useState<Record<GroupKey, boolean>>(saved?.open ?? { projects: true, experience: true, skills: true })
   // The sidebar starts collapsed on every screen; the menu button opens it.
   const [collapsed, setCollapsed] = useState(true)
+  // The chat box is hidden until the visitor asks for it (d3zyre, the sidebar photo or a
+  // sidebar question). A conversation brought back with "Back to chat" opens with it showing.
+  const [chatOpen, setChatOpen] = useState(() => (saved?.turns.length ?? 0) > 0)
+  useLayoutEffect(() => {
+    document.body.classList.toggle('chat-open', chatOpen)
+  }, [chatOpen])
 
   // The layout hangs off a body class (padding, dock offset, sidebar slide), set before paint.
   useLayoutEffect(() => {
@@ -47,10 +53,16 @@ export default function App({ saved }: { saved: SavedChat | null }) {
     return next
   }), [])
 
-  // Clicking d3zyre puts the cursor in the chat box, ready for a question.
-  const focusChat = useCallback(() => {
-    document.getElementById('composer-text')?.focus()
+  // Clicking d3zyre opens the chat box and puts the cursor in it, ready for a question.
+  const openChat = useCallback(() => {
+    setChatOpen(true)
+    requestAnimationFrame(() => document.getElementById('composer-text')?.focus({ preventScroll: true }))
   }, [])
+  // The sidebar photo does the same; on phones the sidebar covers the page, so it steps aside.
+  const onAvatar = useCallback(() => {
+    if (window.matchMedia('(max-width: 640px)').matches) setCollapsed(true)
+    openChat()
+  }, [openChat])
 
   const toggleSide = useCallback(() => setCollapsed((c) => !c), [])
   const toggleGroup = useCallback((g: GroupKey) => setOpen((o) => ({ ...o, [g]: !o[g] })), [])
@@ -58,6 +70,7 @@ export default function App({ saved }: { saved: SavedChat | null }) {
   const onFlow = useCallback((e: MouseEvent, flow: FlowKey, group?: GroupKey) => {
     e.preventDefault()
     if (isBusy()) return
+    setChatOpen(true)
     if (group) setOpen((o) => (o[group] ? o : { ...o, [group]: true }))
     setPrompt(flow)
     run(flow)
@@ -67,16 +80,16 @@ export default function App({ saved }: { saved: SavedChat | null }) {
     <>
       <div className="grid" aria-hidden="true"></div>
 
-      <Sidebar open={open} onToggleGroup={toggleGroup} onFlow={onFlow} />
+      <Sidebar open={open} onToggleGroup={toggleGroup} onFlow={onFlow} onAvatar={onAvatar} />
       <div className="scrim" id="scrim" onClick={toggleSide}></div>
 
       <Topbar onMenu={toggleSide} theme={theme} onTheme={toggleTheme} />
 
       <Chat turns={turns} started={started} />
 
-      <Buddy onClick={focusChat} />
+      <Buddy onClick={openChat} />
 
-      <Dock composer={composer} started={started} draft={draft} onDraft={setDraft} onSubmit={submit} />
+      <Dock composer={composer} draft={draft} onDraft={setDraft} onSubmit={submit} />
     </>
   )
 }

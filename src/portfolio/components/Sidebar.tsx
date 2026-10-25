@@ -8,6 +8,8 @@ type Props = {
   onToggleGroup: (group: GroupKey) => void
   /** A nav item that also asks its question in the chat. */
   onFlow: (e: MouseEvent, flow: FlowKey, group?: GroupKey) => void
+  /** The photo: opens the chat box. */
+  onAvatar: () => void
 }
 
 const EXT = <svg className="ext" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg>
@@ -26,7 +28,7 @@ function Chev({ onToggle }: { onToggle: () => void }) {
 
 const SKILLS = ['Systems Thinking', 'Info Arch', 'Data Viz', 'Service Blueprints', 'Gamification', 'User Research', 'AI Prototyping']
 
-export function Sidebar({ open, onToggleGroup, onFlow }: Props) {
+export function Sidebar({ open, onToggleGroup, onFlow, onAvatar }: Props) {
   const groupClass = (g: GroupKey) => 'group' + (open[g] ? ' is-open' : '')
   // Selected works. ChemAR shows in "What have you built?"; Wordgate also opens from Mobiclay below.
   const mainLinks: [ProjectKey, string][] = [['prescribble', 'Prescribble'], ['wordgate', 'Wordgate'], ['glance', 'Glance Coach'], ['resq', 'ResQ']]
@@ -34,7 +36,9 @@ export function Sidebar({ open, onToggleGroup, onFlow }: Props) {
   return (
     <aside className="sidebar" id="sidebar">
       <div className="sidebar__head">
-        <img className="avatar" src="/assets/avatar.jpg" alt="Akanksha Gupta" />
+        <button className="avatar-btn" type="button" onClick={onAvatar} aria-label="Chat with Akanksha's portfolio" title="Ask me anything">
+          <img className="avatar" src="/assets/avatar.jpg" alt="Akanksha Gupta" />
+        </button>
         <div>
           <p className="sidebar__name">Akanksha Gupta</p>
           <p className="sidebar__role">B.Des @ IIT Guwahati · 2028</p>

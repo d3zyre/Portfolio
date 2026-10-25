@@ -6,7 +6,7 @@ const LINES = ["I'm d3zyre!", 'ask me anything!', 'psst, try ResQ', 'boop!', 'ty
 /**
  * d3zyre, the little purple buddy in the corner. She blinks, looks toward the cursor,
  * takes short strolls in the empty space beside the chat, says hello on hover, and
- * hops on click, which also focuses the chat box.
+ * hops on click, which also opens and focuses the chat box.
  */
 export function Buddy({ onClick }: { onClick: () => void }) {
   const root = useRef<HTMLButtonElement | null>(null)
@@ -40,7 +40,7 @@ export function Buddy({ onClick }: { onClick: () => void }) {
       eyes.current.forEach((g) => g.setAttribute('transform', t))
     }
     window.addEventListener('pointermove', move, { passive: true })
-    const hello = window.setTimeout(() => say("hi, I'm d3zyre!", 2600), 1200)
+    const hello = window.setTimeout(() => say('hi! click me to chat', 2600), 1200)
     return () => {
       window.removeEventListener('pointermove', move)
       window.clearTimeout(hello)
