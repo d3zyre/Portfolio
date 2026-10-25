@@ -172,15 +172,15 @@ export const OTHER_PROJECTS_LABEL = 'Check out my other projects'
 /** Shown in the composer once every flow has run. */
 export const DONE_PROMPT = 'That\'s all for now. Everything else is in the sidebar.'
 
-/** The project chips above the composer. Each opens that project's summary in the chat. */
+/** The project cards above the composer. Each links straight to its case study. */
 export const suggestions: { project: ProjectKey; img: string; tag: string; title: string; sub: string; tags: string[] }[] = [
   // Category, one-liner and tags each say something new: no word repeats across them.
-  { project: 'glance', img: '/assets/thumb-glance.jpg', tag: 'Phone + TV', title: 'Glance Coach', sub: 'An AI coach that fits each workout to your day and puts it on the TV',
-    tags: ['AI agent', '48-hour sprint', 'Prototype'] },
   { project: 'prescribble', img: '/assets/thumb-prescribble.jpg', tag: 'iPad App', title: 'Prescribble', sub: 'Helping doctors write clear prescriptions in their natural flow',
     tags: ['Healthcare', 'Apple Pencil', 'Live build'] },
   { project: 'wordgate', img: '/assets/thumb-wordgate.jpg', tag: 'Internship', title: 'Wordgate', sub: 'Turning a confusing word game into one you learn by playing',
     tags: ['Sole designer', '120+ screens'] },
+  { project: 'glance', img: '/assets/thumb-glance.jpg', tag: 'Phone + TV', title: 'Glance Coach', sub: 'An AI coach that fits each workout to your day and puts it on the TV',
+    tags: ['AI agent', '48-hour sprint', 'Prototype'] },
 ]
 
 /** Words the intro kicker types through. */

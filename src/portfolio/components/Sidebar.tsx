@@ -8,8 +8,6 @@ type Props = {
   onToggleGroup: (group: GroupKey) => void
   /** A nav item that also asks its question in the chat. */
   onFlow: (e: MouseEvent, flow: FlowKey, group?: GroupKey) => void
-  /** A project link: opens that project's summary in the chat. */
-  onProject: (e: MouseEvent, key: ProjectKey) => void
 }
 
 const EXT = <svg className="ext" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" /></svg>
@@ -28,7 +26,7 @@ function Chev({ onToggle }: { onToggle: () => void }) {
 
 const SKILLS = ['Systems Thinking', 'Info Arch', 'Data Viz', 'Service Blueprints', 'Gamification', 'User Research', 'AI Prototyping']
 
-export function Sidebar({ open, onToggleGroup, onFlow, onProject }: Props) {
+export function Sidebar({ open, onToggleGroup, onFlow }: Props) {
   const groupClass = (g: GroupKey) => 'group' + (open[g] ? ' is-open' : '')
   // Selected works. ChemAR shows in "What have you built?"; Wordgate also opens from Mobiclay below.
   const mainLinks: [ProjectKey, string][] = [['glance', 'Glance Coach'], ['prescribble', 'Prescribble'], ['wordgate', 'Wordgate'], ['resq', 'ResQ']]
@@ -63,7 +61,7 @@ export function Sidebar({ open, onToggleGroup, onFlow, onProject }: Props) {
           </button>
           <div className="tree">
             {mainLinks.map(([key, label]) => (
-              <a key={key} href={CASE_STUDIES[key]} onClick={(e) => onProject(e, key)}>{label}{EXT}</a>
+              <a key={key} href={CASE_STUDIES[key]}>{label}{EXT}</a>
             ))}
           </div>
         </div>
@@ -81,7 +79,7 @@ export function Sidebar({ open, onToggleGroup, onFlow, onProject }: Props) {
             <Chev onToggle={() => onToggleGroup('experience')} />
           </button>
           <div className="tree">
-            <a className="leaf leaf--link" href={CASE_STUDIES.wordgate} onClick={(e) => onProject(e, 'wordgate')}>
+            <a className="leaf leaf--link" href={CASE_STUDIES.wordgate}>
               <span className="leaf__line"><span className="leaf__title">Mobiclay</span><span className="leaf__role">UI/UX Intern</span>{EXT}</span>
               <span className="leaf__meta">Summer 2026</span>
             </a>
