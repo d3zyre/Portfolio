@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 /** Lines she says when clicked, after the hover "hi!". */
-const LINES = ["I'm d3zyre!", 'ask me anything!', 'psst, try ResQ', 'boop!', 'type a question below']
+const LINES = ["I'm d3zyre!", 'ask me anything!', 'psst, try Prescribble', 'boop!', 'type a question below']
 
 /**
  * d3zyre, the little purple buddy in the corner. She blinks, looks toward the cursor,
