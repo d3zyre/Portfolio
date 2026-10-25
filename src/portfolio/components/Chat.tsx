@@ -66,7 +66,25 @@ function Experience() {
   )
 }
 
-function ScriptTurnView({ turn }: { turn: ScriptTurn }) {
+/** The three selected works, under the newest answer; it moves down as the chat goes on. */
+function MoreWork() {
+  return (
+    <div className="work msg">
+      <p className="work__label">Check out my work</p>
+      <div className="work__row">
+        {suggestions.map((s) => (
+          <a key={s.project} className="work__item" href={CASE_STUDIES[s.project]}>
+            <Thumb src={s.img} />
+            <span className="work__tag">{s.tag}</span>
+            <span className="work__title">{s.title} ↗</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function ScriptTurnView({ turn, latest }: { turn: ScriptTurn; latest: boolean }) {
   const f = flows[turn.key]
   const question = useRef<HTMLDivElement | null>(null)
 
@@ -105,6 +123,8 @@ function ScriptTurnView({ turn }: { turn: ScriptTurn }) {
             )}
             {f.render === 'experience' && <Experience />}
             {f.render === 'project' && isCaseStudy(turn.key) && <ProjectSummary project={turn.key} />}
+            {/* answers that already show the projects don't repeat them */}
+            {latest && f.render !== 'projects' && f.render !== 'project' && <MoreWork />}
           </>
         )}
       </div>
@@ -126,7 +146,7 @@ function usePinned(skip?: boolean) {
 }
 
 /** A typed question, answered by the AI as it streams in. */
-function AiTurnView({ turn }: { turn: AiTurn }) {
+function AiTurnView({ turn, latest }: { turn: AiTurn; latest: boolean }) {
   const question = usePinned()
   const paras = turn.answer.split(/\n{2,}/).map((t) => t.trim()).filter(Boolean)
   return (
@@ -139,13 +159,14 @@ function AiTurnView({ turn }: { turn: AiTurn }) {
           </div>
         </div>
         {paras.map((t, i) => <p key={i} className="answer msg">{t}</p>)}
+        {latest && turn.finished && <MoreWork />}
       </div>
     </>
   )
 }
 
-function TurnView({ turn }: { turn: Turn }) {
-  return turn.kind === 'ai' ? <AiTurnView turn={turn} /> : <ScriptTurnView turn={turn} />
+function TurnView({ turn, latest }: { turn: Turn; latest: boolean }) {
+  return turn.kind === 'ai' ? <AiTurnView turn={turn} latest={latest} /> : <ScriptTurnView turn={turn} latest={latest} />
 }
 
 export function Chat({ turns, started }: { turns: Turn[]; started: boolean }) {
@@ -173,7 +194,7 @@ export function Chat({ turns, started }: { turns: Turn[]; started: boolean }) {
       </div>
 
       <div className="thread" id="thread" aria-live="polite">
-        {turns.map((t) => <TurnView key={t.id} turn={t} />)}
+        {turns.map((t, i) => <TurnView key={t.id} turn={t} latest={i === turns.length - 1} />)}
       </div>
 
     </main>

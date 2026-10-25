@@ -35,15 +35,15 @@ export type Project = {
 }
 
 export const projects: Project[] = [
-  { key: 'glance', tag: 'Design Exercise · 2026', title: 'Glance Coach', href: CASE_STUDIES.glance, img: '/assets/thumb-glance.jpg',
-    desc: 'An AI workout coach that lives on the phone and a shared family TV. It sizes each evening workout to the day you had, talks only on your phone, and counts a 15-minute session as a win. Built in 48 hours as a working two-screen prototype.',
-    meta: ['Phone + TV', 'AI agent', 'Prototype'] },
   { key: 'prescribble', tag: 'iPad App · 2026', title: 'Prescribble', href: CASE_STUDIES.prescribble, img: '/assets/thumb-prescribble.jpg',
     desc: 'An iPad prescription system for busy government OPDs, where doctors keep writing by hand with Apple Scribble. Stakeholder interviews, a service blueprint of the full journey, and a working prototype deployed on Vercel to test the flow.',
     meta: ['Service blueprint', 'Healthcare', 'Deployed prototype'] },
   { key: 'wordgate', tag: 'Internship · 2026', title: 'Wordgate', href: CASE_STUDIES.wordgate, img: '/assets/thumb-wordgate.jpg',
     desc: 'Redesign of a shipped strategy word game as the sole designer, so the whole game is easy to understand in fewer taps. Rebuilt the information architecture, added the missing hosting and Wordmine flows, and delivered 120+ screens across 10+ flows.',
     meta: ['Information architecture', 'Game UX', 'Shipped app'] },
+  { key: 'glance', tag: 'Design Exercise · 2026', title: 'Glance Coach', href: CASE_STUDIES.glance, img: '/assets/thumb-glance.jpg',
+    desc: 'An AI workout coach that lives on the phone and a shared family TV. It sizes each evening workout to the day you had, talks only on your phone, and counts a 15-minute session as a win. Built in 48 hours as a working two-screen prototype.',
+    meta: ['Phone + TV', 'AI agent', 'Prototype'] },
   { key: 'resq', tag: 'Mobile App · Jul 2026', title: 'ResQ', href: CASE_STUDIES.resq, img: '/assets/thumb-resq.jpg',
     desc: 'A disaster communication platform for Assam that keeps working over a mesh network when the cell network fails. Help requests that hop phone to phone, neighbours who can volunteer, and separate views for coordinators and field teams.',
     meta: ['User research', 'Mesh network', 'Multilingual'] },

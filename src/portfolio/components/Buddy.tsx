@@ -40,7 +40,8 @@ export function Buddy({ onClick }: { onClick: () => void }) {
       eyes.current.forEach((g) => g.setAttribute('transform', t))
     }
     window.addEventListener('pointermove', move, { passive: true })
-    const hello = window.setTimeout(() => say('hi! click me to chat', 2600), 1200)
+    // Once the chat is open there's nothing to click for, so she just says hello.
+    const hello = window.setTimeout(() => say(document.body.classList.contains('chat-open') ? "hi, I'm d3zyre!" : 'hi! click me to chat', 2600), 1200)
     return () => {
       window.removeEventListener('pointermove', move)
       window.clearTimeout(hello)
