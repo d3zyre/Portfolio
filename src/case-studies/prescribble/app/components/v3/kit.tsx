@@ -178,7 +178,7 @@ export function Head({
   tone = INK,
   size = "clamp(30px, min(4.6vw, 7.4vh), 68px)",
   className = "",
-  max = "20ch",
+  max = "none",
 }: {
   children: ReactNode;
   tone?: string;
@@ -218,8 +218,7 @@ export function Rule({ label, index, tone = INK }: { label: string; index: strin
   const labelColor = tone === INK ? ACCENT : DUSK;
   return (
     <div
-      className="flex items-baseline justify-between border-t pt-[14px] mb-[52px]"
-      style={{ borderColor: tone === INK ? LINE : "rgba(255,255,255,0.14)" }}
+      className="flex items-baseline justify-between mb-[52px]"
     >
       <span
         className="text-[12px] font-bold uppercase"
