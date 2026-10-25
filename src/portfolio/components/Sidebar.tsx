@@ -29,7 +29,7 @@ const SKILLS = ['Systems Thinking', 'Info Arch', 'Data Viz', 'Service Blueprints
 export function Sidebar({ open, onToggleGroup, onFlow }: Props) {
   const groupClass = (g: GroupKey) => 'group' + (open[g] ? ' is-open' : '')
   // Selected works. ChemAR shows in "What have you built?"; Wordgate also opens from Mobiclay below.
-  const mainLinks: [ProjectKey, string][] = [['glance', 'Glance Coach'], ['prescribble', 'Prescribble'], ['wordgate', 'Wordgate'], ['resq', 'ResQ']]
+  const mainLinks: [ProjectKey, string][] = [['prescribble', 'Prescribble'], ['wordgate', 'Wordgate'], ['glance', 'Glance Coach'], ['resq', 'ResQ']]
 
   return (
     <aside className="sidebar" id="sidebar">
