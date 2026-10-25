@@ -1,0 +1,93 @@
+/* ---------------------------------------------------------------------------
+   Ambient motion. Meant to be clearly noticeable on a normal look at the
+   page, not something you have to stare at to catch.
+--------------------------------------------------------------------------- */
+
+/* Background blobs drift and breathe. */
+@keyframes blob-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(var(--bx, 34px), var(--by, -24px), 0) scale(1.09); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+.motion-blob {
+  animation: blob-drift var(--bdur, 16s) ease-in-out infinite;
+  animation-delay: var(--bdelay, 0s);
+  will-change: transform;
+}
+
+/* Glass surfaces: the highlight sweeps across the gradient at a pace you can
+   actually see, as if the light source were moving. */
+@keyframes sheen-drift {
+  0%   { background-position: 8% 4%; }
+  50%  { background-position: 92% 86%; }
+  100% { background-position: 8% 4%; }
+}
+.motion-sheen {
+  background-size: 240% 240% !important;
+  animation: sheen-drift var(--sdur, 11s) ease-in-out infinite;
+  animation-delay: var(--sdelay, 0s);
+}
+
+/* Two bright, close-set translucent bands sweep across a glass surface every
+   few seconds, then park out of view for a short beat before the next pass. */
+.motion-shine { position: relative; overflow: hidden; }
+.motion-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: linear-gradient(
+    115deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.85) 45%,
+    transparent 49%,
+    transparent 52%,
+    rgba(255, 255, 255, 0.55) 56%,
+    transparent 61%
+  );
+  background-repeat: no-repeat;
+  background-size: 300% 300%;
+  background-position: -140% -140%;
+  animation: shine-sweep var(--shdur, 6.5s) ease-in-out infinite;
+  animation-delay: var(--shdelay, 0s);
+}
+@keyframes shine-sweep {
+  0%   { background-position: -140% -140%; }
+  30%  { background-position: 220% 220%; }
+  100% { background-position: 220% 220%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-blob,
+  .motion-sheen,
+  .motion-shine::after {
+    animation: none !important;
+  }
+}
+
+/* Scroll reveal: fades and rises a touch the first time it crosses into
+   view, then leaves it alone. */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 750ms cubic-bezier(0.16, 1, 0.3, 1), transform 750ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.reveal-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* Hero device float: the transform itself is already eased frame-by-frame
+   in JS (see useCursorField), so this just marks it as an animated layer. */
+.motion-tilt {
+  will-change: transform;
+}

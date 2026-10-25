@@ -1,0 +1,8 @@
+/* One typeface, the same one the product uses. Inter is the open SF-alike,
+   so there's no Apple licensing question on a public portfolio. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap');
+
+:root { --font: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font); font-feature-settings: 'cv02','cv03','cv04','ss01'; }

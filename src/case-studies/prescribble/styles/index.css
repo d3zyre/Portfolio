@@ -1,0 +1,8 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+@import './motion.css';
+
+/* Even line lengths: no single word left hanging at the end of a heading or caption */
+h1, h2, h3, h4 { text-wrap: balance; }
+p, li, figcaption, dd { text-wrap: pretty; }
