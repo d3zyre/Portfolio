@@ -652,3 +652,17 @@ body:not(.chat-open) .dock{
   .chat .suggestions .sugg:nth-child(3){ display:grid; }
   .chat:not(.is-active) .suggestions{ margin-bottom:0; }
 }
+
+/* "Check out my work": the three selected works under the newest answer */
+.work{ margin-top:6px; padding-top:14px; border-top:1px dashed var(--rule-2); display:grid; gap:10px; }
+.work__label{ font-size:.8rem; color:var(--ink-3); }
+.work__row{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.work__item{
+  display:grid; gap:6px; align-content:start; padding:8px 8px 10px; border-radius:12px;
+  border:1px solid var(--rule); background:var(--panel);
+  transition:border-color .2s var(--ease), transform .2s var(--ease);
+}
+.work__item:hover{ border-color:var(--rule-2); transform:translateY(-2px); }
+.work__item .thumb img{ object-position:left center; }
+.work__tag{ font-size:.7rem; color:var(--accent); padding:0 4px; line-height:1.2; }
+.work__title{ font-size:.9rem; font-weight:600; line-height:1.2; padding:0 4px; }
