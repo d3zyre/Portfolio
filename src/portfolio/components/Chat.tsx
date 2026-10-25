@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { experience, flows, isCaseStudy, mainProjects, minorProjects, OTHER_PROJECTS_LABEL, projectByKey, shownProjects, ROLES, type Project, type ProjectKey } from '../content'
+import { CASE_STUDIES, experience, flows, isCaseStudy, mainProjects, minorProjects, OTHER_PROJECTS_LABEL, projectByKey, shownProjects, ROLES, suggestions, type Project, type ProjectKey } from '../content'
 import type { AiTurn, ScriptTurn, Turn } from '../useChat'
 import { Rotator } from './Rotator'
 import { Thumb } from './Thumb'
@@ -156,6 +156,21 @@ export function Chat({ turns, started }: { turns: Turn[]; started: boolean }) {
         <p className="intro__kicker">AI-first <Rotator words={ROLES} /><span className="type-caret" aria-hidden="true"></span> designer</p>
         <h1 className="intro__title">Designer, with a terminal open.</h1>
       </section>
+
+      {/* The selected works, front and centre until the conversation starts. */}
+      <div className={'suggestions' + (started ? ' is-hidden' : '')} id="suggestions">
+        {suggestions.map((s) => (
+          <a key={s.title} className="sugg" href={CASE_STUDIES[s.project]}>
+            <Thumb src={s.img} />
+            <span className="sugg__body">
+              <span className="sugg__tag">{s.tag}</span>
+              <span className="sugg__title">{s.title}</span>
+              <span className="sugg__sub">{s.sub}</span>
+              <span className="sugg__tags">{s.tags.map((t) => <span key={t}>{t}</span>)}</span>
+            </span>
+          </a>
+        ))}
+      </div>
 
       <div className="thread" id="thread" aria-live="polite">
         {turns.map((t) => <TurnView key={t.id} turn={t} />)}
