@@ -1,14 +1,12 @@
-import { useEffect, useRef, type MouseEvent } from 'react'
+import { useEffect, useRef } from 'react'
 import { experience, flows, isCaseStudy, mainProjects, minorProjects, OTHER_PROJECTS_LABEL, projectByKey, shownProjects, ROLES, type Project, type ProjectKey } from '../content'
 import type { AiTurn, ScriptTurn, Turn } from '../useChat'
 import { Rotator } from './Rotator'
 import { Thumb } from './Thumb'
 
-type OnProject = (e: MouseEvent, key: ProjectKey) => void
-
-function ProjectCard({ p, cta, onClick }: { p: Project; cta: string; onClick?: (e: MouseEvent) => void }) {
+function ProjectCard({ p, cta }: { p: Project; cta: string }) {
   return (
-    <a className="card" href={p.href} onClick={onClick}>
+    <a className="card" href={p.href}>
       <Thumb src={p.img} />
       <span className="card__top"><span>{p.tag}</span></span>
       <span className="card__title">{p.title}</span>
@@ -19,24 +17,19 @@ function ProjectCard({ p, cta, onClick }: { p: Project; cta: string; onClick?: (
   )
 }
 
-/** Project cards; selecting one opens its summary. */
-function ProjectCards({ list, onProject, small, wide }: { list: Project[]; onProject: OnProject; small?: boolean; wide?: boolean }) {
+/** Project cards; each links straight to its case study. */
+function ProjectCards({ list, small, wide }: { list: Project[]; small?: boolean; wide?: boolean }) {
   return (
     <div className={'cards msg' + (small ? ' cards--small' : '') + (wide ? ' cards--wide' : '')}>
       {list.map((p) => (
-        <ProjectCard
-          key={p.key}
-          p={p}
-          cta="Open ↗"
-          onClick={isCaseStudy(p.key) ? (e) => onProject(e, p.key as ProjectKey) : undefined}
-        />
+        <ProjectCard key={p.key} p={p} cta="Open ↗" />
       ))}
     </div>
   )
 }
 
 /** One project up front, linking to its case study, with the rest of the work underneath. */
-function ProjectSummary({ project, onProject }: { project: ProjectKey; onProject: OnProject }) {
+function ProjectSummary({ project }: { project: ProjectKey }) {
   const others = shownProjects.filter((p) => p.key !== project)
   return (
     <>
@@ -46,7 +39,7 @@ function ProjectSummary({ project, onProject }: { project: ProjectKey; onProject
       {others.length > 0 && (
         <div className="more msg">
           <p className="more__label">{OTHER_PROJECTS_LABEL}</p>
-          <ProjectCards list={others} onProject={onProject} />
+          <ProjectCards list={others} />
         </div>
       )}
     </>
@@ -73,7 +66,7 @@ function Experience() {
   )
 }
 
-function ScriptTurnView({ turn, onProject }: { turn: ScriptTurn; onProject: OnProject }) {
+function ScriptTurnView({ turn }: { turn: ScriptTurn }) {
   const f = flows[turn.key]
   const question = useRef<HTMLDivElement | null>(null)
 
@@ -102,16 +95,16 @@ function ScriptTurnView({ turn, onProject }: { turn: ScriptTurn; onProject: OnPr
             {([] as string[]).concat(f.text).map((t) => <p key={t} className="answer msg">{t}</p>)}
             {f.render === 'projects' && (
               <>
-                <ProjectCards list={mainProjects} onProject={onProject} />
+                <ProjectCards list={mainProjects} />
                 {minorProjects.length > 0 && (
                   <div className="more msg">
-                    <ProjectCards list={minorProjects} onProject={onProject} wide />
+                    <ProjectCards list={minorProjects} wide />
                   </div>
                 )}
               </>
             )}
             {f.render === 'experience' && <Experience />}
-            {f.render === 'project' && isCaseStudy(turn.key) && <ProjectSummary project={turn.key} onProject={onProject} />}
+            {f.render === 'project' && isCaseStudy(turn.key) && <ProjectSummary project={turn.key} />}
           </>
         )}
       </div>
@@ -151,11 +144,11 @@ function AiTurnView({ turn }: { turn: AiTurn }) {
   )
 }
 
-function TurnView({ turn, onProject }: { turn: Turn; onProject: OnProject }) {
-  return turn.kind === 'ai' ? <AiTurnView turn={turn} /> : <ScriptTurnView turn={turn} onProject={onProject} />
+function TurnView({ turn }: { turn: Turn }) {
+  return turn.kind === 'ai' ? <AiTurnView turn={turn} /> : <ScriptTurnView turn={turn} />
 }
 
-export function Chat({ turns, started, onProject }: { turns: Turn[]; started: boolean; onProject: OnProject }) {
+export function Chat({ turns, started }: { turns: Turn[]; started: boolean }) {
   return (
     <main className={'chat' + (started ? ' is-active' : '')} id="chat">
 
@@ -165,7 +158,7 @@ export function Chat({ turns, started, onProject }: { turns: Turn[]; started: bo
       </section>
 
       <div className="thread" id="thread" aria-live="polite">
-        {turns.map((t) => <TurnView key={t.id} turn={t} onProject={onProject} />)}
+        {turns.map((t) => <TurnView key={t.id} turn={t} />)}
       </div>
 
     </main>

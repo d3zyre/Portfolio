@@ -1,5 +1,5 @@
-import { useLayoutEffect, useRef, type MouseEvent } from 'react'
-import { suggestions, type ProjectKey } from '../content'
+import { useLayoutEffect, useRef } from 'react'
+import { CASE_STUDIES, suggestions } from '../content'
 import type { Composer } from '../useChat'
 import { Thumb } from './Thumb'
 
@@ -7,14 +7,13 @@ type Props = {
   composer: Composer
   /** The chips hide once the conversation has started. */
   started: boolean
-  onProject: (e: MouseEvent, key: ProjectKey) => void
   /** What the visitor has typed. Empty means send runs the queued scripted question. */
   draft: string
   onDraft: (text: string) => void
   onSubmit: () => void
 }
 
-export function Dock({ composer, started, onProject, draft, onDraft, onSubmit }: Props) {
+export function Dock({ composer, started, draft, onDraft, onSubmit }: Props) {
   const box = useRef<HTMLTextAreaElement | null>(null)
   // Grow with the text, up to a few lines.
   useLayoutEffect(() => {
@@ -29,7 +28,7 @@ export function Dock({ composer, started, onProject, draft, onDraft, onSubmit }:
     <div className="dock">
       <div className={'suggestions' + (started ? ' is-hidden' : '')} id="suggestions">
         {suggestions.map((s) => (
-          <button key={s.title} className="sugg" onClick={(e) => onProject(e, s.project)}>
+          <a key={s.title} className="sugg" href={CASE_STUDIES[s.project]}>
             <Thumb src={s.img} />
             <span className="sugg__body">
               <span className="sugg__tag">{s.tag}</span>
@@ -37,7 +36,7 @@ export function Dock({ composer, started, onProject, draft, onDraft, onSubmit }:
               <span className="sugg__sub">{s.sub}</span>
               <span className="sugg__tags">{s.tags.map((t) => <span key={t}>{t}</span>)}</span>
             </span>
-          </button>
+          </a>
         ))}
       </div>
 

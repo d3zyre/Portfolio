@@ -589,3 +589,31 @@ html[data-theme="light"] .buddy__bubble::after{ border-top-color:#1D1B19; }
 .cards--wide .card__title{ margin-top:-2px; }
 .cards--wide .card__sub{ margin-top:2px; }
 .cards--wide .card__open{ margin-top:6px; }
+
+/*
+ * Homepage project cards: wider than the chat column and a size up, so the three
+ * selected works lead the page. Phones get a swipeable row so all three still show.
+ */
+.dock > .suggestions{ width:min(1040px, 100%); gap:14px; margin-bottom:14px; }
+.sugg{ gap:12px; padding:10px 10px 14px; border-radius:16px; align-content:start; }
+.sugg .thumb{ border-radius:10px; }
+.sugg__body{ gap:4px; padding:0 4px; }
+.sugg__tag{ font-size:.74rem; }
+.sugg__title{ font-size:1.12rem; }
+.sugg__sub{ font-size:.86rem; }
+.sugg__tags span{ font-size:.7rem; padding:5px 9px; }
+/* short laptop screens: trim the image so the cards don't crowd the heading */
+@media (min-width:641px) and (max-height:800px){
+  .sugg .thumb{ aspect-ratio:16/8; }
+}
+@media (max-width:640px){
+  .dock > .suggestions{
+    display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory;
+    margin-left:-16px; margin-right:-16px; padding:28px 16px 2px; width:auto;
+    scrollbar-width:none;
+  }
+  .dock > .suggestions::-webkit-scrollbar{ display:none; }
+  .suggestions .sugg, .suggestions .sugg:nth-child(3){ display:grid; flex:0 0 72%; scroll-snap-align:start; scroll-margin-left:16px; }
+  .sugg__title{ font-size:1rem; }
+  .sugg__sub{ font-size:.8rem; }
+}

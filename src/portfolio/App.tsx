@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type MouseEvent } from 'react'
-import { CASE_STUDIES, type FlowKey, type ProjectKey } from './content'
+import type { FlowKey } from './content'
 import { useChat } from './useChat'
 import { saveChat, type SavedChat } from './savedChat'
 import { Sidebar, type GroupKey } from './components/Sidebar'
@@ -8,14 +8,11 @@ import { Chat } from './components/Chat'
 import { Dock } from './components/Dock'
 import { Buddy } from './components/Buddy'
 
-/** How long a project's summary stays up before its case study opens, in ms. */
-const OPEN_DELAY = 1400
-
 export default function App({ saved }: { saved: SavedChat | null }) {
   const { turns, composer, draft, setDraft, started, run, submit, setPrompt, isBusy, snapshot } = useChat(saved)
   const [open, setOpen] = useState<Record<GroupKey, boolean>>(saved?.open ?? { projects: true, experience: true, skills: true })
-  // Phones are too narrow to push the page aside, so the sidebar starts collapsed there.
-  const [collapsed, setCollapsed] = useState(() => window.matchMedia('(max-width: 640px)').matches)
+  // The sidebar starts collapsed on every screen; the menu button opens it.
+  const [collapsed, setCollapsed] = useState(true)
 
   // The layout hangs off a body class (padding, dock offset, sidebar slide), set before paint.
   useLayoutEffect(() => {
@@ -66,33 +63,20 @@ export default function App({ saved }: { saved: SavedChat | null }) {
     run(flow)
   }, [isBusy, setPrompt, run])
 
-  /**
-   * Selecting a project shows its summary in the chat, then opens the case study by
-   * itself a moment later. Project links still point at the case study, so a middle-
-   * or ctrl-click opens it in a new tab as usual.
-   */
-  const onProject = useCallback(async (e: MouseEvent, key: ProjectKey) => {
-    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
-    e.preventDefault()
-    if (!(await run(key))) return
-    await new Promise((r) => setTimeout(r, OPEN_DELAY))
-    window.location.assign(CASE_STUDIES[key])
-  }, [run])
-
   return (
     <>
       <div className="grid" aria-hidden="true"></div>
 
-      <Sidebar open={open} onToggleGroup={toggleGroup} onFlow={onFlow} onProject={onProject} />
+      <Sidebar open={open} onToggleGroup={toggleGroup} onFlow={onFlow} />
       <div className="scrim" id="scrim" onClick={toggleSide}></div>
 
       <Topbar onMenu={toggleSide} theme={theme} onTheme={toggleTheme} />
 
-      <Chat turns={turns} started={started} onProject={onProject} />
+      <Chat turns={turns} started={started} />
 
       <Buddy onClick={focusChat} />
 
-      <Dock composer={composer} started={started} onProject={onProject} draft={draft} onDraft={setDraft} onSubmit={submit} />
+      <Dock composer={composer} started={started} draft={draft} onDraft={setDraft} onSubmit={submit} />
     </>
   )
 }
